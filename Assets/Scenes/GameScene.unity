@@ -349,7 +349,7 @@ MonoBehaviour:
   jumpPowerMax: 20
   jumpPowerMin: 5
   lookTime: 0
-  lookTimeMax: 2
+  lookTimeMax: 1
 --- !u!1 &299380370
 GameObject:
   m_ObjectHideFlags: 0

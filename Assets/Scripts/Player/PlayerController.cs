@@ -19,10 +19,10 @@ public class PlayerController : MonoBehaviour
 	[Header("Specs")]
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
-	[SerializeField] float jumpPower;
-	public float JumpPower { get { return jumpPower; } set { jumpPower = value; } }
+	[SerializeField] float currentJumpPower;
+	public float CurrentJumpPower { get { return currentJumpPower; } set { currentJumpPower = value; } }
 	[SerializeField] float jumpChargingRate;
-	public float JumpCharginRate { get { return jumpChargingRate; } set { jumpPower = value; } }
+	public float JumpCharginRate { get { return jumpChargingRate; } set { jumpChargingRate = value; } }
 	[SerializeField] float jumpPowerMax;
 	public float JumpPowerMax { get { return jumpPowerMax; } set { jumpPowerMax = value; } }
 	[SerializeField] float jumpPowerMin;
@@ -37,11 +37,11 @@ public class PlayerController : MonoBehaviour
 	public Vector2 MoveDir { get { return moveDir; } }
 	private Vector2 lastMoveDir;
 	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
-	private StateMachine<PlayerStateType> playerState;
+	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
 	private bool isJumpCharging;
-	public bool IsJumpCharging { get { return isJumpCharging; } }
+	public bool IsJumpCharging { get { return isJumpCharging; } set { isJumpCharging = value; } }
 	private bool isLookUp;
 	public bool IsLookUp { get { return isLookUp; } }
 	private bool isLookDown;
@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
 	public Coroutine LookDownChargingRoutine { get { return lookDownChargingRoutine; } set { lookDownChargingRoutine = value; } }
 	private Coroutine jumpChargingRoutine;
 	public Coroutine JumpChargingRoutine { get { return jumpChargingRoutine; } set { jumpChargingRoutine = value; } }
+	public PlayerStateType CurrentState;
 
 	private void Awake()
 	{
@@ -68,8 +69,13 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		animator.SetFloat("YSpeed", rigid.velocity.y);
 		playerState.Update();
+		CurrentState = playerState.GetCurrentState();
+	}
+
+	private void FixedUpdate()
+	{
+		playerState.FixedUpdate();
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

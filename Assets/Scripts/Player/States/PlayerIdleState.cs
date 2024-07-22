@@ -17,18 +17,22 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 		if (player.MoveDir != Vector2.zero && !player.IsLookUp && !player.IsLookDown)
 		{
 			ChangeState(PlayerStateType.Move);
+			return;
 		}
 		if(player.IsLookUp)
 		{
 			ChangeState(PlayerStateType.LookUp);
+			return;
 		}
 		if(player.IsLookDown)
 		{
 			ChangeState(PlayerStateType.LookDown);
+			return;
 		}
 		if (player.IsJumpCharging && player.IsGround)
 		{
 			ChangeState(PlayerStateType.Jump);
+			return;
 		}
 	}
 }

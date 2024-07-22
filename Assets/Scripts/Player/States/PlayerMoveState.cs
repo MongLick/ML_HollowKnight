@@ -22,14 +22,14 @@ public class PlayerMoveState : BaseState<PlayerStateType>
 		if (player.IsJumpCharging && player.IsGround)
 		{
 			ChangeState(PlayerStateType.Jump);
+			return;
 		}
 
 		if (player.MoveDir == Vector2.zero)
 		{
 			ChangeState(PlayerStateType.Idle);
+			return;
 		}
-
-		player.LastMoveDir = player.MoveDir;
 
 		if (player.MoveDir.x < 0)
 		{
@@ -39,12 +39,17 @@ public class PlayerMoveState : BaseState<PlayerStateType>
 		{
 			player.Renderer.flipX = true;
 		}
-
-		player.transform.Translate(player.MoveDir * player.MoveSpeed * Time.deltaTime);
 	}
 
 	public override void Exit()
 	{
 		player.Animator.SetBool("Move", false);
+	}
+
+	public override void FixedUpdate()
+	{
+		Vector2 velocity = player.Rigid.velocity;
+		velocity.x = player.MoveDir.x * player.MoveSpeed;
+		player.Rigid.velocity = velocity;
 	}
 }

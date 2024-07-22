@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMover : MonoBehaviour
+/*public class PlayerMover : MonoBehaviour
 {
 	[SerializeField] Rigidbody2D rigid;
 	[SerializeField] SpriteRenderer render;
@@ -181,4 +181,4 @@ public class PlayerMover : MonoBehaviour
 			Attack[i].gameObject.SetActive(false);
 		}
 	}
-}
+}*/
