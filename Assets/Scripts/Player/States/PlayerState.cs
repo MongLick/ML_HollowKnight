@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public enum PlayerStateType { Idle, Move, Jump, LookUp, LookDown}
+    public enum PlayerStateType { Idle}
 }

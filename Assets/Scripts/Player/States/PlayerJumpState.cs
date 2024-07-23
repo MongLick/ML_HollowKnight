@@ -4,7 +4,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using static PlayerState;
 
-public class PlayerJumpState : BaseState<PlayerStateType>
+/*public class PlayerJumpState : BaseState<PlayerStateType>
 {
 	private PlayerController player;
 	float cu = 0;
@@ -74,4 +74,4 @@ public class PlayerJumpState : BaseState<PlayerStateType>
 			yield return null;
 		}
 	}
-}
+}*/

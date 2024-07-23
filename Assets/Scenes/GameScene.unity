@@ -215,12 +215,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1219553905, guid: 76cdbe74af924b64890da6017dde8b10, type: 3}
+  m_Sprite: {fileID: 1466406364, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 1.28}
+  m_Size: {x: 0.984375, y: 2.078125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -289,7 +289,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 4
 --- !u!70 &74606305
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -344,12 +344,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveSpeed: 5
-  jumpPower: 5
-  jumpChargingRate: 5
-  jumpPowerMax: 20
-  jumpPowerMin: 5
+  currentJumpPower: 10
+  jumpPowerRate: 30
+  jumpPowerMin: 10
+  jumpPowerMax: 17
   lookTime: 0
   lookTimeMax: 1
+  CurrentState: 0
 --- !u!1 &299380370
 GameObject:
   m_ObjectHideFlags: 0

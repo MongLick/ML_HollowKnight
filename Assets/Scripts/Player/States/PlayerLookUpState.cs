@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
-public class PlayerLookUpState : BaseState<PlayerStateType>
+/*public class PlayerLookUpState : BaseState<PlayerStateType>
 {
 	private PlayerController player;
 
@@ -47,4 +47,4 @@ public class PlayerLookUpState : BaseState<PlayerStateType>
 			yield return null;
 		}
 	}
-}
+}*/

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
-public class PlayerMoveState : BaseState<PlayerStateType>
+/*public class PlayerMoveState : BaseState<PlayerStateType>
 {
 	private PlayerController player;
 
@@ -52,4 +52,4 @@ public class PlayerMoveState : BaseState<PlayerStateType>
 		velocity.x = player.MoveDir.x * player.MoveSpeed;
 		player.Rigid.velocity = velocity;
 	}
-}
+}*/

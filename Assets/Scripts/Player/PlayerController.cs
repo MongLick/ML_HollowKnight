@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
 	[SerializeField] float currentJumpPower;
-	public float CurrentJumpPower { get { return currentJumpPower; } set { currentJumpPower = value; } }
-	[SerializeField] float jumpChargingRate;
-	public float JumpCharginRate { get { return jumpChargingRate; } set { jumpChargingRate = value; } }
-	[SerializeField] float jumpPowerMax;
-	public float JumpPowerMax { get { return jumpPowerMax; } set { jumpPowerMax = value; } }
+	public float CurrentJumpPower { get { return currentJumpPower; } }
+	[SerializeField] float jumpPowerRate;
+	public float JumpPowerRate { get { return jumpPowerRate; } }
 	[SerializeField] float jumpPowerMin;
-	public float JumpPowerMin { get { return jumpPowerMin; } set { jumpPowerMin = value; } }
+	public float JumpPowerMin { get { return jumpPowerMin; } }
+	[SerializeField] float jumpPowerMax;
+	public float JumpPowerMax { get { return jumpPowerMax; } }
 	[SerializeField] float lookTime;
 	public float LookTime { get { return lookTime; } set { lookTime = value; } }
 	[SerializeField] float lookTimeMax;
@@ -35,23 +35,21 @@ public class PlayerController : MonoBehaviour
 	[Header("Debug")]
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } }
-	private Vector2 lastMoveDir;
-	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
 	private bool isJumpCharging;
-	public bool IsJumpCharging { get { return isJumpCharging; } set { isJumpCharging = value; } }
+	public bool IsJumpCharging { get { return isJumpCharging; } }
+	private bool jumpTimeCheck;
+	public bool JumpTimeCheck { get { return jumpTimeCheck; } }
 	private bool isLookUp;
 	public bool IsLookUp { get { return isLookUp; } }
 	private bool isLookDown;
 	public bool IsLookDown { get { return isLookDown; } }
-	private Coroutine lookUpChargingRoutine;
-	public Coroutine LookUpChargingRoutine { get { return lookUpChargingRoutine; } set { lookUpChargingRoutine = value; } }
-	private Coroutine lookDownChargingRoutine;
-	public Coroutine LookDownChargingRoutine { get { return lookDownChargingRoutine; } set { lookDownChargingRoutine = value; } }
-	private Coroutine jumpChargingRoutine;
-	public Coroutine JumpChargingRoutine { get { return jumpChargingRoutine; } set { jumpChargingRoutine = value; } }
+	private bool isFall;
+	private Coroutine lookRoutine;
+	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
+	private Coroutine jumpRoutine;
 	public PlayerStateType CurrentState;
 
 	private void Awake()
@@ -59,10 +57,6 @@ public class PlayerController : MonoBehaviour
 		playerState = new StateMachine<PlayerStateType>();
 
 		playerState.AddState(PlayerStateType.Idle, new PlayerIdleState(this));
-		playerState.AddState(PlayerStateType.Move, new PlayerMoveState(this));
-		playerState.AddState(PlayerStateType.Jump, new PlayerJumpState(this));
-		playerState.AddState(PlayerStateType.LookUp, new PlayerLookUpState(this));
-		playerState.AddState(PlayerStateType.LookDown, new PlayerLookDownState(this));
 
 		playerState.Start(PlayerStateType.Idle);
 	}
@@ -76,6 +70,18 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		playerState.FixedUpdate();
+		Move();
+
+		if (isJumpCharging)
+		{
+			Jump();
+		}
+
+		if (rigid.velocity.y < -0.01f && !isFall && !isGround)
+		{
+			animator.SetTrigger("Fall");
+			isFall = true;
+		}
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -83,6 +89,8 @@ public class PlayerController : MonoBehaviour
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
 			isGround = true;
+			animator.SetTrigger("Land");
+			isFall = false;
 		}
 	}
 
@@ -97,13 +105,24 @@ public class PlayerController : MonoBehaviour
 	private void OnMove(InputValue value)
 	{
 		moveDir = value.Get<Vector2>();
-		if (moveDir != Vector2.zero)
+		bool isMoving = moveDir != Vector2.zero;
+		animator.SetBool("Move", isMoving);
+
+		if (isMoving)
 		{
-			playerState.ChangeState(PlayerStateType.Move);
+			if (moveDir.x < 0)
+			{
+				render.flipX = false;
+			}
+			else if (moveDir.x > 0)
+			{
+				render.flipX = true;
+			}
+			animator.SetBool("Move", true);
 		}
 		else
 		{
-			playerState.ChangeState(PlayerStateType.Idle);
+			animator.SetBool("Move", false);
 		}
 	}
 
@@ -111,7 +130,13 @@ public class PlayerController : MonoBehaviour
 	{
 		if (value.isPressed && isGround)
 		{
+			animator.SetTrigger("Jump");
 			isJumpCharging = true;
+			if (jumpRoutine != null)
+			{
+				StopCoroutine(jumpRoutine);
+			}
+			jumpRoutine = StartCoroutine(JumpRoutine());
 		}
 		else
 		{
@@ -121,25 +146,42 @@ public class PlayerController : MonoBehaviour
 
 	private void OnLookUp(InputValue value)
 	{
-		if (value.isPressed)
-		{
-			isLookUp = true;
-		}
-		else
-		{
-			isLookUp = false;
-		}
+		isLookUp = value.isPressed;
 	}
 
 	private void OnLookDown(InputValue value)
 	{
-		if (value.isPressed)
+		isLookDown = value.isPressed;
+	}
+
+	private void Move()
+	{
+		Vector2 velocity = rigid.velocity;
+		velocity.x = moveDir.x * moveSpeed;
+		rigid.velocity = velocity;
+	}
+
+	private void Jump()
+	{
+		Vector2 velocity = rigid.velocity;
+		velocity.y = currentJumpPower;
+		rigid.velocity = velocity;
+	}
+
+	IEnumerator JumpRoutine()
+	{
+		while (isJumpCharging)
 		{
-			isLookDown = true;
+			currentJumpPower += jumpPowerRate * Time.deltaTime;
+			if (currentJumpPower >= jumpPowerMax)
+			{
+				break;
+			}
+			yield return null;
 		}
-		else
-		{
-			isLookDown = false;
-		}
+		jumpTimeCheck = true;
+		isJumpCharging = false;
+		currentJumpPower = jumpPowerMin;
+		jumpRoutine = null;
 	}
 }

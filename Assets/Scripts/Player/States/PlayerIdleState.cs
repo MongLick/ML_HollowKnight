@@ -14,25 +14,46 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 
 	public override void Update()
 	{
-		if (player.MoveDir != Vector2.zero && !player.IsLookUp && !player.IsLookDown)
+		if(player.IsLookUp || player.IsLookDown)
 		{
-			ChangeState(PlayerStateType.Move);
-			return;
+			if(player.LookRoutine != null)
+			{
+				player.StopCoroutine(player.LookRoutine);
+			}
+			player.LookRoutine = player.StartCoroutine(LookRoutine());
 		}
-		if(player.IsLookUp)
+		else
+		{	
+			player.Animator.SetBool("LookUp", false);
+			player.Animator.SetBool("LookDown", false);
+			player.LookTime = 0;
+		}
+	}
+
+	IEnumerator LookRoutine()
+	{
+		while (player.IsLookUp || player.IsLookDown)
 		{
-			ChangeState(PlayerStateType.LookUp);
-			return;
+			player.LookTime += Time.deltaTime;
+
+			if (player.LookTime >= player.LookTimeMax)
+			{
+				if(player.IsLookUp)
+				{
+					player.Animator.SetBool("LookDown", false);
+					player.Animator.SetBool("LookUp", true);
+				}
+				else
+				{
+					player.Animator.SetBool("LookUp", false);
+					player.Animator.SetBool("LookDown", true);
+				}
+				break;
+			}
+
+			yield return null;
 		}
-		if(player.IsLookDown)
-		{
-			ChangeState(PlayerStateType.LookDown);
-			return;
-		}
-		if (player.IsJumpCharging && player.IsGround)
-		{
-			ChangeState(PlayerStateType.Jump);
-			return;
-		}
+
+		player.LookRoutine = null;
 	}
 }
