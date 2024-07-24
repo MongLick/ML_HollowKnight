@@ -20,7 +20,7 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			{
 				player.StopCoroutine(player.LookRoutine);
 			}
-			player.LookRoutine = player.StartCoroutine(LookRoutine());
+			player.LookRoutine = player.StartCoroutine(LookCoroutine());
 		}
 		else
 		{	
@@ -28,9 +28,14 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			player.Animator.SetBool("LookDown", false);
 			player.LookTime = 0;
 		}
+		if(player.IsAttack)
+		{
+			ChangeState(PlayerStateType.Attack);
+			return;
+		}
 	}
 
-	IEnumerator LookRoutine()
+	IEnumerator LookCoroutine()
 	{
 		while (player.IsLookUp || player.IsLookDown)
 		{

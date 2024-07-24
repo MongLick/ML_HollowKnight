@@ -52,4 +52,13 @@ public class StateMachine<T> where T : Enum
 		}
 		throw new InvalidOperationException("Current state not found in state dictionary.");
 	}
+
+	public TState GetState<TState>(T stateType) where TState : BaseState<T>
+	{
+		if (stateDic.TryGetValue(stateType, out BaseState<T> state))
+		{
+			return state as TState;
+		}
+		throw new InvalidOperationException("State not found or invalid type.");
+	}
 }

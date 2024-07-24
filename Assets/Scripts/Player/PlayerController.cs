@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
 	public float LookTime { get { return lookTime; } set { lookTime = value; } }
 	[SerializeField] float lookTimeMax;
 	public float LookTimeMax { get { return lookTimeMax; } set { lookTimeMax = value; } }
+	[SerializeField] float attackCoolTime;
+	public float AttackCoolTime { get { return attackCoolTime; } set { attackCoolTime = value; } }
+	[SerializeField] float attackCount;
+	public float AttackCount { get { return attackCount; } set { attackCount = value; } }
+	[SerializeField] PlayerAttack playerAttack;
 
 	[Header("Debug")]
 	private Vector2 moveDir;
@@ -47,9 +52,15 @@ public class PlayerController : MonoBehaviour
 	private bool isLookDown;
 	public bool IsLookDown { get { return isLookDown; } }
 	private bool isFall;
+	public bool IsFall { get { return isFall; } }
+	private bool isAttack;
+	public bool IsAttack { get { return isAttack; } set { isAttack = value; } }
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
 	private Coroutine jumpRoutine;
+	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
+	private Coroutine attackRoutine;
+	public Coroutine AttackRoutine { get { return attackRoutine; }  set { attackRoutine = value; } }
 	public PlayerStateType CurrentState;
 
 	private void Awake()
@@ -57,6 +68,7 @@ public class PlayerController : MonoBehaviour
 		playerState = new StateMachine<PlayerStateType>();
 
 		playerState.AddState(PlayerStateType.Idle, new PlayerIdleState(this));
+		playerState.AddState(PlayerStateType.Attack, new PlayerAttackState(this));
 
 		playerState.Start(PlayerStateType.Idle);
 	}
@@ -136,11 +148,26 @@ public class PlayerController : MonoBehaviour
 			{
 				StopCoroutine(jumpRoutine);
 			}
-			jumpRoutine = StartCoroutine(JumpRoutine());
+			jumpRoutine = StartCoroutine(JumpCoroutine());
 		}
 		else
 		{
 			isJumpCharging = false;
+		}
+	}
+
+	private void OnAttack(InputValue value)
+	{
+		if (value.isPressed)
+		{
+			if (!isAttack)
+			{
+				isAttack = true;
+			}
+			else
+			{
+				attackCount++;
+			}
 		}
 	}
 
@@ -168,7 +195,19 @@ public class PlayerController : MonoBehaviour
 		rigid.velocity = velocity;
 	}
 
-	IEnumerator JumpRoutine()
+	public void OnAttackAnimationEnd()
+	{
+		PlayerAttackState attackState = playerState.GetState<PlayerAttackState>(PlayerStateType.Attack);
+		attackState?.OnAttackAnimationEnd();
+	}
+
+	public void OnAttackAnimationEvent(string effectName)
+	{
+		bool isFacingRight = render.flipX;
+		playerAttack.OnAttackAnimationEvent(effectName, isFacingRight);
+	}
+
+	IEnumerator JumpCoroutine()
 	{
 		while (isJumpCharging)
 		{

@@ -350,6 +350,8 @@ MonoBehaviour:
   jumpPowerMax: 17
   lookTime: 0
   lookTimeMax: 1
+  attackCoolTime: 0.25
+  attackCount: 0
   CurrentState: 0
 --- !u!1 &299380370
 GameObject:
