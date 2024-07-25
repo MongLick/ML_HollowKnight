@@ -24,10 +24,15 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 
 	public override void Update()
 	{
-		if(!player.IsAttack)
+		if (player.AttackRoutine == null)
 		{
 			ChangeState(PlayerStateType.Idle);
-			return;
+		}
+		else if (!player.IsAttack)
+		{
+			player.StopCoroutine(player.AttackRoutine);
+			player.AttackRoutine = null;
+			ChangeState(PlayerStateType.Idle);
 		}
 	}
 
@@ -35,15 +40,8 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 	{
 		player.IsAttack = false;
 		player.AttackCount = 0;
-	}
-
-	public void OnAttackAnimationEnd()
-	{
-		if (player.AttackCount > 0)
-		{
-			player.Animator.SetTrigger("Attack2");
-			player.AttackCount--;
-		}
+		player.AttackRoutine = null;
+		player.IsComboAttackActive = false;
 	}
 
 	IEnumerator AttackCoroutine()
@@ -52,26 +50,28 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		{
 			player.Animator.SetTrigger("AttackTop");
 		}
-		else if (player.IsLookDown && player.Rigid.velocity != Vector2.zero)
+		else if (player.IsLookDown && player.Rigid.velocity.y != 0)
 		{
 			player.Animator.SetTrigger("AttackBottom");
 		}
 		else
 		{
 			player.Animator.SetTrigger("Attack1");
+			player.IsComboAttackActive = true;
 		}
 
 		yield return new WaitForSeconds(player.AttackCoolTime);
 
-		player.IsAttack = true;
-
-		if (player.AttackCount > 0)
+		if (player.IsComboAttackActive && player.AttackCount > 0)
 		{
 			player.Animator.SetTrigger("Attack2");
-			player.AttackCount--;
+			player.AttackCount = 0;
 			yield return new WaitForSeconds(player.AttackCoolTime);
+			player.IsComboAttackActive = false;
 		}
 
 		player.IsAttack = false;
+		player.AttackCount = 0;
+		ChangeState(PlayerStateType.Idle);
 	}
 }

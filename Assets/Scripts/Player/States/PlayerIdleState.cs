@@ -12,26 +12,38 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 		this.player = player;
 	}
 
+	public override void Enter()
+	{
+		player.Animator.SetBool("LookUp", false);
+		player.Animator.SetBool("LookDown", false);
+		player.LookTime = 0;
+	}
+
 	public override void Update()
 	{
-		if(player.IsLookUp || player.IsLookDown)
-		{
-			if(player.LookRoutine != null)
-			{
-				player.StopCoroutine(player.LookRoutine);
-			}
-			player.LookRoutine = player.StartCoroutine(LookCoroutine());
-		}
-		else
-		{	
-			player.Animator.SetBool("LookUp", false);
-			player.Animator.SetBool("LookDown", false);
-			player.LookTime = 0;
-		}
-		if(player.IsAttack)
+		if (player.IsAttack)
 		{
 			ChangeState(PlayerStateType.Attack);
 			return;
+		}
+
+		if (player.IsLookUp || player.IsLookDown)
+		{
+			if (player.LookRoutine == null)
+			{
+				player.LookRoutine = player.StartCoroutine(LookCoroutine());
+			}
+		}
+		else
+		{
+			if (player.LookRoutine != null)
+			{
+				player.StopCoroutine(player.LookRoutine);
+				player.LookRoutine = null;
+			}
+			player.Animator.SetBool("LookUp", false);
+			player.Animator.SetBool("LookDown", false);
+			player.LookTime = 0;
 		}
 	}
 
@@ -42,19 +54,11 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			player.LookTime += Time.deltaTime;
 
 			if (player.LookTime >= player.LookTimeMax)
-			{
-				if(player.IsLookUp)
-				{
-					player.Animator.SetBool("LookDown", false);
-					player.Animator.SetBool("LookUp", true);
-				}
-				else
-				{
-					player.Animator.SetBool("LookUp", false);
-					player.Animator.SetBool("LookDown", true);
-				}
-				break;
-			}
+            {
+                player.Animator.SetBool("LookUp", player.IsLookUp);
+                player.Animator.SetBool("LookDown", !player.IsLookUp);
+                break;
+            }
 
 			yield return null;
 		}

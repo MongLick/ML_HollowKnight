@@ -45,31 +45,27 @@ public class PlayerController : MonoBehaviour
 	public bool IsGround { get { return isGround; } }
 	private bool isJumpCharging;
 	public bool IsJumpCharging { get { return isJumpCharging; } }
-	private bool jumpTimeCheck;
-	public bool JumpTimeCheck { get { return jumpTimeCheck; } }
 	private bool isLookUp;
 	public bool IsLookUp { get { return isLookUp; } }
 	private bool isLookDown;
 	public bool IsLookDown { get { return isLookDown; } }
-	private bool isFall;
-	public bool IsFall { get { return isFall; } }
 	private bool isAttack;
 	public bool IsAttack { get { return isAttack; } set { isAttack = value; } }
+	private bool isComboAttackActive;
+	public bool IsComboAttackActive { get { return isComboAttackActive; } set { isComboAttackActive = value; } }
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
 	private Coroutine jumpRoutine;
 	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
 	private Coroutine attackRoutine;
-	public Coroutine AttackRoutine { get { return attackRoutine; }  set { attackRoutine = value; } }
+	public Coroutine AttackRoutine { get { return attackRoutine; } set { attackRoutine = value; } }
 	public PlayerStateType CurrentState;
 
 	private void Awake()
 	{
 		playerState = new StateMachine<PlayerStateType>();
-
 		playerState.AddState(PlayerStateType.Idle, new PlayerIdleState(this));
 		playerState.AddState(PlayerStateType.Attack, new PlayerAttackState(this));
-
 		playerState.Start(PlayerStateType.Idle);
 	}
 
@@ -89,10 +85,9 @@ public class PlayerController : MonoBehaviour
 			Jump();
 		}
 
-		if (rigid.velocity.y < -0.01f && !isFall && !isGround)
+		if (rigid.velocity.y < -0.01f && !isGround)
 		{
 			animator.SetTrigger("Fall");
-			isFall = true;
 		}
 	}
 
@@ -102,7 +97,6 @@ public class PlayerController : MonoBehaviour
 		{
 			isGround = true;
 			animator.SetTrigger("Land");
-			isFall = false;
 		}
 	}
 
@@ -122,19 +116,7 @@ public class PlayerController : MonoBehaviour
 
 		if (isMoving)
 		{
-			if (moveDir.x < 0)
-			{
-				render.flipX = false;
-			}
-			else if (moveDir.x > 0)
-			{
-				render.flipX = true;
-			}
-			animator.SetBool("Move", true);
-		}
-		else
-		{
-			animator.SetBool("Move", false);
+			render.flipX = moveDir.x > 0;
 		}
 	}
 
@@ -158,16 +140,14 @@ public class PlayerController : MonoBehaviour
 
 	private void OnAttack(InputValue value)
 	{
-		if (value.isPressed)
+		if (!isAttack)
 		{
-			if (!isAttack)
-			{
-				isAttack = true;
-			}
-			else
-			{
-				attackCount++;
-			}
+			isAttack = true;
+			attackCount = 0;
+		}
+		else
+		{
+			attackCount++;
 		}
 	}
 
@@ -195,12 +175,6 @@ public class PlayerController : MonoBehaviour
 		rigid.velocity = velocity;
 	}
 
-	public void OnAttackAnimationEnd()
-	{
-		PlayerAttackState attackState = playerState.GetState<PlayerAttackState>(PlayerStateType.Attack);
-		attackState?.OnAttackAnimationEnd();
-	}
-
 	public void OnAttackAnimationEvent(string effectName)
 	{
 		bool isFacingRight = render.flipX;
@@ -218,7 +192,6 @@ public class PlayerController : MonoBehaviour
 			}
 			yield return null;
 		}
-		jumpTimeCheck = true;
 		isJumpCharging = false;
 		currentJumpPower = jumpPowerMin;
 		jumpRoutine = null;
