@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] LayerMask groundCheckLayer;
 
 	[Header("Specs")]
+	[SerializeField] int damage;
+	public int Damage { get { return damage; } }
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
 	[SerializeField] float currentJumpPower;
@@ -40,6 +42,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Debug")]
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } }
+	private Vector2 lastMoveDir;
+	public Vector2 LastMoveDir { get { return lastMoveDir; } }
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
@@ -116,6 +120,7 @@ public class PlayerController : MonoBehaviour
 
 		if (isMoving)
 		{
+			lastMoveDir = moveDir;
 			render.flipX = moveDir.x > 0;
 		}
 	}
@@ -177,8 +182,7 @@ public class PlayerController : MonoBehaviour
 
 	public void OnAttackAnimationEvent(string effectName)
 	{
-		bool isFacingRight = render.flipX;
-		playerAttack.OnAttackAnimationEvent(effectName, isFacingRight);
+		playerAttack.OnAttackAnimationEvent(effectName, lastMoveDir.x > 0);
 	}
 
 	IEnumerator JumpCoroutine()
