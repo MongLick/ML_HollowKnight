@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static PlayerState;
 
 public class PlayerController : MonoBehaviour
 {
+	[Header("Event")]
+	[SerializeField] UnityEvent onJumpEvent;
+	public UnityEvent OnJumpEvent { get { return onJumpEvent; } set { onJumpEvent = value; } }
+	[SerializeField] UnityEvent onFallEvent;
+	public UnityEvent OnFallEvent { get { return onFallEvent; } set { onFallEvent = value; } }
+
 	[Header("Components")]
 	[SerializeField] Animator animator;
 	public Animator Animator { get { return animator; } }
@@ -101,6 +108,7 @@ public class PlayerController : MonoBehaviour
 		{
 			isGround = true;
 			animator.SetTrigger("Land");
+			onFallEvent?.Invoke();
 		}
 	}
 
@@ -136,6 +144,7 @@ public class PlayerController : MonoBehaviour
 				StopCoroutine(jumpRoutine);
 			}
 			jumpRoutine = StartCoroutine(JumpCoroutine());
+			onJumpEvent?.Invoke();
 		}
 		else
 		{

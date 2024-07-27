@@ -17,12 +17,6 @@ public class PooledObject : MonoBehaviour
         }
     }
 
-    IEnumerator ReleaseRoutine()
-    {
-        yield return new WaitForSeconds(releaseTime);
-        Release();
-    }
-
     public void Release()
     {
         if (pool != null)
@@ -34,4 +28,11 @@ public class PooledObject : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    IEnumerator ReleaseRoutine()
+    {
+        yield return new WaitForSeconds(releaseTime);
+        Release();
+    }
+
 }

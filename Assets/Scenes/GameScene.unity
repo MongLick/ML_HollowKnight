@@ -267,6 +267,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 74606306}
+  onHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &263756
 Rigidbody2D:
   serializedVersion: 4
@@ -384,8 +387,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 410314943
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1466406364, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -407,7 +410,7 @@ Transform:
   m_GameObject: {fileID: 74606298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.570315, y: -0.23062928, z: 0}
+  m_LocalPosition: {x: 3.570315, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -510,6 +513,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a0a3d0b2cd88745b2fa3b8d8d4ab68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onFallEvent:
+    m_PersistentCalls:
+      m_Calls: []
   animator: {fileID: 74606303}
   render: {fileID: 74606300}
   rigid: {fileID: 74606304}
@@ -526,7 +535,7 @@ MonoBehaviour:
   lookTimeMax: 1
   attackCoolTime: 0.4
   attackCount: 0
-  playerAttack: {fileID: 0}
+  playerAttack: {fileID: 424660761}
   CurrentState: 0
 --- !u!1 &299380370
 GameObject:
@@ -560,7 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc13c2f28112dc14fb9ef37c58cd4082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  hp: 100
 --- !u!212 &299380373
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -845,6 +854,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 74606306}
+  onHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &410766736
 Rigidbody2D:
   serializedVersion: 4
@@ -883,7 +895,7 @@ GameObject:
   - component: {fileID: 424660760}
   - component: {fileID: 424660761}
   m_Layer: 0
-  m_Name: AttackEffect
+  m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1195,6 +1207,59 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &820168509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 820168511}
+  - component: {fileID: 820168510}
+  m_Layer: 0
+  m_Name: EffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &820168510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820168509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 459aab0f7a259d24faa774950b305419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 74606306}
+  hits:
+  - {fileID: 263755}
+  - {fileID: 410766735}
+  - {fileID: 1245600693}
+  - {fileID: 1049920672}
+  dustPos: {fileID: 844706218}
+  dustPrefab: {fileID: -5846187193856235728, guid: af3f6ed2be74d3d4db00291b11f093ee, type: 3}
+  hitPrefab: {fileID: 1852293170469032462, guid: 10a24daf277f1b6488ec9121b65a18a2, type: 3}
+--- !u!4 &820168511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820168509}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844706217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,7 +1286,7 @@ Transform:
   m_GameObject: {fileID: 844706217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1259,7 +1324,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.9688009}
+  m_Offset: {x: 0, y: -0.009494334}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1270,7 +1335,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.06085652}
+  m_Size: {x: 1, y: 0.04624611}
   m_EdgeRadius: 0
 --- !u!1 &890510324
 GameObject:
@@ -1501,6 +1566,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 74606306}
+  onHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &1049920673
 Rigidbody2D:
   serializedVersion: 4
@@ -1632,7 +1700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc13c2f28112dc14fb9ef37c58cd4082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  hp: 100
 --- !u!212 &1191256008
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1845,6 +1913,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 74606306}
+  onHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &1245600694
 Rigidbody2D:
   serializedVersion: 4
@@ -2103,3 +2174,4 @@ SceneRoots:
   - {fileID: 1528621498}
   - {fileID: 299380374}
   - {fileID: 1191256009}
+  - {fileID: 820168511}

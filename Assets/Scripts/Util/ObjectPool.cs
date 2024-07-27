@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
 
     private Stack<PooledObject> objectPool;
 
-    public void CreatePool(PooledObject prefab, int size, int capacity)
+	public void CreatePool(PooledObject prefab, int size, int capacity)
     {
         this.prefab = prefab;
         this.size = size;
