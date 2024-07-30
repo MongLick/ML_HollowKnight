@@ -6,13 +6,17 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static PlayerState;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
 	[Header("Event")]
 	[SerializeField] UnityEvent onJumpEvent;
 	public UnityEvent OnJumpEvent { get { return onJumpEvent; } set { onJumpEvent = value; } }
 	[SerializeField] UnityEvent onFallEvent;
 	public UnityEvent OnFallEvent { get { return onFallEvent; } set { onFallEvent = value; } }
+	[SerializeField] UnityEvent onTakeHitEvent;
+	public UnityEvent OnTakeHitEvent { get { return onTakeHitEvent; } set { onTakeHitEvent = value; } }
+	[SerializeField] UnityEvent onDieEvent;
+	public UnityEvent OnDieEvent { get { return onDieEvent; } set { onDieEvent = value; } }
 
 	[Header("Components")]
 	[SerializeField] Animator animator;
@@ -28,6 +32,12 @@ public class PlayerController : MonoBehaviour
 	public int Damage { get { return damage; } }
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
+	[SerializeField] float dashSpeed;
+	public float DashSpeed { get { return dashSpeed; } }
+	[SerializeField] float dashTime;
+	public float DashTime { get { return dashTime; } }
+	[SerializeField] float dashCoolTime;
+	public float DashCoolTime { get { return dashCoolTime; } }
 	[SerializeField] float currentJumpPower;
 	public float CurrentJumpPower { get { return currentJumpPower; } }
 	[SerializeField] float jumpPowerRate;
@@ -45,6 +55,14 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float attackCount;
 	public float AttackCount { get { return attackCount; } set { attackCount = value; } }
 	[SerializeField] PlayerAttack playerAttack;
+	[SerializeField] int hp;
+	public int Hp { get { return hp; } set { hp = value; } }
+	[SerializeField] float blinkDuration;
+	public float BlinkDuration { get { return blinkDuration; }}
+	[SerializeField] int blinkCount;
+	public int BlinkCount { get { return blinkCount; }}
+	[SerializeField] int dieTime;
+	public int DieTime { get { return dieTime; } }
 
 	[Header("Debug")]
 	private Vector2 moveDir;
@@ -64,12 +82,26 @@ public class PlayerController : MonoBehaviour
 	public bool IsAttack { get { return isAttack; } set { isAttack = value; } }
 	private bool isComboAttackActive;
 	public bool IsComboAttackActive { get { return isComboAttackActive; } set { isComboAttackActive = value; } }
+	private bool isTakeHit;
+	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
+	private bool isDie;
+	public bool IsDie { get { return isDie; } set { isDie = value; } }
+	private bool isDash;
+	public bool IsDash { get { return isDash; } set { isDash = value; } }
+	private bool canDash;
+	public bool CanDash { get { return canDash; } set { canDash = value; } }
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
+	private Coroutine dashRoutine;
+	public Coroutine DashRoutine { get { return dashRoutine; } set { dashRoutine = value; } }
 	private Coroutine jumpRoutine;
 	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
 	private Coroutine attackRoutine;
 	public Coroutine AttackRoutine { get { return attackRoutine; } set { attackRoutine = value; } }
+	private Coroutine takeHitRoutine;
+	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
+	private Coroutine dieRoutine;
+	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
 	public PlayerStateType CurrentState;
 
 	private void Awake()
@@ -77,6 +109,8 @@ public class PlayerController : MonoBehaviour
 		playerState = new StateMachine<PlayerStateType>();
 		playerState.AddState(PlayerStateType.Idle, new PlayerIdleState(this));
 		playerState.AddState(PlayerStateType.Attack, new PlayerAttackState(this));
+		playerState.AddState(PlayerStateType.TakeHit, new PlayerTakeHitState(this));
+		playerState.AddState(PlayerStateType.Die, new PlayerDieState(this));
 		playerState.Start(PlayerStateType.Idle);
 	}
 
@@ -88,6 +122,11 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (isDie || isTakeHit)
+		{
+			return;
+		}
+
 		playerState.FixedUpdate();
 		Move();
 
@@ -122,6 +161,11 @@ public class PlayerController : MonoBehaviour
 
 	private void OnMove(InputValue value)
 	{
+		if(isDie)
+		{
+			return;
+		}
+
 		moveDir = value.Get<Vector2>();
 		bool isMoving = moveDir != Vector2.zero;
 		animator.SetBool("Move", isMoving);
@@ -133,8 +177,27 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void OnDash(InputValue value)
+	{
+		if (isDash || canDash)
+		{
+			return;
+		}
+
+		if (dashRoutine != null)
+		{
+			StopCoroutine(dashRoutine);
+		}
+		dashRoutine = StartCoroutine(DashCoroutine());
+	}
+
 	private void OnJump(InputValue value)
 	{
+		if (isDie)
+		{
+			return;
+		}
+
 		if (value.isPressed && isGround)
 		{
 			animator.SetTrigger("Jump");
@@ -154,6 +217,11 @@ public class PlayerController : MonoBehaviour
 
 	private void OnAttack(InputValue value)
 	{
+		if (isDie)
+		{
+			return;
+		}
+
 		if (!isAttack)
 		{
 			isAttack = true;
@@ -167,18 +235,35 @@ public class PlayerController : MonoBehaviour
 
 	private void OnLookUp(InputValue value)
 	{
+		if (isDie)
+		{
+			return;
+		}
+
 		isLookUp = value.isPressed;
 	}
 
 	private void OnLookDown(InputValue value)
 	{
+		if (isDie)
+		{
+			return;
+		}
+
 		isLookDown = value.isPressed;
 	}
 
 	private void Move()
 	{
 		Vector2 velocity = rigid.velocity;
-		velocity.x = moveDir.x * moveSpeed;
+		if (!isDash)
+		{
+			velocity.x = moveDir.x * moveSpeed;
+		}
+		else
+		{
+			velocity.x = lastMoveDir.x * dashSpeed;
+		}
 		rigid.velocity = velocity;
 	}
 
@@ -187,6 +272,20 @@ public class PlayerController : MonoBehaviour
 		Vector2 velocity = rigid.velocity;
 		velocity.y = currentJumpPower;
 		rigid.velocity = velocity;
+	}
+
+	public void TakeDamage(int damage)
+	{
+		Debug.Log("플레이어 체력 깎임");
+		if (!isTakeHit)
+		{
+			isTakeHit = true;
+			hp -= damage;
+			if (hp <= 0)
+			{
+				isDie = true;
+			}
+		}
 	}
 
 	public void OnAttackAnimationEvent(string effectName)
@@ -208,5 +307,27 @@ public class PlayerController : MonoBehaviour
 		isJumpCharging = false;
 		currentJumpPower = jumpPowerMin;
 		jumpRoutine = null;
+	}
+
+	IEnumerator DashCoroutine()
+	{
+		isDash = true;
+		canDash = true;
+		animator.SetTrigger("Dash");
+
+		rigid.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+
+		Vector2 dashVelocity = lastMoveDir.normalized * dashSpeed;
+		rigid.velocity = new Vector2(dashVelocity.x, rigid.velocity.y);
+
+		yield return new WaitForSeconds(dashTime);
+
+		rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+
+		isDash = false;
+
+		yield return new WaitForSeconds(dashCoolTime);
+
+		canDash = false;
 	}
 }

@@ -34,6 +34,10 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 			player.AttackRoutine = null;
 			ChangeState(PlayerStateType.Idle);
 		}
+		if (player.IsTakeHit)
+		{
+			ChangeState(PlayerStateType.TakeHit);
+		}
 	}
 
 	public override void Exit()

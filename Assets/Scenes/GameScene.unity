@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 263754}
   - component: {fileID: 263755}
   - component: {fileID: 263756}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 74606304}
   - component: {fileID: 74606305}
   - component: {fileID: 74606306}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,6 +519,12 @@ MonoBehaviour:
   onFallEvent:
     m_PersistentCalls:
       m_Calls: []
+  onTakeHitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
   animator: {fileID: 74606303}
   render: {fileID: 74606300}
   rigid: {fileID: 74606304}
@@ -527,6 +533,9 @@ MonoBehaviour:
     m_Bits: 64
   damage: 1
   moveSpeed: 5
+  dashSpeed: 15
+  dashTime: 0.5
+  dashCoolTime: 1
   currentJumpPower: 10
   jumpPowerRate: 30
   jumpPowerMin: 10
@@ -536,6 +545,10 @@ MonoBehaviour:
   attackCoolTime: 0.4
   attackCount: 0
   playerAttack: {fileID: 424660761}
+  hp: 3
+  blinkDuration: 0.1
+  blinkCount: 5
+  dieTime: 1
   CurrentState: 0
 --- !u!1 &299380370
 GameObject:
@@ -569,7 +582,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc13c2f28112dc14fb9ef37c58cd4082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 5
+  damage: 1
+  playerCheck:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &299380373
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -666,7 +683,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -690,7 +707,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 299380370}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -722,7 +739,7 @@ GameObject:
   - component: {fileID: 410766734}
   - component: {fileID: 410766735}
   - component: {fileID: 410766736}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424660760}
   - component: {fileID: 424660761}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -965,7 +982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 568511603}
   - component: {fileID: 568511604}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,6 +1056,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &568788408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 568788410}
+  - component: {fileID: 568788409}
+  m_Layer: 0
+  m_Name: GameScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &568788409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568788408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8815ab678814684699e7a0e1b6ca7f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &568788410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568788408}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 295.81287, y: 297.71854, z: -0.98363173}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705903916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705903917}
   - component: {fileID: 705903918}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 756173598}
   - component: {fileID: 756173599}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackTop02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1270,7 +1331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 844706218}
   - component: {fileID: 844706219}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1347,7 +1408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 890510325}
   - component: {fileID: 890510326}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackBottom02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1434,7 +1495,7 @@ GameObject:
   - component: {fileID: 1049920671}
   - component: {fileID: 1049920672}
   - component: {fileID: 1049920673}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackBottom01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1624,7 +1685,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191256004}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1642,7 +1703,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 2
+  m_Constraints: 7
 --- !u!61 &1191256006
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1672,7 +1733,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1700,7 +1761,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc13c2f28112dc14fb9ef37c58cd4082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 5
+  damage: 1
+  playerCheck:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!212 &1191256008
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1781,7 +1846,7 @@ GameObject:
   - component: {fileID: 1245600692}
   - component: {fileID: 1245600693}
   - component: {fileID: 1245600694}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackTop01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2067,8 +2132,8 @@ Transform:
   m_GameObject: {fileID: 1528621495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0748, y: -2.94, z: 0}
-  m_LocalScale: {x: 19.394732, y: 1, z: 1}
+  m_LocalPosition: {x: -12.2421, y: -2.94, z: 0}
+  m_LocalScale: {x: 85.64453, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2175,3 +2240,4 @@ SceneRoots:
   - {fileID: 299380374}
   - {fileID: 1191256009}
   - {fileID: 820168511}
+  - {fileID: 568788410}

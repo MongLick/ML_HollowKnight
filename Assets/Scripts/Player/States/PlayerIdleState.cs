@@ -45,6 +45,10 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			player.Animator.SetBool("LookDown", false);
 			player.LookTime = 0;
 		}
+		if (player.IsTakeHit)
+		{
+			ChangeState(PlayerStateType.TakeHit);
+		}
 	}
 
 	IEnumerator LookCoroutine()

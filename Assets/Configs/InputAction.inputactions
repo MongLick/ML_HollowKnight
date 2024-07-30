@@ -51,9 +51,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CCC",
+                    "name": "Dash",
                     "type": "Button",
-                    "id": "cee2f089-d3a6-45e0-8851-e4e8b57a206f",
+                    "id": "631fa2fd-ae9b-4219-89d8-6c96765df9e0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -140,12 +140,12 @@
                 },
                 {
                     "name": "",
-                    "id": "d3baec77-a58b-490e-bfc7-76f48582ea5f",
+                    "id": "e02fa2da-373c-4223-ae72-5ac481fa87bd",
                     "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CCC",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
