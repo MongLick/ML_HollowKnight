@@ -9,6 +9,15 @@ public class TitleScene : BaseScene
 		Manager.Scene.LoadScene("GameScene");
 	}
 
+	public void GameSceneEnd()
+	{
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+	}
+
 	public override IEnumerator LoadingRoutine()
 	{
 		yield return null;
