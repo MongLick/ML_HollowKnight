@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class EffectAnimation : MonoBehaviour
 {
+	[SerializeField] PlayerController player;
 	[SerializeField] Animator animator;
 	[SerializeField] SpriteRenderer render;
+
+	private void Awake()
+	{
+		player = FindAnyObjectByType<PlayerController>();
+	}
 
 	public void PlayDustJumpAnimation()
 	{
@@ -28,6 +34,30 @@ public class EffectAnimation : MonoBehaviour
 		if (animator != null)
 		{
 			animator.SetTrigger("Hit");
+		}
+	}
+
+	public void PlayDashAnimation()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("Dash");
+			if(player.LastMoveDir.x > 0)
+			{
+				render.flipX = true;
+			}
+			else
+			{
+				render.flipX= false;
+			}
+		}
+	}
+
+	public void PlayTakeHitAnimation()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("TakeHit");
 		}
 	}
 }

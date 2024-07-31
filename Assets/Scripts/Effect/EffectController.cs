@@ -9,13 +9,19 @@ public class EffectController : MonoBehaviour
 	[SerializeField] PlayerController player;
 	[SerializeField] List<AttackDamage> hits;
 	[SerializeField] Transform dustPos;
+	[SerializeField] Transform rightDashPos;
+	[SerializeField] Transform leftDashPos;
 	[SerializeField] PooledObject dustPrefab;
 	[SerializeField] PooledObject hitPrefab;
+	[SerializeField] PooledObject dashPrefab;
+	[SerializeField] PooledObject playerTakeHitPrefab;
 
 	private void Awake()
 	{
 		Manager.Pool.CreatePool(dustPrefab, 4, 10);
 		Manager.Pool.CreatePool(hitPrefab, 4, 10);
+		Manager.Pool.CreatePool(dashPrefab, 1, 3);
+		Manager.Pool.CreatePool(playerTakeHitPrefab, 1, 3);
 	}
 
 	private void Start()
@@ -24,6 +30,8 @@ public class EffectController : MonoBehaviour
 		{
 			player.OnJumpEvent.AddListener(SpawnDustOnJump);
 			player.OnFallEvent.AddListener(SpawnDustOnFall);
+			player.OnDashEvent.AddListener(SpawnDash);
+			player.OnTakeHitEvent.AddListener(SpawnTakeHit);
 			foreach (var hit in hits)
 			{
 				hit.OnHitEvent.AddListener(SpawnHit);
@@ -71,6 +79,47 @@ public class EffectController : MonoBehaviour
 			if (hitAnimation != null)
 			{
 				hitAnimation.PlayHitAnimation();
+			}
+		}
+	}
+
+	private void SpawnDash()
+	{
+		if (dashPrefab != null)
+		{
+			if(player.LastMoveDir.x > 0)
+			{
+				PooledObject instance = Manager.Pool.GetPool(dashPrefab, leftDashPos.position, Quaternion.identity);
+				EffectAnimation dashAnimation = instance.GetComponent<EffectAnimation>();
+
+				if (dashAnimation != null)
+				{
+					dashAnimation.PlayDashAnimation();
+				}
+			}
+			else
+			{
+				PooledObject instance = Manager.Pool.GetPool(dashPrefab, rightDashPos.position, Quaternion.identity);
+				EffectAnimation dashAnimation = instance.GetComponent<EffectAnimation>();
+
+				if (dashAnimation != null)
+				{
+					dashAnimation.PlayDashAnimation();
+				}
+			}
+		}
+	}
+
+	private void SpawnTakeHit()
+	{
+		if (playerTakeHitPrefab != null)
+		{
+			PooledObject instance = Manager.Pool.GetPool(playerTakeHitPrefab, player.transform.position, Quaternion.identity);
+			EffectAnimation takeHitAnimation = instance.GetComponent<EffectAnimation>();
+
+			if (takeHitAnimation != null)
+			{
+				takeHitAnimation.PlayTakeHitAnimation();
 			}
 		}
 	}

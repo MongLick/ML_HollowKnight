@@ -49,6 +49,10 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 		{
 			ChangeState(PlayerStateType.TakeHit);
 		}
+		else if(player.IsDash)
+		{
+			ChangeState(PlayerStateType.Dash);
+		}
 	}
 
 	IEnumerator LookCoroutine()

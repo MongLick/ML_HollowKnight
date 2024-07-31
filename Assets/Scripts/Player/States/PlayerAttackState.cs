@@ -38,6 +38,10 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		{
 			ChangeState(PlayerStateType.TakeHit);
 		}
+		else if(player.IsDash)
+		{
+			ChangeState(PlayerStateType.Dash);
+		}
 	}
 
 	public override void Exit()

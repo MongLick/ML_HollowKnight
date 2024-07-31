@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public UnityEvent OnTakeHitEvent { get { return onTakeHitEvent; } set { onTakeHitEvent = value; } }
 	[SerializeField] UnityEvent onDieEvent;
 	public UnityEvent OnDieEvent { get { return onDieEvent; } set { onDieEvent = value; } }
+	[SerializeField] UnityEvent onDashEvent;
+	public UnityEvent OnDashEvent { get { return onDashEvent; } set { onDashEvent = value; } }
 
 	[Header("Components")]
 	[SerializeField] Animator animator;
@@ -26,6 +28,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[SerializeField] Rigidbody2D rigid;
 	public Rigidbody2D Rigid { get { return rigid; } }
 	[SerializeField] LayerMask groundCheckLayer;
+	[SerializeField] PhysicsMaterial2D basicMaterial;
+	public PhysicsMaterial2D BasicMaterial { get { return basicMaterial; } }
+	[SerializeField] PhysicsMaterial2D dashMaterial;
+	public PhysicsMaterial2D DashMaterial { get { return dashMaterial; } }
 
 	[Header("Specs")]
 	[SerializeField] int damage;
@@ -38,6 +44,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float DashTime { get { return dashTime; } }
 	[SerializeField] float dashCoolTime;
 	public float DashCoolTime { get { return dashCoolTime; } }
+	[SerializeField] float dashCoolTimeMax;
+	public float DashCoolTimeMax { get { return dashCoolTimeMax; } }
 	[SerializeField] float currentJumpPower;
 	public float CurrentJumpPower { get { return currentJumpPower; } }
 	[SerializeField] float jumpPowerRate;
@@ -66,9 +74,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	[Header("Debug")]
 	private Vector2 moveDir;
-	public Vector2 MoveDir { get { return moveDir; } }
+	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
 	private Vector2 lastMoveDir;
-	public Vector2 LastMoveDir { get { return lastMoveDir; } }
+	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
@@ -88,8 +96,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
 	private bool isDash;
 	public bool IsDash { get { return isDash; } set { isDash = value; } }
-	private bool canDash;
-	public bool CanDash { get { return canDash; } set { canDash = value; } }
+	private bool cannotDash;
+	public bool CannotDash { get { return cannotDash; } set { cannotDash = value; } }
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
 	private Coroutine dashRoutine;
@@ -111,6 +119,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		playerState.AddState(PlayerStateType.Attack, new PlayerAttackState(this));
 		playerState.AddState(PlayerStateType.TakeHit, new PlayerTakeHitState(this));
 		playerState.AddState(PlayerStateType.Die, new PlayerDieState(this));
+		playerState.AddState(PlayerStateType.Dash, new PlayerDashState(this));
 		playerState.Start(PlayerStateType.Idle);
 	}
 
@@ -118,6 +127,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		playerState.Update();
 		CurrentState = playerState.GetCurrentState();
+		if(cannotDash)
+		{
+			dashCoolTime += Time.deltaTime;
+			if(dashCoolTime >= dashCoolTimeMax)
+			{
+				cannotDash = false;
+			}
+		}
 	}
 
 	private void FixedUpdate()
@@ -161,7 +178,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnMove(InputValue value)
 	{
-		if(isDie)
+		if (isDie)
 		{
 			return;
 		}
@@ -173,22 +190,26 @@ public class PlayerController : MonoBehaviour, IDamageable
 		if (isMoving)
 		{
 			lastMoveDir = moveDir;
-			render.flipX = moveDir.x > 0;
+			if (!isDash)
+			{
+				render.flipX = moveDir.x > 0;
+			}
 		}
 	}
 
 	private void OnDash(InputValue value)
 	{
-		if (isDash || canDash)
+		if (isDash || isDie || cannotDash)
 		{
 			return;
 		}
-
-		if (dashRoutine != null)
+		else
 		{
-			StopCoroutine(dashRoutine);
+			isDash = true;
+			dashCoolTime = 0;
+			rigid.sharedMaterial = dashMaterial;
+			onDashEvent?.Invoke();
 		}
-		dashRoutine = StartCoroutine(DashCoroutine());
 	}
 
 	private void OnJump(InputValue value)
@@ -255,16 +276,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void Move()
 	{
-		Vector2 velocity = rigid.velocity;
 		if (!isDash)
 		{
+			Vector2 velocity = rigid.velocity;
 			velocity.x = moveDir.x * moveSpeed;
+			rigid.velocity = velocity;
 		}
-		else
-		{
-			velocity.x = lastMoveDir.x * dashSpeed;
-		}
-		rigid.velocity = velocity;
 	}
 
 	private void Jump()
@@ -307,27 +324,5 @@ public class PlayerController : MonoBehaviour, IDamageable
 		isJumpCharging = false;
 		currentJumpPower = jumpPowerMin;
 		jumpRoutine = null;
-	}
-
-	IEnumerator DashCoroutine()
-	{
-		isDash = true;
-		canDash = true;
-		animator.SetTrigger("Dash");
-
-		rigid.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-
-		Vector2 dashVelocity = lastMoveDir.normalized * dashSpeed;
-		rigid.velocity = new Vector2(dashVelocity.x, rigid.velocity.y);
-
-		yield return new WaitForSeconds(dashTime);
-
-		rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
-
-		isDash = false;
-
-		yield return new WaitForSeconds(dashCoolTime);
-
-		canDash = false;
 	}
 }
