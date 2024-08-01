@@ -499,4 +499,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 189024980055911229}
-  fadeTime: 1
+  fadeTime: 1.5
