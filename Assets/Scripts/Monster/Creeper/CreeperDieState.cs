@@ -14,16 +14,17 @@ public class CreeperDieState : BaseState<CreeperStateType>
 
 	public override void Enter()
 	{
-
+		if (creeper.DieRoutine != null)
+		{
+			creeper.StopCoroutine(creeper.DieRoutine);
+		}
+		creeper.DieRoutine = creeper.StartCoroutine(DieCoroutine());
 	}
 
-	public override void Update()
+	IEnumerator DieCoroutine()
 	{
-
-	}
-
-	public override void Exit()
-	{
-
+		creeper.Animator.SetTrigger("Die");
+		yield return new WaitForSeconds(creeper.DieTime);
+		Object.Destroy(creeper.gameObject);
 	}
 }

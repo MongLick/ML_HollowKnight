@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static CreeperState;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CreeperIdleState : BaseState<CreeperStateType>
 {
@@ -12,18 +13,23 @@ public class CreeperIdleState : BaseState<CreeperStateType>
 		this.creeper = creeper;
 	}
 
-	public override void Enter()
-	{
-		Debug.Log("아이들 상태");
-	}
-
 	public override void Update()
 	{
-		
+		CheckForPlayer();
+
+		if (creeper.IsPlayerInRange)
+		{
+			ChangeState(CreeperStateType.Move);
+		}
 	}
 
-	public override void Exit()
+	private void CheckForPlayer()
 	{
-		Debug.Log("아이들 나감");
+		Collider2D[] players = Physics2D.OverlapCircleAll(creeper.transform.position, creeper.DetectionRadius, creeper.PlayerCheck);
+
+		if (players != null)
+		{
+			creeper.IsPlayerInRange = players.Length > 0;
+		}
 	}
 }

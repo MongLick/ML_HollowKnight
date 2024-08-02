@@ -14,16 +14,42 @@ public class CreeperMoveState : BaseState<CreeperStateType>
 
 	public override void Enter()
 	{
-		Debug.Log("무브상태");
+		if (creeper.MoveDirection == Vector2.zero)
+		{
+			creeper.MoveDirection = Vector2.left;
+		}
 	}
 
 	public override void Update()
 	{
-		
+		if (!IsObstacleInFront())
+		{
+			MoveForward();
+		}
+		else
+		{
+			TurnAround();
+			MoveForward();
+		}
 	}
 
-	public override void Exit()
+	private void MoveForward()
 	{
-		
+		creeper.transform.position += (Vector3)creeper.MoveDirection * creeper.MoveSpeed * Time.deltaTime;
+	}
+
+	private void TurnAround()
+	{
+		creeper.MoveDirection = creeper.MoveDirection == Vector2.left ? Vector2.right : Vector2.left;
+		creeper.Render.flipX = creeper.MoveDirection != Vector2.left;
+	}
+
+	private bool IsObstacleInFront()
+	{
+		RaycastHit2D hit = Physics2D.Raycast(creeper.transform.position, creeper.MoveDirection, creeper.CheckDistance, creeper.ObstacleCheck);
+
+		Debug.DrawRay(creeper.transform.position, (Vector3)creeper.MoveDirection * creeper.CheckDistance, Color.red);
+
+		return hit.collider != null;
 	}
 }

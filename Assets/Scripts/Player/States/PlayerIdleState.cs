@@ -21,6 +21,15 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 
 	public override void Update()
 	{
+		if (player.IsTakeHit)
+		{
+			ChangeState(PlayerStateType.TakeHit);
+		}
+		else if (player.IsDash)
+		{
+			ChangeState(PlayerStateType.Dash);
+		}
+
 		if (player.IsAttack)
 		{
 			ChangeState(PlayerStateType.Attack);
@@ -44,14 +53,6 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			player.Animator.SetBool("LookUp", false);
 			player.Animator.SetBool("LookDown", false);
 			player.LookTime = 0;
-		}
-		if (player.IsTakeHit)
-		{
-			ChangeState(PlayerStateType.TakeHit);
-		}
-		else if(player.IsDash)
-		{
-			ChangeState(PlayerStateType.Dash);
 		}
 	}
 

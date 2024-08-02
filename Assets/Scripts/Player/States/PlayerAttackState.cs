@@ -24,6 +24,14 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 
 	public override void Update()
 	{
+		if (player.IsTakeHit)
+		{
+			ChangeState(PlayerStateType.TakeHit);
+		}
+		else if (player.IsDash)
+		{
+			ChangeState(PlayerStateType.Dash);
+		}
 		if (player.AttackRoutine == null)
 		{
 			ChangeState(PlayerStateType.Idle);
@@ -34,15 +42,8 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 			player.AttackRoutine = null;
 			ChangeState(PlayerStateType.Idle);
 		}
-		if (player.IsTakeHit)
-		{
-			ChangeState(PlayerStateType.TakeHit);
-		}
-		else if(player.IsDash)
-		{
-			ChangeState(PlayerStateType.Dash);
-		}
 	}
+		
 
 	public override void Exit()
 	{

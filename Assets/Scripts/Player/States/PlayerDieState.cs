@@ -14,7 +14,7 @@ public class PlayerDieState : BaseState<PlayerStateType>
 
 	public override void Enter()
 	{
-		player.Animator.SetBool("Die", true);
+		player.Animator.SetTrigger("Die");
 		if (player.DieRoutine != null)
 		{
 			player.StopCoroutine(player.DieRoutine);
@@ -28,6 +28,5 @@ public class PlayerDieState : BaseState<PlayerStateType>
 	{
 		Manager.Scene.LoadScene("TitleScene");
 		yield return new WaitForSeconds(player.DieTime);
-		player.Animator.SetBool("Die", false);
 	}
 }

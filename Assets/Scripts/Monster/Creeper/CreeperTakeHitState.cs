@@ -14,16 +14,35 @@ public class CreeperTakeHitState : BaseState<CreeperStateType>
 
 	public override void Enter()
 	{
+		creeper.IsTakeHit = true;
 
+		if (creeper.TakeHitRoutine != null)
+		{
+			creeper.StopCoroutine(creeper.TakeHitRoutine);
+		}
+		creeper.TakeHitRoutine = creeper.StartCoroutine(TakeHitCoroutine());
 	}
 
 	public override void Update()
 	{
-
+		if(creeper.IsDie)
+		{
+			ChangeState(CreeperStateType.Die);
+		}
+		else if(!creeper.IsTakeHit)
+		{
+			ChangeState(CreeperStateType.Move);
+		}
 	}
 
-	public override void Exit()
+	IEnumerator TakeHitCoroutine()
 	{
-
+		creeper.Animator.SetTrigger("TakeHit");
+		yield return new WaitForSeconds(creeper.TakeHitTime);
+		creeper.IsTakeHit = false;
+		if(creeper.Hp <= 0)
+		{
+			creeper.IsDie = true;
+		}
 	}
 }
