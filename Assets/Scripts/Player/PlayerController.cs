@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnDash(InputValue value)
 	{
-		if (isDash || isDie || cannotDash)
+		if (isDash || isDie || cannotDash || isAttack)
 		{
 			return;
 		}
@@ -207,8 +207,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 		{
 			isDash = true;
 			dashCoolTime = 0;
-			rigid.sharedMaterial = dashMaterial;
-			onDashEvent?.Invoke();
 		}
 	}
 

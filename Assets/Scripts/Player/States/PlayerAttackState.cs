@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Playables;
 using static PlayerState;
@@ -27,10 +28,6 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		if (player.IsTakeHit)
 		{
 			ChangeState(PlayerStateType.TakeHit);
-		}
-		else if (player.IsDash)
-		{
-			ChangeState(PlayerStateType.Dash);
 		}
 		if (player.AttackRoutine == null)
 		{

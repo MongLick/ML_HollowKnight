@@ -20,6 +20,9 @@ public class PlayerDashState : BaseState<PlayerStateType>
 			player.StopCoroutine(player.DashRoutine);
 		}
 		player.DashRoutine = player.StartCoroutine(DashCoroutine());
+
+		player.Rigid.sharedMaterial = player.DashMaterial;
+		player.OnDashEvent?.Invoke();
 	}
 
 	public override void Update()

@@ -54,28 +54,28 @@ public class PlayerAttack : MonoBehaviour
 				switch (effectName)
 				{
 					case "Attack01":
-						effect.transform.localPosition = new Vector3(2, 0.1f, 0);
+						effect.transform.localPosition = new Vector3(1, 0.1f, 0);
 						break;
 					case "Attack02":
-						effect.transform.localPosition = new Vector3(2, -0.7f, 0);
+						effect.transform.localPosition = new Vector3(1, -0.3f, 0);
 						break;
 					case "Attack03":
-						effect.transform.localPosition = new Vector3(2, 0.1f, 0);
+						effect.transform.localPosition = new Vector3(0.7f, 0.1f, 0);
 						break;
 					case "Attack04":
-						effect.transform.localPosition = new Vector3(0.1f, 0.5f, 0);
+						effect.transform.localPosition = new Vector3(0f, 0.35f, 0);
 						break;
 					case "AttackTop01":
-						effect.transform.localPosition = new Vector3(0.3f, 1.2f, 0);
+						effect.transform.localPosition = new Vector3(0.1f, 0.5f, 0);
 						break;
 					case "AttackTop02":
-						effect.transform.localPosition = new Vector3(-0.7f, 0.7f, 0);
+						effect.transform.localPosition = new Vector3(-0.4f, 0.2f, 0);
 						break;
 					case "AttackBottom01":
-						effect.transform.localPosition = new Vector3(0.1f, -1, 0);
+						effect.transform.localPosition = new Vector3(0.1f, -0.5f, 0);
 						break;
 					case "AttackBottom02":
-						effect.transform.localPosition = new Vector3(-0.8f, -0.6f, 0);
+						effect.transform.localPosition = new Vector3(-0.4f, -0.2f, 0);
 						break;
 				}
 			}
