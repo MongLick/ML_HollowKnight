@@ -41,9 +41,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background_Beyond
+    uniqueID: 297796989
+    locked: 0
+  - name: Background_Backmost
+    uniqueID: 2523201277
+    locked: 0
+  - name: Background_Far
+    uniqueID: 1110514447
+    locked: 0
+  - name: Background_Middle
+    uniqueID: 844059617
+    locked: 0
+  - name: Background_Near
+    uniqueID: 2383391273
+    locked: 0
   - name: BackEffect
     uniqueID: 2540739835
     locked: 0
   - name: Player
     uniqueID: 410314943
+    locked: 0
+  - name: Background_Foremost
+    uniqueID: 428866603
     locked: 0
