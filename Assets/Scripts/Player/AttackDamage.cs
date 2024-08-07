@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class AttackDamage : MonoBehaviour
 {
 	[SerializeField] PlayerController player;
+	[SerializeField] LayerMask monsterCheck;
 	[SerializeField] UnityEvent<Vector3> onHitEvent = new UnityEvent<Vector3>();
 	public UnityEvent<Vector3> OnHitEvent { get { return onHitEvent; } set { onHitEvent = value; } }
 
@@ -17,6 +18,10 @@ public class AttackDamage : MonoBehaviour
 		{
 			damageable.TakeDamage(player.Damage);
 			onHitEvent?.Invoke(collision.transform.position);
+		}
+		if(monsterCheck.Contain(collision.gameObject.layer))
+		{
+			player.IsMonsterAttack = true;
 		}
 	}
 }

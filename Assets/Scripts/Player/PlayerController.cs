@@ -27,17 +27,27 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public SpriteRenderer Renderer { get { return render; } }
 	[SerializeField] Rigidbody2D rigid;
 	public Rigidbody2D Rigid { get { return rigid; } }
-	[SerializeField] LayerMask groundCheckLayer;
 	[SerializeField] PhysicsMaterial2D basicMaterial;
 	public PhysicsMaterial2D BasicMaterial { get { return basicMaterial; } }
 	[SerializeField] PhysicsMaterial2D dashMaterial;
 	public PhysicsMaterial2D DashMaterial { get { return dashMaterial; } }
+	[SerializeField] PlayerAttack playerAttack;
 
 	[Header("Specs")]
+	[SerializeField] int hp;
+	public int Hp { get { return hp; } set { hp = value; } }
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } }
+	[SerializeField] int blinkCount;
+	public int BlinkCount { get { return blinkCount; } }
+	[SerializeField] int dieTime;
+	public int DieTime { get { return dieTime; } }
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
+	[SerializeField] float knockbackPower;
+	public float KnockbackPower { get { return knockbackPower; } }
+	[SerializeField] float knockbackTime;
+	public float KnockbackTime { get { return knockbackTime; } }
 	[SerializeField] float dashSpeed;
 	public float DashSpeed { get { return dashSpeed; } }
 	[SerializeField] float dashTime;
@@ -54,6 +64,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float JumpPowerMin { get { return jumpPowerMin; } }
 	[SerializeField] float jumpPowerMax;
 	public float JumpPowerMax { get { return jumpPowerMax; } }
+	[SerializeField] float maxFallSpeed;
+	public float MaxFallSpeed { get { return maxFallSpeed; } }
 	[SerializeField] float lookTime;
 	public float LookTime { get { return lookTime; } set { lookTime = value; } }
 	[SerializeField] float lookTimeMax;
@@ -62,21 +74,19 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float AttackCoolTime { get { return attackCoolTime; } set { attackCoolTime = value; } }
 	[SerializeField] float attackCount;
 	public float AttackCount { get { return attackCount; } set { attackCount = value; } }
-	[SerializeField] PlayerAttack playerAttack;
-	[SerializeField] int hp;
-	public int Hp { get { return hp; } set { hp = value; } }
 	[SerializeField] float blinkDuration;
-	public float BlinkDuration { get { return blinkDuration; }}
-	[SerializeField] int blinkCount;
-	public int BlinkCount { get { return blinkCount; }}
-	[SerializeField] int dieTime;
-	public int DieTime { get { return dieTime; } }
+	public float BlinkDuration { get { return blinkDuration; } }
 
 	[Header("Debug")]
+	[SerializeField] LayerMask groundCheckLayer;
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
 	private Vector2 lastMoveDir;
 	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
+	private Vector2 lastAttackDirection;
+	public Vector2 LastAttackDirection { get { return lastAttackDirection; } set { lastAttackDirection = value; } }
+	private Vector2 velocity;
+	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
@@ -98,6 +108,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public bool IsDash { get { return isDash; } set { isDash = value; } }
 	private bool cannotDash;
 	public bool CannotDash { get { return cannotDash; } set { cannotDash = value; } }
+	private bool isMonsterAttack;
+	public bool IsMonsterAttack { get { return isMonsterAttack; } set { isMonsterAttack = value; } }
+	private bool applyKnockback;
+	public bool ApplyKnockback { get { return applyKnockback; } set { applyKnockback = value; } }
+	private bool applyUpKnockback;
+	public bool ApplyUpKnockback { get { return applyUpKnockback; } set { applyUpKnockback = value; } }
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
 	private Coroutine dashRoutine;
@@ -106,6 +122,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
 	private Coroutine attackRoutine;
 	public Coroutine AttackRoutine { get { return attackRoutine; } set { attackRoutine = value; } }
+	private Coroutine knockbackRoutine;
+	public Coroutine KnockbackRoutine { get { return knockbackRoutine; } set { knockbackRoutine = value; } }
 	private Coroutine takeHitRoutine;
 	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
 	private Coroutine dieRoutine;
@@ -121,16 +139,18 @@ public class PlayerController : MonoBehaviour, IDamageable
 		playerState.AddState(PlayerStateType.Die, new PlayerDieState(this));
 		playerState.AddState(PlayerStateType.Dash, new PlayerDashState(this));
 		playerState.Start(PlayerStateType.Idle);
+
+		lastMoveDir = Vector2.right;
 	}
 
 	private void Update()
 	{
 		playerState.Update();
 		CurrentState = playerState.GetCurrentState();
-		if(cannotDash)
+		if (cannotDash)
 		{
 			dashCoolTime += Time.deltaTime;
-			if(dashCoolTime >= dashCoolTimeMax)
+			if (dashCoolTime >= dashCoolTimeMax)
 			{
 				cannotDash = false;
 			}
@@ -145,11 +165,23 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 
 		playerState.FixedUpdate();
-		Move();
+
+		if (!isMonsterAttack)
+		{
+			Move();
+		}
 
 		if (isJumpCharging)
 		{
 			Jump();
+		}
+
+		velocity = rigid.velocity;
+
+		if (velocity.y < -maxFallSpeed)
+		{
+			velocity.y = -maxFallSpeed;
+			rigid.velocity = velocity;
 		}
 
 		if (rigid.velocity.y < -0.01f && !isGround)
@@ -190,10 +222,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 		if (isMoving)
 		{
 			lastMoveDir = moveDir;
-			if (!isDash)
+			if (isDash)
 			{
-				render.flipX = moveDir.x > 0;
+				return;
 			}
+			render.flipX = moveDir.x > 0;
 		}
 	}
 
@@ -250,6 +283,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 		{
 			attackCount++;
 		}
+
+		lastAttackDirection = lastMoveDir;
 	}
 
 	private void OnLookUp(InputValue value)
@@ -305,7 +340,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	public void OnAttackAnimationEvent(string effectName)
 	{
-		playerAttack.OnAttackAnimationEvent(effectName, lastMoveDir.x > 0);
+		playerAttack.OnAttackAnimationEvent(effectName, lastAttackDirection.x > 0);
 	}
 
 	IEnumerator JumpCoroutine()

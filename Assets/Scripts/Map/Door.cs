@@ -5,8 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IDamageable
 {
 	[Header("Components")]
-	[SerializeField] GameObject stonePrefab;
-	[SerializeField] GameObject stone;
+	[SerializeField] List<GameObject> stonePrefabs;
 	[SerializeField] Rigidbody2D rigid;
 
 	[Header("Specs")]
@@ -25,7 +24,6 @@ public class Door : MonoBehaviour, IDamageable
 	[SerializeField] Vector2 randomPosition;
 	[SerializeField] Vector2 forceDirection;
 	[SerializeField] Vector2 force;
-	
 
 	public void TakeDamage(int damage)
 	{
@@ -35,13 +33,21 @@ public class Door : MonoBehaviour, IDamageable
 			for (int i = 0; i < stoneCount; i++)
 			{
 				randomPosition = (Vector2)transform.position + Random.insideUnitCircle * stoneSpawnRadius;
-				stone = Instantiate(stonePrefab, randomPosition, Quaternion.identity);
+
+				GameObject selectedStonePrefab = stonePrefabs[Random.Range(0, stonePrefabs.Count)];
+
+				GameObject stone = Instantiate(selectedStonePrefab, randomPosition, Quaternion.identity);
+
 				angle = Random.Range(minLaunchAngle, maxLaunchAngle);
 				forceDirection = Quaternion.Euler(0, 0, angle) * Vector2.right;
 				forceMagnitude = Random.Range(minForceMagnitude, maxForceMagnitude) * rightForceMultiplier;
 				force = forceDirection * forceMagnitude;
+
 				rigid = stone.GetComponent<Rigidbody2D>();
-				rigid.AddForce(force, ForceMode2D.Impulse);
+				if (rigid != null)
+				{
+					rigid.AddForce(force, ForceMode2D.Impulse);
+				}
 			}
 			Destroy(gameObject);
 		}

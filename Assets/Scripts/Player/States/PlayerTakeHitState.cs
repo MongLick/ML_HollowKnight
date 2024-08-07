@@ -40,7 +40,7 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 	IEnumerator TakeHitCoroutine()
 	{
-		player.Animator.SetBool("TakeHit", true);
+		player.Animator.SetTrigger("TakeHit");
 
 		for (int i = 0; i < player.BlinkCount; i++)
 		{
@@ -49,8 +49,7 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			player.Renderer.color = Color.white;
 			yield return new WaitForSeconds(player.BlinkDuration);
 		}
-
-		player.Animator.SetBool("TakeHit", false);
+		yield return new WaitForSeconds(player.BlinkDuration);
 		player.IsTakeHit = false;
 	}
 }
