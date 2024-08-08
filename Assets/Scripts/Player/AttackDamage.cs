@@ -22,6 +22,12 @@ public class AttackDamage : MonoBehaviour
 		if(monsterCheck.Contain(collision.gameObject.layer))
 		{
 			player.IsMonsterAttack = true;
+			Monster monster = collision.GetComponent<Monster>();
+			if (monster != null)
+			{
+				Vector2 attackDirection = player.LastAttackDirection;
+				monster.ApplyKnockback(attackDirection);
+			}
 		}
 	}
 }

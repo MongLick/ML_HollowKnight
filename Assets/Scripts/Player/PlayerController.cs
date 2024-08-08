@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	[Header("Debug")]
 	[SerializeField] LayerMask groundCheckLayer;
+	[SerializeField] LayerMask monsterCheckLayer;
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
 	private Vector2 lastMoveDir;

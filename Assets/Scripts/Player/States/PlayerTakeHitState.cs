@@ -14,6 +14,11 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 	public override void Enter()
 	{
+		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
+		{
+			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, true);
+		}
+
 		if (player.TakeHitRoutine != null)
 		{
 			player.StopCoroutine(player.TakeHitRoutine);
@@ -34,6 +39,17 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			else
 			{
 				ChangeState(PlayerStateType.Idle);
+			}
+		}
+	}
+
+	public override void Exit()
+	{
+		if (GameManager.Instance.PlayerCollider != null)
+		{
+			foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
+			{
+				Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, false);
 			}
 		}
 	}

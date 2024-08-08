@@ -35,7 +35,7 @@ public class CreeperMoveState : BaseState<CreeperStateType>
 
 	private void MoveForward()
 	{
-		creeper.transform.position += (Vector3)creeper.MoveDirection * creeper.MoveSpeed * Time.deltaTime;
+		creeper.Rigid.velocity = creeper.MoveDirection * creeper.MoveSpeed;
 	}
 
 	private void TurnAround()

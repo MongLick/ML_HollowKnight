@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fcfa33b2f5d5e47b5fc920f8e1da03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  dustPos: {fileID: 0}
-  dustPrefab: {fileID: -5846187193856235728, guid: af3f6ed2be74d3d4db00291b11f093ee, type: 3}
+  playerCollider: {fileID: 0}
+  monsterColliders: []
+  monsterLayer:
+    serializedVersion: 2
+    m_Bits: 128

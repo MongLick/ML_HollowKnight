@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Stone : MonoBehaviour
 {
-	[SerializeField] LayerMask groundCheckLayer;
 	[SerializeField] float destroyTime;
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void Start()
 	{
-		if (groundCheckLayer.Contain(collision.gameObject.layer))
-		{
-			Destroy(gameObject, destroyTime);
-		}
+		StartCoroutine(DestroyTimeCoroutine());
+	}
+
+	private IEnumerator DestroyTimeCoroutine()
+	{
+		yield return new WaitForSeconds(destroyTime);
+		Destroy(gameObject);
 	}
 }

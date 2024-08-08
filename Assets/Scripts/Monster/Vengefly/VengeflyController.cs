@@ -1,7 +1,7 @@
 using UnityEngine;
 using static VengeflyState;
 
-public class VengeflyController : MonoBehaviour, IDamageable
+public class VengeflyController : Monster, IDamageable
 {
 	[SerializeField] int hp;
 	public int Hp { get { return hp; } set { hp = value; } }
@@ -66,11 +66,11 @@ public class VengeflyController : MonoBehaviour, IDamageable
 		CheckForPlayer();
 	}
 
-	private void OnTriggerEnter2D(Collider2D collider)
+	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (playerCheck.Contain(collider.gameObject.layer))
+		if (playerCheck.Contain(collision.collider.gameObject.layer))
 		{
-			IDamageable damageable = collider.GetComponent<IDamageable>();
+			IDamageable damageable = collision.collider.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
 				damageable.TakeDamage(damage);
@@ -92,10 +92,12 @@ public class VengeflyController : MonoBehaviour, IDamageable
 		if (players.Length > 0)
 		{
 			isPlayerInRange = true;
+			Rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
 		}
 		else
 		{
 			isPlayerInRange = false;
+			Rigid.constraints |= RigidbodyConstraints2D.FreezePositionY;
 		}
 	}
 

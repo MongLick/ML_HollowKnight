@@ -13891,6 +13891,18 @@ PrefabInstance:
       propertyPath: hp
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1674850920623594745, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 1882813804}
+    - target: {fileID: 1674850920623594745, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674850920623594745, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: knockbackPower
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2147903387869954664, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
       propertyPath: m_Name
       value: VengeflyMonster1
@@ -13946,6 +13958,18 @@ PrefabInstance:
     - target: {fileID: 3591658767819908594, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204953228886861462, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6356539209474944490, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6356539209474944490, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: m_Constraints
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15986,6 +16010,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1793620340}
     m_Modifications:
+    - target: {fileID: 1674850920623594745, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 1852057918}
     - target: {fileID: 2147903387869954664, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
       propertyPath: m_Name
       value: VengeflyMonster2
@@ -26225,6 +26253,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1793620340}
     m_Modifications:
+    - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 2120029903}
     - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
       propertyPath: checkDistance
       value: 0.5
@@ -37114,6 +37146,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &774054169 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6356539209474944490, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+  m_PrefabInstance: {fileID: 1973162702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &774684978
 GameObject:
   m_ObjectHideFlags: 0
@@ -43330,7 +43367,7 @@ SpriteRenderer:
   m_SortingLayerID: 1110514447
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0ec42526d49f90641b6a376258cd9f4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f493a1ba290ad294bbae712d5fc29b54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -43377,7 +43414,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.0390625, y: 7.421875}
+    oldSize: {x: 4.046875, y: 7.40625}
     newSize: {x: 4.0390625, y: 7.421875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -57303,6 +57340,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1793620340}
     m_Modifications:
     - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 1679069798}
+    - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
       propertyPath: checkDistance
       value: 0.5
       objectReference: {fileID: 0}
@@ -57882,7 +57923,7 @@ MonoBehaviour:
   stoneSpawnRadius: 0.5
   minLaunchAngle: -45
   maxLaunchAngle: 45
-  minForceMagnitude: 2
+  minForceMagnitude: 1
   maxForceMagnitude: 3
   randomPosition: {x: 0, y: 0}
   forceDirection: {x: 0, y: 0}
@@ -68268,7 +68309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 885485927375500052, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: knockbackTime
-      value: 0.2
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 885485927375500052, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: attackCoolTime
@@ -68285,6 +68326,10 @@ PrefabInstance:
     - target: {fileID: 1229406822437188862, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: m_SortingLayerID
       value: -1754227461
+      objectReference: {fileID: 0}
+    - target: {fileID: 1265001716447595832, guid: f33e703a56d8c754992a684d753f1540, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1265001716447595832, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: m_CollisionDetection
@@ -68360,11 +68405,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8988821938795599519, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 8.23
       objectReference: {fileID: 0}
     - target: {fileID: 8988821938795599519, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.1
+      value: 19.43
       objectReference: {fileID: 0}
     - target: {fileID: 8988821938795599519, guid: f33e703a56d8c754992a684d753f1540, type: 3}
       propertyPath: m_LocalPosition.z
@@ -85216,6 +85261,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1679069798 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2234979871337109370, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+  m_PrefabInstance: {fileID: 1112569463}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1680134398
 GameObject:
   m_ObjectHideFlags: 0
@@ -92187,8 +92237,8 @@ Transform:
   - {fileID: 1882813801}
   - {fileID: 671793138}
   - {fileID: 462146928}
-  - {fileID: 1251656461}
   - {fileID: 1137913948}
+  - {fileID: 1251656461}
   - {fileID: 216764165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93424,7 +93474,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2.39144, y: -1.3}
+  - {x: -2.22444, y: -1.3}
   - {x: 5.520208, y: -1.3}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
@@ -94380,7 +94430,7 @@ Transform:
   m_GameObject: {fileID: 1832957882}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8100002, y: 17.2, z: 0}
+  m_LocalPosition: {x: 1.34, y: 17.2, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -95380,6 +95430,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1852057918 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6356539209474944490, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+  m_PrefabInstance: {fileID: 345663521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1855630397
 GameObject:
   m_ObjectHideFlags: 0
@@ -97277,6 +97332,11 @@ SpriteRenderer:
 --- !u!4 &1882813801 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3591658767819908594, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+  m_PrefabInstance: {fileID: 296431400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1882813804 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 6356539209474944490, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
   m_PrefabInstance: {fileID: 296431400}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1886382401
@@ -100817,6 +100877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1793620340}
     m_Modifications:
+    - target: {fileID: 1674850920623594745, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 774054169}
     - target: {fileID: 2147903387869954664, guid: b11239f84d347984da64e0c2e392bd30, type: 3}
       propertyPath: m_Name
       value: VengeflyMonster3
@@ -102321,7 +102385,7 @@ Transform:
   m_GameObject: {fileID: 2005223456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4399998, y: 20.36, z: 0}
+  m_LocalPosition: {x: 1.36, y: 20.18, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -106107,6 +106171,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &2079349207 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2234979871337109370, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+  m_PrefabInstance: {fileID: 2110345862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2081250493
 GameObject:
   m_ObjectHideFlags: 0
@@ -107784,8 +107853,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: rigid
+      value: 
+      objectReference: {fileID: 2079349207}
+    - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
       propertyPath: checkDistance
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1634425296416863193, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: knockbackPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234979871337109370, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234979871337109370, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: m_Constraints
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5617273107461719767, guid: 8129d4be71548884789fbda383c8f740, type: 3}
       propertyPath: m_FlipX
@@ -107850,6 +107935,10 @@ PrefabInstance:
     - target: {fileID: 6998126221374425991, guid: 8129d4be71548884789fbda383c8f740, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835758918186232386, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -108742,6 +108831,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &2120029903 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2234979871337109370, guid: 8129d4be71548884789fbda383c8f740, type: 3}
+  m_PrefabInstance: {fileID: 551114620}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2121209740
 GameObject:
   m_ObjectHideFlags: 0

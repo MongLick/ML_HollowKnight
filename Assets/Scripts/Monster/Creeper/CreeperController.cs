@@ -1,7 +1,7 @@
 using UnityEngine;
 using static CreeperState;
 
-public class CreeperController : MonoBehaviour, IDamageable
+public class CreeperController : Monster, IDamageable
 {
 	[SerializeField] int hp;
 	public int Hp { get { return hp; } set { hp = value; } }
@@ -60,11 +60,11 @@ public class CreeperController : MonoBehaviour, IDamageable
 		creeperState.Update();
 	}
 
-	private void OnTriggerEnter2D(Collider2D collider)
+	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (playerCheck.Contain(collider.gameObject.layer))
+		if (playerCheck.Contain(collision.collider.gameObject.layer))
 		{
-			IDamageable damageable = collider.GetComponent<IDamageable>();
+			IDamageable damageable = collision.collider.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
 				damageable.TakeDamage(damage);

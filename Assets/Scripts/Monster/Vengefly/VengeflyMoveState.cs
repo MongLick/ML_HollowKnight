@@ -31,19 +31,25 @@ public class VengeflyMoveState : BaseState<VengeflyStateType>
 
 	private void MoveTowardsPlayer()
 	{
-		if (vengefly.Players.Length > 0)
+		Transform playerTransform = vengefly.Players[0].transform;
+		Vector3 direction = (playerTransform.position - vengefly.transform.position).normalized;
+		Vector2 targetPosition = (Vector2)playerTransform.position;
+
+		float distanceToPlayer = Vector2.Distance(vengefly.transform.position, targetPosition);
+		float distanceThreshold = 0.1f;
+
+		if (distanceToPlayer > distanceThreshold)
 		{
-			Transform playerTransform = vengefly.Players[0].transform;
-			Vector3 direction = (playerTransform.position - vengefly.transform.position).normalized;
+			vengefly.Rigid.velocity = direction * vengefly.MoveSpeed;
+		}
+		else
+		{
+			vengefly.Rigid.velocity = Vector2.zero;
+		}
 
-			vengefly.MoveDirection = new Vector2(direction.x, direction.y);
-
-			if (vengefly.Render != null)
-			{
-				vengefly.Render.flipX = direction.x < 0;
-			}
-
-			vengefly.transform.position += (Vector3)vengefly.MoveDirection * vengefly.MoveSpeed * Time.deltaTime;
+		if (vengefly.Render != null)
+		{
+			vengefly.Render.flipX = direction.x < 0;
 		}
 	}
 }

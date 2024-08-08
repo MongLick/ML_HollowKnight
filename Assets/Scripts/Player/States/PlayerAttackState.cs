@@ -121,7 +121,6 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		if (player.IsComboAttackActive && player.AttackCount > 0)
 		{
 			player.Animator.SetTrigger("Attack2");
-			player.ApplyKnockback = true;
 			player.AttackCount = 0;
 			yield return new WaitForSeconds(player.AttackCoolTime);
 			player.IsComboAttackActive = false;
