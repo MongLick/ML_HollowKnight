@@ -25,6 +25,6 @@ public class CreeperDieState : BaseState<CreeperStateType>
 	{
 		creeper.Animator.SetTrigger("Die");
 		yield return new WaitForSeconds(creeper.DieTime);
-		Object.Destroy(creeper.gameObject);
+		creeper.gameObject.SetActive(false);
 	}
 }

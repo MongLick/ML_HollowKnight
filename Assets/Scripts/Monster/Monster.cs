@@ -11,6 +11,6 @@ public class Monster : MonoBehaviour
 
 	public void ApplyKnockback(Vector2 direction)
 	{
-		rigid.velocity = new Vector2(direction.x * knockbackPower, rigid.velocity.y);
+		rigid.AddForce(direction * knockbackPower, ForceMode2D.Impulse);
 	}
 }

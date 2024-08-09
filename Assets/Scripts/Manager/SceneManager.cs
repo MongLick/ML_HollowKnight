@@ -59,7 +59,7 @@ public class SceneManager : Singleton<SceneManager>
 		fade.gameObject.SetActive(false);
 	}
 
-	IEnumerator FadeOut()
+	public IEnumerator FadeOut()
 	{
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
@@ -73,7 +73,7 @@ public class SceneManager : Singleton<SceneManager>
 		}
 	}
 
-	IEnumerator FadeIn()
+	public IEnumerator FadeIn()
 	{
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);

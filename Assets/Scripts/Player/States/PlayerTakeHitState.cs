@@ -14,11 +14,6 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 	public override void Enter()
 	{
-		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
-		{
-			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, true);
-		}
-
 		if (player.TakeHitRoutine != null)
 		{
 			player.StopCoroutine(player.TakeHitRoutine);
@@ -26,13 +21,18 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 		player.TakeHitRoutine = player.StartCoroutine(TakeHitCoroutine());
 
 		player.OnTakeHitEvent?.Invoke();
+
+		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
+		{
+			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, true);
+		}
 	}
 
 	public override void Update()
 	{
-		if(!player.IsTakeHit)
+		if (!player.IsTakeHit)
 		{
-			if(player.IsDie)
+			if (player.IsDie)
 			{
 				ChangeState(PlayerStateType.Die);
 			}
@@ -45,12 +45,9 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 	public override void Exit()
 	{
-		if (GameManager.Instance.PlayerCollider != null)
+		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
 		{
-			foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
-			{
-				Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, false);
-			}
+			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, false);
 		}
 	}
 

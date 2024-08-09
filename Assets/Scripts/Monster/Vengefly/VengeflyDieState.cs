@@ -25,6 +25,6 @@ public class VengeflyDieState : BaseState<VengeflyStateType>
 	{
 		vengefly.Animator.SetTrigger("Die");
 		yield return new WaitForSeconds(vengefly.DieTime);
-		Object.Destroy(vengefly.gameObject);
+		vengefly.gameObject.SetActive(false);
 	}
 }

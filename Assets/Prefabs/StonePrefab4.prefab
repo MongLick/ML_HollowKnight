@@ -171,7 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5039874458c6fa147a1e213a7cac5f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheckLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  destroyTime: 0.5
+  destroyTime: 100

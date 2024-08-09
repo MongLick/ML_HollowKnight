@@ -76,6 +76,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float AttackCount { get { return attackCount; } set { attackCount = value; } }
 	[SerializeField] float blinkDuration;
 	public float BlinkDuration { get { return blinkDuration; } }
+	[SerializeField] float pushX;
+	public float PushX { get { return pushX; } }
+	[SerializeField] float pushY;
+	public float PushY { get { return pushY; } }
+	[SerializeField] float hitKnockbackPower;
+	public float HitKnockbackPower { get { return hitKnockbackPower; } }
 
 	[Header("Debug")]
 	[SerializeField] LayerMask groundCheckLayer;
@@ -206,6 +212,16 @@ public class PlayerController : MonoBehaviour, IDamageable
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
 			isGround = false;
+		}
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (monsterCheckLayer.Contain(collision.gameObject.layer))
+		{
+			pushX = transform.position.x - collision.transform.position.x;
+
+			rigid.velocity = new Vector2(pushX * hitKnockbackPower, pushY).normalized * hitKnockbackPower;
 		}
 	}
 

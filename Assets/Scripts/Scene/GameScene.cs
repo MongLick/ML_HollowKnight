@@ -9,6 +9,11 @@ public class GameScene : BaseScene
 		Manager.Scene.LoadScene("TitleScene");
 	}
 
+	private void OnEnable()
+	{
+		Manager.Game.UpdateMonsterColliders();
+	}
+
 	public override IEnumerator LoadingRoutine()
 	{
 		yield return null;
