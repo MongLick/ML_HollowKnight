@@ -77,11 +77,6 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 
 		player.Rigid.velocity = newVelocity;
 
-
-		if (player.KnockbackRoutine != null)
-		{
-			player.StopCoroutine(player.KnockbackRoutine);
-		}
 		player.KnockbackRoutine = player.StartCoroutine(SmoothKnockbackCoroutine());
 	}
 
@@ -91,10 +86,6 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		velocity.y = player.KnockbackPower * 2;
 		player.Rigid.velocity = velocity;
 
-		if (player.KnockbackRoutine != null)
-		{
-			player.StopCoroutine(player.KnockbackRoutine);
-		}
 		player.KnockbackRoutine = player.StartCoroutine(SmoothKnockbackCoroutine());
 	}
 
@@ -121,6 +112,7 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		if (player.IsComboAttackActive && player.AttackCount > 0)
 		{
 			player.Animator.SetTrigger("Attack2");
+			player.ApplyKnockback = true;
 			player.AttackCount = 0;
 			yield return new WaitForSeconds(player.AttackCoolTime);
 			player.IsComboAttackActive = false;

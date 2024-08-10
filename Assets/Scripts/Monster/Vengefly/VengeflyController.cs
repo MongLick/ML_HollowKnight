@@ -76,6 +76,11 @@ public class VengeflyController : Monster, IDamageable
 				damageable.TakeDamage(damage);
 			}
 		}
+
+		if (collision.gameObject.CompareTag("AirGround"))
+		{
+			Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+		}
 	}
 
 	public void TakeDamage(int damage)
