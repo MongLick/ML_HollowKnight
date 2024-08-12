@@ -2,20 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleScene : BaseScene
+public class DirtmouthScene : BaseScene
 {
 	public void KingsPassSceneLoad()
 	{
 		Manager.Scene.LoadScene("KingsPassScene");
 	}
 
-	public void TitleSceneEnd()
+	public void TitleLoadScene()
 	{
-#if UNITY_EDITOR
-		UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+		Manager.Scene.LoadScene("TitleScene");
 	}
 
 	public override IEnumerator LoadingRoutine()

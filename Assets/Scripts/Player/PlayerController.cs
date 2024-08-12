@@ -8,6 +8,8 @@ using static PlayerState;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
+	private Dictionary<Transform, Vector3> initialChildPositions = new Dictionary<Transform, Vector3>();
+
 	[Header("Event")]
 	[SerializeField] UnityEvent onJumpEvent;
 	public UnityEvent OnJumpEvent { get { return onJumpEvent; } set { onJumpEvent = value; } }
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[SerializeField] PhysicsMaterial2D dashMaterial;
 	public PhysicsMaterial2D DashMaterial { get { return dashMaterial; } }
 	[SerializeField] PlayerAttack playerAttack;
+	[SerializeField] Transform playerTransform;
 
 	[Header("Specs")]
 	[SerializeField] int hp;
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[Header("Debug")]
 	[SerializeField] LayerMask groundCheckLayer;
 	[SerializeField] LayerMask monsterCheckLayer;
+	[SerializeField] LayerMask sideWallCheckLayer;
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
 	private Vector2 lastMoveDir;
@@ -97,6 +101,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
+	private bool isSideWall;
+	public bool IsSideWall { get { return isSideWall; } }
 	private bool isJumpCharging;
 	public bool IsJumpCharging { get { return isJumpCharging; } }
 	private bool isLookUp;
@@ -109,6 +115,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public bool IsComboAttackActive { get { return isComboAttackActive; } set { isComboAttackActive = value; } }
 	private bool isTakeHit;
 	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
+	private bool isBlink;
+	public bool IsBlink { get { return isBlink; } set { isBlink = value; } }
 	private bool isDie;
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
 	private bool isDash;
@@ -146,8 +154,13 @@ public class PlayerController : MonoBehaviour, IDamageable
 		playerState.AddState(PlayerStateType.Die, new PlayerDieState(this));
 		playerState.AddState(PlayerStateType.Dash, new PlayerDashState(this));
 		playerState.Start(PlayerStateType.Idle);
-
+		playerTransform = transform;
 		lastMoveDir = Vector2.right;
+	}
+
+	private void Start()
+	{
+		SaveInitialChildPositions();
 	}
 
 	private void Update()
@@ -217,11 +230,24 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (monsterCheckLayer.Contain(collision.gameObject.layer))
+		if (sideWallCheckLayer.Contain(collision.gameObject.layer))
+		{
+			isSideWall = true;
+		}
+
+		if (monsterCheckLayer.Contain(collision.gameObject.layer) && !isSideWall)
 		{
 			pushX = transform.position.x - collision.transform.position.x;
 
 			rigid.velocity = new Vector2(pushX * hitKnockbackPower, pushY).normalized * hitKnockbackPower;
+		}
+	}
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		if (sideWallCheckLayer.Contain(collision.gameObject.layer))
+		{
+			isSideWall = false;
 		}
 	}
 
@@ -249,7 +275,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnDash(InputValue value)
 	{
-		if (isDash || isDie || cannotDash || isAttack)
+		if (isDash || isDie || cannotDash || isAttack || isBlink)
 		{
 			return;
 		}
@@ -343,14 +369,42 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	public void TakeDamage(int damage)
 	{
-		Debug.Log("플레이어 체력 깎임");
-		if (!isTakeHit)
+		if (!isBlink)
 		{
+			isBlink = true;
 			isTakeHit = true;
 			hp -= damage;
 			if (hp <= 0)
 			{
 				isDie = true;
+			}
+		}
+	}
+
+	public void SaveInitialChildPositions()
+	{
+		foreach (Transform child in playerTransform)
+		{
+			initialChildPositions[child] = child.localPosition;
+		}
+	}
+
+	public void RespawnPlayer()
+	{
+		if (playerTransform != null)
+		{
+			playerTransform.position = Manager.Game.RespawnPoint.position;
+			RestoreChildPositions();
+		}
+	}
+
+	public void RestoreChildPositions()
+	{
+		foreach (var pair in initialChildPositions)
+		{
+			if (pair.Key != null)
+			{
+				pair.Key.localPosition = pair.Value;
 			}
 		}
 	}

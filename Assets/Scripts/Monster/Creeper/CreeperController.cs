@@ -76,7 +76,6 @@ public class CreeperController : Monster, IDamageable
 	{
 		hp -= damage;
 		creeperState.ChangeState(CreeperStateType.TakeHit);
-		Debug.Log(hp);
 	}
 
 	private void OnDrawGizmos()

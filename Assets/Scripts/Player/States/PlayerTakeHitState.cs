@@ -22,15 +22,15 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 		player.OnTakeHitEvent?.Invoke();
 
-		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
+		foreach (var monsterCollider in Manager.Game.MonsterColliders)
 		{
-			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, true);
+			Physics2D.IgnoreCollision(Manager.Game.PlayerCollider, monsterCollider, true);
 		}
 	}
 
 	public override void Update()
 	{
-		if (!player.IsTakeHit)
+		if (!player.IsBlink)
 		{
 			if (player.IsDie)
 			{
@@ -45,9 +45,9 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 
 	public override void Exit()
 	{
-		foreach (var monsterCollider in GameManager.Instance.MonsterColliders)
+		foreach (var monsterCollider in Manager.Game.MonsterColliders)
 		{
-			Physics2D.IgnoreCollision(GameManager.Instance.PlayerCollider, monsterCollider, false);
+			Physics2D.IgnoreCollision(Manager.Game.PlayerCollider, monsterCollider, false);
 		}
 	}
 
@@ -62,7 +62,14 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			player.Renderer.color = Color.white;
 			yield return new WaitForSeconds(player.BlinkDuration);
 		}
-		yield return new WaitForSeconds(player.BlinkDuration);
 		player.IsTakeHit = false;
+		for (int i = 0; i < player.BlinkCount; i++)
+		{
+			player.Renderer.color = Color.gray;
+			yield return new WaitForSeconds(player.BlinkDuration);
+			player.Renderer.color = Color.white;
+			yield return new WaitForSeconds(player.BlinkDuration);
+		}
+		player.IsBlink = false;
 	}
 }

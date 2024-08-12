@@ -837,7 +837,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 102977617}
         m_TargetAssemblyTypeName: TitleScene, Assembly-CSharp
-        m_MethodName: GameSceneLoad
+        m_MethodName: KingsPassSceneLoad
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

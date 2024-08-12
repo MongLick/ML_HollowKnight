@@ -7,6 +7,8 @@ public class SceneManager : Singleton<SceneManager>
 {
 	[SerializeField] Image fade;
 	[SerializeField] float fadeTime;
+	[SerializeField] float respawnFadeTime;
+	[SerializeField] bool isRespawn;
 
 	private BaseScene curScene;
 
@@ -32,6 +34,21 @@ public class SceneManager : Singleton<SceneManager>
 	{
 		StartCoroutine(LoadingRoutine(sceneName));
 	}
+
+	public void LoadFadeOut()
+	{
+		isRespawn = true;
+		fade.gameObject.SetActive(true);
+		StartCoroutine(FadeOut());
+	}
+
+	public void LoadFadeIn()
+	{
+		StartCoroutine(FadeIn());
+		fade.gameObject.SetActive(false);
+		isRespawn = fade;
+	}
+
 
 	IEnumerator LoadingRoutine(string sceneName)
 	{
@@ -59,7 +76,7 @@ public class SceneManager : Singleton<SceneManager>
 		fade.gameObject.SetActive(false);
 	}
 
-	public IEnumerator FadeOut()
+	IEnumerator FadeOut()
 	{
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
@@ -67,13 +84,22 @@ public class SceneManager : Singleton<SceneManager>
 
 		while (rate <= 1)
 		{
-			rate += Time.deltaTime / fadeTime;
-			fade.color = Color.Lerp(fadeInColor, fadeOutColor, rate);
-			yield return null;
+			if (isRespawn)
+			{
+				rate += Time.deltaTime / respawnFadeTime;
+				fade.color = Color.Lerp(fadeInColor, fadeOutColor, rate);
+				yield return null;
+			}
+			else
+			{
+				rate += Time.deltaTime / fadeTime;
+				fade.color = Color.Lerp(fadeInColor, fadeOutColor, rate);
+				yield return null;
+			}
 		}
 	}
 
-	public IEnumerator FadeIn()
+	IEnumerator FadeIn()
 	{
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
@@ -81,9 +107,18 @@ public class SceneManager : Singleton<SceneManager>
 
 		while (rate <= 1)
 		{
-			rate += Time.deltaTime / fadeTime;
-			fade.color = Color.Lerp(fadeOutColor, fadeInColor, rate);
-			yield return null;
+			if(isRespawn)
+			{
+				rate += Time.deltaTime / respawnFadeTime;
+				fade.color = Color.Lerp(fadeOutColor, fadeInColor, rate);
+				yield return null;
+			}
+			else
+			{
+				rate += Time.deltaTime / fadeTime;
+				fade.color = Color.Lerp(fadeOutColor, fadeInColor, rate);
+				yield return null;
+			}
 		}
 	}
 }

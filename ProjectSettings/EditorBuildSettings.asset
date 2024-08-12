@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: 4cd24b06c12db5542930dcb051f9361a
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/KingsPassScene.unity
     guid: c9f1c98900137e9408db704d14c142c9
+  - enabled: 1
+    path: Assets/Scenes/DirtmouthScene.unity
+    guid: 2dec038efe711b248bc7473aaf23281e
   m_configObjects: {}
