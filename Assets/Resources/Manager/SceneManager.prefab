@@ -499,6 +499,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 189024980055911229}
-  fadeTime: 2
-  respawnFadeTime: 1
+  fadeTime: 3
+  respawnFadeTime: 1.5
   isRespawn: 0

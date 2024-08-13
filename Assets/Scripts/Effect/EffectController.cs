@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class EffectController : MonoBehaviour
 {
 	[SerializeField] PlayerController player;
+	[SerializeField] List<Monster> monsters;
+	[SerializeField] CoinPop coinPop;
 	[SerializeField] List<AttackDamage> hits;
 	[SerializeField] Transform dustPos;
 	[SerializeField] Transform rightDashPos;
@@ -15,6 +17,8 @@ public class EffectController : MonoBehaviour
 	[SerializeField] PooledObject hitPrefab;
 	[SerializeField] PooledObject dashPrefab;
 	[SerializeField] PooledObject playerTakeHitPrefab;
+	[SerializeField] PooledObject coinPrefab;
+	[SerializeField] PooledObject bloodPrefab;
 
 	private void Awake()
 	{
@@ -22,6 +26,8 @@ public class EffectController : MonoBehaviour
 		Manager.Pool.CreatePool(hitPrefab, 4, 10);
 		Manager.Pool.CreatePool(dashPrefab, 1, 3);
 		Manager.Pool.CreatePool(playerTakeHitPrefab, 1, 3);
+		Manager.Pool.CreatePool(coinPrefab, 5, 10);
+		Manager.Pool.CreatePool(bloodPrefab, 1, 2);
 	}
 
 	private void Start()
@@ -32,9 +38,15 @@ public class EffectController : MonoBehaviour
 			player.OnFallEvent.AddListener(SpawnDustOnFall);
 			player.OnDashEvent.AddListener(SpawnDash);
 			player.OnTakeHitEvent.AddListener(SpawnTakeHit);
+			coinPop.OnHitCoinEvent.AddListener(SpawnPopCoin);
 			foreach (var hit in hits)
 			{
 				hit.OnHitEvent.AddListener(SpawnHit);
+			}
+			foreach (var monster in monsters)
+			{
+				monster.OnHitCoinEvent.AddListener(SpawnMonserCoin);
+				monster.OnHitBloodEvent.AddListener(SpawnBlood);
 			}
 		}
 	}
@@ -121,6 +133,62 @@ public class EffectController : MonoBehaviour
 			{
 				takeHitAnimation.PlayTakeHitAnimation();
 			}
+		}
+	}
+
+	private void SpawnMonserCoin(Monster monster)
+	{
+		if (coinPrefab != null)
+		{
+			int coinCount = Random.Range(1, 4);
+			for (int i = 0; i < coinCount; i++)
+			{
+				Vector2 monsterPosition = monster.transform.position;
+				Vector2 randomOffset = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+
+				Vector2 spawnPosition = monsterPosition + randomOffset;
+
+				PooledObject instance = Manager.Pool.GetPool(coinPrefab, spawnPosition, Quaternion.identity);
+				Coin coin = instance.GetComponent<Coin>();
+				if (coin != null)
+				{
+					Vector3 bounceDirection = new Vector3(0, 10, 0);
+					coin.Initialize(bounceDirection);
+				}
+			}
+		}
+	}
+
+	private void SpawnPopCoin()
+	{
+		int coinCount = Random.Range(3, 6);
+
+		for (int i = 0; i < coinCount; i++)
+		{
+			Vector2 coinPopPosition = coinPop.transform.position;
+			Vector2 randomOffset = new Vector2(Random.Range(0, 1f), Random.Range(0, 1f));
+
+			Vector2 spawnPosition = coinPopPosition + randomOffset;
+
+			PooledObject instance = Manager.Pool.GetPool(coinPrefab, spawnPosition, Quaternion.identity);
+			Coin coin = instance.GetComponent<Coin>();
+			if (coin != null)
+			{
+				Vector3 bounceDirection = new Vector3(0, 10, 0);
+				coin.Initialize(bounceDirection);
+			}
+		}
+	}
+
+	private void SpawnBlood(Monster monster)
+	{
+		Vector2 bloodPosition = monster.transform.position;
+		PooledObject instance = Manager.Pool.GetPool(bloodPrefab, bloodPosition, Quaternion.identity);
+
+		EffectAnimation bloodAnimation = instance.GetComponent<EffectAnimation>();
+		if (bloodAnimation != null)
+		{
+			bloodAnimation.PlayHitBloodAnimation();
 		}
 	}
 }

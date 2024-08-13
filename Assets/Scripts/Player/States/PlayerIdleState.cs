@@ -52,6 +52,8 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 			}
 			player.Animator.SetBool("LookUp", false);
 			player.Animator.SetBool("LookDown", false);
+			player.CameraUp.gameObject.SetActive(false);
+			player.CameraDown.gameObject.SetActive(false);
 			player.LookTime = 0;
 		}
 	}
@@ -66,12 +68,30 @@ public class PlayerIdleState : BaseState<PlayerStateType>
             {
                 player.Animator.SetBool("LookUp", player.IsLookUp);
                 player.Animator.SetBool("LookDown", !player.IsLookUp);
-                break;
             }
+			if(player.LookTime >= 1)
+			{
+				if(player.IsLookUp)
+				{
+					player.CameraUp.gameObject.SetActive(true);
+				}
+				else
+				{
+					player.CameraUp.gameObject.SetActive(false);
+				}
+				if(player.IsLookDown)
+				{
+					player.CameraDown.gameObject.SetActive(true);
+				}
+				else
+				{
+					player.CameraDown.gameObject.SetActive(false);
+				}
+			}
 
 			yield return null;
 		}
-
+		
 		player.LookRoutine = null;
 	}
 }

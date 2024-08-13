@@ -1,10 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 using static CreeperState;
 
-public class CreeperController : Monster, IDamageable
+public class CreeperController : Monster
 {
-	[SerializeField] int hp;
-	public int Hp { get { return hp; } set { hp = value; } }
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float detectionRadius;
@@ -72,9 +71,9 @@ public class CreeperController : Monster, IDamageable
 		}
 	}
 
-	public void TakeDamage(int damage)
+	public override void TakeDamage(int damage)
 	{
-		hp -= damage;
+		base.TakeDamage(damage);
 		creeperState.ChangeState(CreeperStateType.TakeHit);
 	}
 

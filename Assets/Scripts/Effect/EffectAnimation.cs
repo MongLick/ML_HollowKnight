@@ -60,4 +60,12 @@ public class EffectAnimation : MonoBehaviour
 			animator.SetTrigger("TakeHit");
 		}
 	}
+
+	public void PlayHitBloodAnimation()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("Blood");
+		}
+	}
 }

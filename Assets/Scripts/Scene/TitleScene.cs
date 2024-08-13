@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class TitleScene : BaseScene
 {
+	[SerializeField] bool isGameStart;
 	public void KingsPassSceneLoad()
 	{
-		Manager.Scene.LoadScene("KingsPassScene");
+		if(!isGameStart)
+		{
+			Manager.Scene.LoadScene("KingsPassScene");
+			isGameStart = true;
+		}
 	}
 
 	public void TitleSceneEnd()

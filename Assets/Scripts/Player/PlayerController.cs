@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
@@ -35,6 +36,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public PhysicsMaterial2D DashMaterial { get { return dashMaterial; } }
 	[SerializeField] PlayerAttack playerAttack;
 	[SerializeField] Transform playerTransform;
+	[SerializeField] CinemachineVirtualCamera cameraUp;
+	public CinemachineVirtualCamera CameraUp { get { return cameraUp; } set { cameraUp = value; } }
+	[SerializeField] CinemachineVirtualCamera cameraDown;
+	public CinemachineVirtualCamera CameraDown { get { return cameraDown; } set { cameraDown = value; } }
 
 	[Header("Specs")]
 	[SerializeField] int hp;

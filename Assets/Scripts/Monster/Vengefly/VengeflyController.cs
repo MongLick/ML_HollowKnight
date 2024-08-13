@@ -1,10 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 using static VengeflyState;
 
-public class VengeflyController : Monster, IDamageable
+public class VengeflyController : Monster
 {
-	[SerializeField] int hp;
-	public int Hp { get { return hp; } set { hp = value; } }
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float detectionRadius;
@@ -83,11 +82,10 @@ public class VengeflyController : Monster, IDamageable
 		}
 	}
 
-	public void TakeDamage(int damage)
+	public override void TakeDamage(int damage)
 	{
-		hp -= damage;
+		base.TakeDamage(damage);
 		vengeflyState.ChangeState(VengeflyStateType.TakeHit);
-		Debug.Log(hp);
 	}
 
 	private void CheckForPlayer()
