@@ -20,7 +20,8 @@ public class ObjectPool : MonoBehaviour
         {
             PooledObject instance = Instantiate(prefab);
             instance.gameObject.SetActive(false);
-            instance.Pool = this;
+			DontDestroyOnLoad(instance.gameObject);
+			instance.Pool = this;
             instance.transform.parent = transform;
             objectPool.Push(instance);
         }
@@ -42,7 +43,8 @@ public class ObjectPool : MonoBehaviour
             instance.Pool = this;
             instance.transform.position = position;
             instance.transform.rotation = rotation;
-            return instance;
+			DontDestroyOnLoad(instance.gameObject);
+			return instance;
         }
     }
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7053457977402329838}
   m_Layer: 3
   m_Name: LeftDash
-  m_TagString: Untagged
+  m_TagString: LeftDash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 6404960573201888416}
   m_Layer: 3
   m_Name: AttackTop01
-  m_TagString: Untagged
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -417143810, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -131,6 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 885485927375500052}
+  monsterCheck:
+    serializedVersion: 2
+    m_Bits: 128
   onHitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -276,8 +279,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 1745177167, guid: 4e94d42fe03d8404e8e58669136baae9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -431,8 +434,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 1078043201, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -460,7 +463,7 @@ GameObject:
   - component: {fileID: 8215097824388195740}
   m_Layer: 3
   m_Name: Attack01
-  m_TagString: Untagged
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -518,8 +521,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -1057148880, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -545,6 +548,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 885485927375500052}
+  monsterCheck:
+    serializedVersion: 2
+    m_Bits: 128
   onHitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -620,6 +626,83 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.140625, y: 0.7890625}
   m_EdgeRadius: 0
+--- !u!1 &4189017949705316624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3420132880629457517}
+  - component: {fileID: 6019971246336551868}
+  m_Layer: 3
+  m_Name: SideWallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3420132880629457517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4189017949705316624}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8988821938795599519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6019971246336551868
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4189017949705316624}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.0113277435}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9773445}
+  m_EdgeRadius: 0
 --- !u!1 &4644985802181683097
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,9 +718,10 @@ GameObject:
   - component: {fileID: 1265001716447595832}
   - component: {fileID: 885485927375500052}
   - component: {fileID: 774085860519239967}
+  - component: {fileID: 244789620072710577}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -659,6 +743,7 @@ Transform:
   - {fileID: 5112260376958842238}
   - {fileID: 7053457977402329838}
   - {fileID: 766461596740292098}
+  - {fileID: 3420132880629457517}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4705633364152699459
@@ -704,7 +789,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 1466406364, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.984375, y: 2.078125}
@@ -787,9 +872,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &885485927375500052
 MonoBehaviour:
@@ -821,30 +906,45 @@ MonoBehaviour:
   animator: {fileID: 6828012192995245856}
   render: {fileID: 4705633364152699459}
   rigid: {fileID: 1265001716447595832}
-  groundCheckLayer:
-    serializedVersion: 2
-    m_Bits: 64
   basicMaterial: {fileID: 6200000, guid: ca64b0fefadef9b4a99110693d96b4d5, type: 2}
   dashMaterial: {fileID: 6200000, guid: c689b296190c00e4baf1569ff2b79b6e, type: 2}
+  playerAttack: {fileID: 5147976873122914080}
+  playerTransform: {fileID: 0}
+  cameraUp: {fileID: 0}
+  cameraDown: {fileID: 0}
+  hp: 500
   damage: 1
+  blinkCount: 5
+  dieTime: 1
   moveSpeed: 5
+  knockbackPower: 6
+  knockbackTime: 0.1
   dashSpeed: 15
   dashTime: 0.5
-  dashCoolTime: 0
+  dashCoolTime: 2.0044916
   dashCoolTimeMax: 2
   currentJumpPower: 10
   jumpPowerRate: 30
   jumpPowerMin: 10
   jumpPowerMax: 17
+  maxFallSpeed: 20
   lookTime: 0
   lookTimeMax: 1
-  attackCoolTime: 0.4
+  attackCoolTime: 0.35
   attackCount: 0
-  playerAttack: {fileID: 5147976873122914080}
-  hp: 3
   blinkDuration: 0.1
-  blinkCount: 5
-  dieTime: 1
+  pushX: -0.68779373
+  pushY: 10
+  hitKnockbackPower: 15
+  groundCheckLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  monsterCheckLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  sideWallCheckLayer:
+    serializedVersion: 2
+    m_Bits: 256
   CurrentState: 0
 --- !u!70 &774085860519239967
 CapsuleCollider2D:
@@ -876,11 +976,30 @@ CapsuleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 1.0234375}
   m_Direction: 0
+--- !u!251 &244789620072710577
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644985802181683097}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 503
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &4793902277937202764
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,7 +1011,7 @@ GameObject:
   - component: {fileID: 766461596740292098}
   m_Layer: 3
   m_Name: RightDash
-  m_TagString: Untagged
+  m_TagString: RightDash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,7 +1046,7 @@ GameObject:
   - component: {fileID: 5410712799899757885}
   m_Layer: 3
   m_Name: AttackBottom01
-  m_TagString: Untagged
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -985,8 +1104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 42733107, guid: 1f40ed6bb9d0d61469f71d1f98b7c2c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1012,6 +1131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 885485927375500052}
+  monsterCheck:
+    serializedVersion: 2
+    m_Bits: 128
   onHitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1102,7 +1224,7 @@ GameObject:
   - component: {fileID: 5615321186828787297}
   m_Layer: 3
   m_Name: Attack03
-  m_TagString: Untagged
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1160,8 +1282,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -1830792824, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1187,6 +1309,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 885485927375500052}
+  monsterCheck:
+    serializedVersion: 2
+    m_Bits: 128
   onHitEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1332,8 +1457,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 1854542837, guid: a008e8ef6675b9f4fbaefd052030e1b2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1416,8 +1541,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1754227461
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -668057037, guid: 7b2cc0570a2572f4e954d136fc142bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1442,7 +1567,7 @@ GameObject:
   - component: {fileID: 5167984432072422430}
   m_Layer: 3
   m_Name: GroundCheck
-  m_TagString: Untagged
+  m_TagString: GroundCheck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

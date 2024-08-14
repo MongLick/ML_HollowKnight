@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] LayerMask monsterLayer;
 	[SerializeField] Transform respawnPoint;
 	public Transform RespawnPoint { get { return respawnPoint; } }
-	[SerializeField] float respawnDelay;
+	[SerializeField] float respawnDelay; 
 
 	public void GameManagerUpdate()
 	{

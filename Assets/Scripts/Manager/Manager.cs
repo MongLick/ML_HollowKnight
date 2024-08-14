@@ -2,7 +2,8 @@ using UnityEngine;
 
 public static class Manager
 {
-    public static GameManager Game { get { return GameManager.Instance; } }
+    public static EffectManager Effect { get { return EffectManager.Instance; } }
+	public static GameManager Game { get { return GameManager.Instance; } }
     public static DataManager Data { get { return DataManager.Instance; } }
     public static PoolManager Pool { get { return PoolManager.Instance; } }
     public static ResourceManager Resource { get { return ResourceManager.Instance; } }
@@ -13,7 +14,8 @@ public static class Manager
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Initialize()
     {
-        GameManager.ReleaseInstance();
+		EffectManager.ReleaseInstance();
+		GameManager.ReleaseInstance();
         DataManager.ReleaseInstance();
         PoolManager.ReleaseInstance();
         ResourceManager.ReleaseInstance();
@@ -21,7 +23,8 @@ public static class Manager
         SoundManager.ReleaseInstance();
         UIManager.ReleaseInstance();
 
-        GameManager.CreateInstance();
+		EffectManager.CreateInstance();
+		GameManager.CreateInstance();
         DataManager.CreateInstance();
         PoolManager.CreateInstance();
         ResourceManager.CreateInstance();

@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - AirGround
+  - CoinPop
+  - Monster
+  - GroundCheck
+  - RightDash
+  - LeftDash
+  - Hit
   layers:
   - Default
   - TransparentFX

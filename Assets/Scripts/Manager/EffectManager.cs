@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EffectController : MonoBehaviour
+public class EffectManager : Singleton<EffectManager>
 {
 	[SerializeField] PlayerController player;
 	[SerializeField] List<Monster> monsters;
@@ -20,7 +21,28 @@ public class EffectController : MonoBehaviour
 	[SerializeField] PooledObject coinPrefab;
 	[SerializeField] PooledObject bloodPrefab;
 
-	private void Awake()
+	private void Start()
+	{
+		Manager.Scene.OnLoadScene.AddListener(OnSceneLoaded);
+
+		InitializePools();
+	}
+
+	private void OnSceneLoaded(string name)
+	{
+		switch (name)
+		{
+			case "TitleScene":
+				HandleTitleScene();
+				break;
+			case "KingsPassScene":
+			case "DirtmouthScene":
+				HandleGameScene();
+				break;
+		}
+	}
+
+	public void InitializePools()
 	{
 		Manager.Pool.CreatePool(dustPrefab, 4, 10);
 		Manager.Pool.CreatePool(hitPrefab, 4, 10);
@@ -30,7 +52,43 @@ public class EffectController : MonoBehaviour
 		Manager.Pool.CreatePool(bloodPrefab, 1, 2);
 	}
 
-	private void Start()
+	private void HandleTitleScene()
+	{
+		player = null;
+		monsters = new List<Monster>();
+		coinPop = null;
+		hits = new List<AttackDamage>();
+		dustPos = null;
+		rightDashPos = null;
+		leftDashPos = null;
+	}
+
+	private void HandleGameScene()
+	{
+		player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+		coinPop = GameObject.FindGameObjectWithTag("CoinPop")?.GetComponent<CoinPop>();
+
+		GameObject[] monsterObjects = GameObject.FindGameObjectsWithTag("Monster");
+		monsters = new List<Monster>();
+		foreach (GameObject monsterObject in monsterObjects)
+		{
+			Monster monster = monsterObject.GetComponent<Monster>();
+			if (monster != null)
+			{
+				monsters.Add(monster);
+			}
+		}
+
+		hits = new List<AttackDamage>(FindObjectsOfType<AttackDamage>(true));
+
+		dustPos = GameObject.FindGameObjectWithTag("GroundCheck")?.transform;
+		rightDashPos = GameObject.FindGameObjectWithTag("RightDash")?.transform;
+		leftDashPos = GameObject.FindGameObjectWithTag("LeftDash")?.transform;
+
+		SetupEventListeners();
+	}
+
+	private void SetupEventListeners()
 	{
 		if (player != null)
 		{
@@ -38,15 +96,19 @@ public class EffectController : MonoBehaviour
 			player.OnFallEvent.AddListener(SpawnDustOnFall);
 			player.OnDashEvent.AddListener(SpawnDash);
 			player.OnTakeHitEvent.AddListener(SpawnTakeHit);
-			coinPop.OnHitCoinEvent.AddListener(SpawnPopCoin);
+
 			foreach (var hit in hits)
 			{
 				hit.OnHitEvent.AddListener(SpawnHit);
 			}
-			foreach (var monster in monsters)
+			if (coinPop != null && monsters != null)
 			{
-				monster.OnHitCoinEvent.AddListener(SpawnMonserCoin);
-				monster.OnHitBloodEvent.AddListener(SpawnBlood);
+				coinPop.OnHitCoinEvent.AddListener(SpawnPopCoin);
+				foreach (var monster in monsters)
+				{
+					monster.OnHitCoinEvent.AddListener(SpawnMonserCoin);
+					monster.OnHitBloodEvent.AddListener(SpawnBlood);
+				}
 			}
 		}
 	}
@@ -99,7 +161,7 @@ public class EffectController : MonoBehaviour
 	{
 		if (dashPrefab != null)
 		{
-			if(player.LastMoveDir.x > 0)
+			if (player.LastMoveDir.x > 0)
 			{
 				PooledObject instance = Manager.Pool.GetPool(dashPrefab, leftDashPos.position, Quaternion.identity);
 				EffectAnimation dashAnimation = instance.GetComponent<EffectAnimation>();

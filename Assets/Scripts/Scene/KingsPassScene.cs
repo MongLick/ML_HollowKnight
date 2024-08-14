@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KingsPassScene : BaseScene
 {
 	[SerializeField] Gate gate;
-	[SerializeField] Image DirtmouthSceneImage;
+	[SerializeField] Image SceneImage;
 
 	private void Start()
 	{
@@ -21,7 +22,7 @@ public class KingsPassScene : BaseScene
 	public void DirtmouthLoadScene()
 	{
 		Manager.Scene.LoadScene("DirtmouthScene");
-		DirtmouthSceneImage.gameObject.SetActive(true);
+		SceneImage.gameObject.SetActive(true);
 	}
 
 	private void OnEnable()

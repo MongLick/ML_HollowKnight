@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
@@ -9,8 +11,10 @@ public class SceneManager : Singleton<SceneManager>
 	[SerializeField] float fadeTime;
 	[SerializeField] float respawnFadeTime;
 	[SerializeField] bool isRespawn;
-
+	[SerializeField] UnityEvent<string> onLoadScene;
+	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
 	private BaseScene curScene;
+	
 
 	public BaseScene GetCurScene()
 	{
@@ -55,7 +59,7 @@ public class SceneManager : Singleton<SceneManager>
 		fade.gameObject.SetActive(true);
 		yield return FadeOut();
 
-		Manager.Pool.ClearPool();
+		//Manager.Pool.ClearPool();
 		Manager.Sound.StopSFX();
 		Manager.UI.ClearPopUpUI();
 		Manager.UI.ClearWindowUI();
@@ -64,13 +68,17 @@ public class SceneManager : Singleton<SceneManager>
 		Time.timeScale = 0f;
 
 		AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName);
+		yield return oper;
 
 		Manager.UI.EnsureEventSystem();
 
 		BaseScene curScene = GetCurScene();
+
 		yield return curScene.LoadingRoutine();
 
 		Time.timeScale = 1f;
+;
+		onLoadScene?.Invoke(sceneName);
 
 		yield return FadeIn();
 		fade.gameObject.SetActive(false);
