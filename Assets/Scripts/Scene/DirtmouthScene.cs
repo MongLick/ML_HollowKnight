@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class DirtmouthScene : BaseScene
 {
 	[SerializeField] GateBack gateBack;
-	[SerializeField] Image SceneImage;
 
 	private void Start()
 	{
@@ -16,7 +15,8 @@ public class DirtmouthScene : BaseScene
 	public void KingsPassSceneLoad()
 	{
 		Manager.Scene.LoadScene("KingsPassScene");
-		SceneImage.gameObject.SetActive(true);
+		Manager.Scene.FadeFast.gameObject.SetActive(true);
+		Manager.Scene.Loading.gameObject.SetActive(true);
 	}
 
 	public void TitleLoadScene()

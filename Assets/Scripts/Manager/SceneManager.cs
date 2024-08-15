@@ -8,13 +8,18 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 public class SceneManager : Singleton<SceneManager>
 {
 	[SerializeField] Image fade;
+	[SerializeField] Image fadeFast;
+	public Image FadeFast { get { return fadeFast; } set { FadeFast = value; } }
 	[SerializeField] float fadeTime;
 	[SerializeField] float respawnFadeTime;
 	[SerializeField] bool isRespawn;
 	[SerializeField] UnityEvent<string> onLoadScene;
 	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
-	private BaseScene curScene;
-	
+	[SerializeField] BaseScene curScene;
+	[SerializeField] Coroutine fadeCoroutine;
+	[SerializeField] Image loading;
+	public Image Loading { get { return loading; } set { loading = value; } }
+
 
 	public BaseScene GetCurScene()
 	{
@@ -56,14 +61,27 @@ public class SceneManager : Singleton<SceneManager>
 
 	IEnumerator LoadingRoutine(string sceneName)
 	{
+		if (fade.gameObject.activeSelf)
+		{
+			if (fadeCoroutine != null)
+			{
+				StopCoroutine(fadeCoroutine);
+			}
+		}
+
+		fadeCoroutine = StartCoroutine(FadeOut());
 		fade.gameObject.SetActive(true);
-		yield return FadeOut();
+		yield return fadeCoroutine;
+
+		Manager.Game.SetPreviousScene(UnitySceneManager.GetActiveScene().name);
 
 		//Manager.Pool.ClearPool();
 		Manager.Sound.StopSFX();
 		Manager.UI.ClearPopUpUI();
 		Manager.UI.ClearWindowUI();
 		Manager.UI.CloseInGameUI();
+		fadeFast.gameObject.SetActive(false);
+		loading.gameObject.SetActive(false);
 
 		Time.timeScale = 0f;
 
@@ -73,14 +91,15 @@ public class SceneManager : Singleton<SceneManager>
 		Manager.UI.EnsureEventSystem();
 
 		BaseScene curScene = GetCurScene();
-
 		yield return curScene.LoadingRoutine();
 
+
+		Manager.Game.OnSceneTransition(sceneName);
 		Time.timeScale = 1f;
-;
 		onLoadScene?.Invoke(sceneName);
 
-		yield return FadeIn();
+		fadeCoroutine = StartCoroutine(FadeIn());
+		yield return fadeCoroutine;
 		fade.gameObject.SetActive(false);
 	}
 

@@ -8,10 +8,19 @@ public class KingsPassScene : BaseScene
 {
 	[SerializeField] Gate gate;
 	[SerializeField] Image SceneImage;
+	[SerializeField] GatePoint gatePoint;
+
+	/*public void KingsPassSceneLoad()
+	{
+		Manager.Scene.LoadScene("KingsPassScene");
+		Manager.Scene.FadeFast.gameObject.SetActive(true);
+		
+	}*/
 
 	private void Start()
 	{
 		gate.OnDirtmouthUnloadScene.AddListener(DirtmouthLoadScene);
+		gatePoint.OnDirtmouthSceneLoad.AddListener(DirtmouthLoadScene);
 	}
 
 	public void TitleLoadScene()
@@ -22,7 +31,8 @@ public class KingsPassScene : BaseScene
 	public void DirtmouthLoadScene()
 	{
 		Manager.Scene.LoadScene("DirtmouthScene");
-		SceneImage.gameObject.SetActive(true);
+		Manager.Scene.FadeFast.gameObject.SetActive(true);
+		Manager.Scene.Loading.gameObject.SetActive(true);
 	}
 
 	private void OnEnable()
