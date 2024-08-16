@@ -42,6 +42,27 @@ public class GameManager : Singleton<GameManager>
 				return new Vector3(136.5f, 43.3f, 0);
 			}
 		}
+
+		if (sceneName == "DirtmouthScene")
+		{
+			if (previousSceneName == "KingsPassScene")
+			{
+				return new Vector3(-24, -4.5f, 0);
+			}
+			else if (previousSceneName == "CrossroadsScene")
+			{
+				return new Vector3(23.5f, -18f, 0);
+			}
+		}
+
+		if (sceneName == "CrossroadsScene")
+		{
+			if (previousSceneName == "DirtmouthScene")
+			{
+				return new Vector3(-28.3f, -9.6f, 0);
+			}
+		}
+
 		return Vector3.zero;
 	}
 
@@ -58,7 +79,7 @@ public class GameManager : Singleton<GameManager>
 		}
 	}
 
-	public void GameManagerUpdate()
+	public void KingsPassUpdate()
 	{
 		player = null;
 		playerCollider = null;
@@ -73,6 +94,34 @@ public class GameManager : Singleton<GameManager>
 		respawnPoint = spawnPointObject?.transform;
 		gate = FindAnyObjectByType<Gate>();
 		gatePoint = FindAnyObjectByType<GatePoint>();
+
+		foreach (var collider in allMonsters)
+		{
+			if (collider != null && monsterLayer.Contain(collider.gameObject.layer))
+			{
+				monsterColliders.Add(collider);
+			}
+		}
+	}
+
+	public void DirtmouthUpdate()
+	{
+		player = null;
+		playerCollider = null;
+
+		player = FindAnyObjectByType<PlayerController>();
+		playerCollider = FindAnyObjectByType<PlayerController>().GetComponent<Collider2D>();
+	}
+
+	public void CrossroadsUpdate()
+	{
+		player = null;
+		playerCollider = null;
+		monsterColliders.Clear();
+
+		player = FindAnyObjectByType<PlayerController>();
+		playerCollider = FindAnyObjectByType<PlayerController>().GetComponent<Collider2D>();
+		var allMonsters = FindObjectsOfType<Collider2D>();
 
 		foreach (var collider in allMonsters)
 		{

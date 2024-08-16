@@ -4,17 +4,31 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+	private Vector2 velocity;
+	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
 	[SerializeField] Rigidbody2D rigid;
 	[SerializeField] LayerMask playerLayer;
 	[SerializeField] float bounceForce;
 	[SerializeField] private float rotationSpeed;
 	[SerializeField] PooledObject pooledObject;
 	[SerializeField] bool isInitialized;
+	[SerializeField] float maxYSpeed;
 
 	public void Initialize(Vector3 direction)
 	{
 		isInitialized = true;
 		rigid.AddForce(direction, ForceMode2D.Impulse);
+	}
+
+	private void FixedUpdate()
+	{
+		velocity = rigid.velocity;
+
+		if (velocity.y < -maxYSpeed)
+		{
+			velocity.y = -maxYSpeed;
+			rigid.velocity = velocity;
+		}
 	}
 
 	private void Update()

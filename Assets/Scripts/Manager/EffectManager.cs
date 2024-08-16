@@ -37,6 +37,7 @@ public class EffectManager : Singleton<EffectManager>
 				break;
 			case "KingsPassScene":
 			case "DirtmouthScene":
+			case "CrossroadsScene":
 				HandleGameScene();
 				break;
 		}

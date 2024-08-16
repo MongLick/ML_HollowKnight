@@ -6,12 +6,15 @@ public class ElderbugPlayerCheck : MonoBehaviour
 {
 	[SerializeField] ElderbugController elderbug;
 	[SerializeField] LayerMask playerLayer;
+	[SerializeField] bool isPlayerLeft;
+	public bool IsPlayerLeft { get { return isPlayerLeft; } }
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (playerLayer.Contain(collision.gameObject.layer))
 		{
 			elderbug.Animator.SetBool("LeftIdle", true);
+			isPlayerLeft = true;
 		}
 	}
 
@@ -20,6 +23,7 @@ public class ElderbugPlayerCheck : MonoBehaviour
 		if (playerLayer.Contain(collision.gameObject.layer))
 		{
 			elderbug.Animator.SetBool("LeftIdle", false);
+			isPlayerLeft = false;
 		}
 	}
 }

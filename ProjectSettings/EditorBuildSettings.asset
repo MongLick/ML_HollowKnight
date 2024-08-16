@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DirtmouthScene.unity
     guid: 2dec038efe711b248bc7473aaf23281e
+  - enabled: 1
+    path: Assets/Scenes/CrossroadsScene.unity
+    guid: ebeb43e29fb04834da2aea69e1ddabd0
   m_configObjects: {}

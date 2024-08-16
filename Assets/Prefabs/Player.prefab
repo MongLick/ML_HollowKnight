@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7053457977402329838}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: LeftDash
   m_TagString: LeftDash
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 111887083905854002}
   - component: {fileID: 2148935133087357833}
   - component: {fileID: 6404960573201888416}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: AttackTop01
   m_TagString: Hit
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2350296202231278106}
   - component: {fileID: 1229406822437188862}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: AttackBottom02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5112260376958842238}
   - component: {fileID: 5147976873122914080}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8554631419622227581}
   - component: {fileID: 3501954588478273341}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Attack02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 6108118016041186314}
   - component: {fileID: 3356736388976716821}
   - component: {fileID: 8215097824388195740}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Attack01
   m_TagString: Hit
   m_Icon: {fileID: 0}
@@ -636,7 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3420132880629457517}
   - component: {fileID: 6019971246336551868}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: SideWallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1009,7 +1009,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 766461596740292098}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: RightDash
   m_TagString: RightDash
   m_Icon: {fileID: 0}
@@ -1044,7 +1044,7 @@ GameObject:
   - component: {fileID: 8568597560778435443}
   - component: {fileID: 8644135872179412874}
   - component: {fileID: 5410712799899757885}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: AttackBottom01
   m_TagString: Hit
   m_Icon: {fileID: 0}
@@ -1222,7 +1222,7 @@ GameObject:
   - component: {fileID: 5704695152325746802}
   - component: {fileID: 645621272182568608}
   - component: {fileID: 5615321186828787297}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Attack03
   m_TagString: Hit
   m_Icon: {fileID: 0}
@@ -1397,7 +1397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2248407308892759162}
   - component: {fileID: 646960906459616310}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: AttackTop02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1481,7 +1481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1954048463137598765}
   - component: {fileID: 8179028767495229137}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Attack04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1565,7 +1565,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7011760953506278464}
   - component: {fileID: 5167984432072422430}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: GroundCheck
   m_Icon: {fileID: 0}

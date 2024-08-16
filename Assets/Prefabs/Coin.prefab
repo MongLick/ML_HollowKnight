@@ -184,3 +184,4 @@ MonoBehaviour:
   rotationSpeed: 200
   pooledObject: {fileID: 5656910536656494181}
   isInitialized: 0
+  maxYSpeed: 10
