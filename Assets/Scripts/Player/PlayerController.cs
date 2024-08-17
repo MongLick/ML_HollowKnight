@@ -24,22 +24,24 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public UnityEvent OnDashEvent { get { return onDashEvent; } set { onDashEvent = value; } }
 
 	[Header("Components")]
+	[SerializeField] Collider2D playerCollider;
+	public Collider2D PlayerCollider { get { return playerCollider; } }
 	[SerializeField] Animator animator;
 	public Animator Animator { get { return animator; } }
 	[SerializeField] SpriteRenderer render;
 	public SpriteRenderer Renderer { get { return render; } }
 	[SerializeField] Rigidbody2D rigid;
 	public Rigidbody2D Rigid { get { return rigid; } }
-	[SerializeField] PhysicsMaterial2D basicMaterial;
-	public PhysicsMaterial2D BasicMaterial { get { return basicMaterial; } }
-	[SerializeField] PhysicsMaterial2D dashMaterial;
-	public PhysicsMaterial2D DashMaterial { get { return dashMaterial; } }
 	[SerializeField] PlayerAttack playerAttack;
 	[SerializeField] Transform playerTransform;
 	[SerializeField] CinemachineVirtualCamera cameraUp;
 	public CinemachineVirtualCamera CameraUp { get { return cameraUp; } set { cameraUp = value; } }
 	[SerializeField] CinemachineVirtualCamera cameraDown;
 	public CinemachineVirtualCamera CameraDown { get { return cameraDown; } set { cameraDown = value; } }
+	[SerializeField] PhysicsMaterial2D basicMaterial;
+	public PhysicsMaterial2D BasicMaterial { get { return basicMaterial; } }
+	[SerializeField] PhysicsMaterial2D takeHitMaterial;
+	public PhysicsMaterial2D TakeHitMaterial { get { return takeHitMaterial; } }
 
 	[Header("Specs")]
 	[SerializeField] int hp;
@@ -103,6 +105,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public Vector2 LastAttackDirection { get { return lastAttackDirection; } set { lastAttackDirection = value; } }
 	private Vector2 velocity;
 	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
+	private AnimatorStateInfo stateInfo;
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
@@ -170,6 +173,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void Update()
 	{
+		IsOnGround();
 		playerState.Update();
 		CurrentState = playerState.GetCurrentState();
 		if (cannotDash)
@@ -180,6 +184,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 				cannotDash = false;
 			}
 		}
+	}
+	private void IsOnGround()
+	{
+		isGround = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundCheckLayer);
 	}
 
 	private void FixedUpdate()
@@ -208,10 +216,14 @@ public class PlayerController : MonoBehaviour, IDamageable
 			velocity.y = -maxFallSpeed;
 			rigid.velocity = velocity;
 		}
+		stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
 		if (rigid.velocity.y < -0.01f && !isGround)
 		{
-			animator.SetTrigger("Fall");
+			if (!stateInfo.IsName("Fall"))
+			{
+				animator.SetTrigger("Fall");
+			}
 		}
 	}
 
@@ -219,17 +231,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
-			isGround = true;
 			animator.SetTrigger("Land");
 			onFallEvent?.Invoke();
-		}
-	}
-
-	private void OnTriggerExit2D(Collider2D collision)
-	{
-		if (groundCheckLayer.Contain(collision.gameObject.layer))
-		{
-			isGround = false;
 		}
 	}
 

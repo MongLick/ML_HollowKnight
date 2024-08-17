@@ -5,6 +5,12 @@ using UnityEngine;
 public class TitleScene : BaseScene
 {
 	[SerializeField] bool isGameStart;
+
+	private void Start()
+	{
+		Cursor.visible = true;
+	}
+
 	public void KingsPassSceneLoad()
 	{
 		if(!isGameStart)

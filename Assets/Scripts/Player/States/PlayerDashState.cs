@@ -21,7 +21,6 @@ public class PlayerDashState : BaseState<PlayerStateType>
 		}
 		player.DashRoutine = player.StartCoroutine(DashCoroutine());
 
-		player.Rigid.sharedMaterial = player.DashMaterial;
 		player.OnDashEvent?.Invoke();
 	}
 
@@ -56,6 +55,5 @@ public class PlayerDashState : BaseState<PlayerStateType>
 		player.Renderer.flipX = player.LastMoveDir.x > 0;
 
 		player.IsDash = false;
-		player.Rigid.sharedMaterial = player.BasicMaterial;
 	}
 }

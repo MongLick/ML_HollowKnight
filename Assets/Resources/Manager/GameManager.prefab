@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fcfa33b2f5d5e47b5fc920f8e1da03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previousSceneName: 
   player: {fileID: 0}
   playerCollider: {fileID: 0}
   monsterColliders: []
@@ -52,3 +53,6 @@ MonoBehaviour:
     m_Bits: 128
   respawnPoint: {fileID: 0}
   respawnDelay: 1
+  gate: {fileID: 0}
+  gatePoint: {fileID: 0}
+  customCursorTexture: {fileID: 2800000, guid: 0ccebd9bc9e518f4895cc85be8be866b, type: 3}

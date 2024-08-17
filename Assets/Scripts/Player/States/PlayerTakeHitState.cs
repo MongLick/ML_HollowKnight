@@ -26,6 +26,8 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 		{
 			Physics2D.IgnoreCollision(Manager.Game.PlayerCollider, monsterCollider, true);
 		}
+
+		player.PlayerCollider.sharedMaterial = player.TakeHitMaterial;
 	}
 
 	public override void Update()
@@ -62,6 +64,11 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			player.Renderer.color = Color.white;
 			yield return new WaitForSeconds(player.BlinkDuration);
 		}
+		if(player.IsDie)
+		{
+			player.IsBlink = false;
+			yield break;
+		}
 		player.IsTakeHit = false;
 		for (int i = 0; i < player.BlinkCount; i++)
 		{
@@ -70,6 +77,7 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			player.Renderer.color = Color.white;
 			yield return new WaitForSeconds(player.BlinkDuration);
 		}
+		player.PlayerCollider.sharedMaterial = player.BasicMaterial;
 		player.IsBlink = false;
 	}
 }

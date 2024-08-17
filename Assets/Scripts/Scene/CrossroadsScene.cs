@@ -9,6 +9,8 @@ public class CrossroadsScene : BaseScene
 	private void Start()
 	{
 		upDestructionZone.OnDirtmouthScene.AddListener(DestructionScneneLoad);
+		Manager.Game.Player.OnDieEvent.AddListener(PlayerDieLoadScene);
+		Cursor.visible = false;
 	}
 
 	public void DestructionScneneLoad()
@@ -16,11 +18,17 @@ public class CrossroadsScene : BaseScene
 		Manager.Scene.LoadScene("DirtmouthScene");
 		Manager.Scene.FadeFast.gameObject.SetActive(true);
 		Manager.Scene.Loading.gameObject.SetActive(true);
+		Cursor.visible = false;
 	}
 
 	private void OnEnable()
 	{
 		Manager.Game.CrossroadsUpdate();
+	}
+
+	private void PlayerDieLoadScene()
+	{
+		Manager.Scene.LoadScene("DirtmouthScene");
 	}
 
 	public override IEnumerator LoadingRoutine()

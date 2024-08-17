@@ -10,6 +10,7 @@ public class EffectManager : Singleton<EffectManager>
 	[SerializeField] PlayerController player;
 	[SerializeField] List<Monster> monsters;
 	[SerializeField] CoinPop coinPop;
+	[SerializeField] HealingChair healingChair;
 	[SerializeField] List<AttackDamage> hits;
 	[SerializeField] Transform dustPos;
 	[SerializeField] Transform rightDashPos;
@@ -20,6 +21,7 @@ public class EffectManager : Singleton<EffectManager>
 	[SerializeField] PooledObject playerTakeHitPrefab;
 	[SerializeField] PooledObject coinPrefab;
 	[SerializeField] PooledObject bloodPrefab;
+	[SerializeField] PooledObject healPrefab;
 
 	private void Start()
 	{
@@ -51,6 +53,7 @@ public class EffectManager : Singleton<EffectManager>
 		Manager.Pool.CreatePool(playerTakeHitPrefab, 1, 3);
 		Manager.Pool.CreatePool(coinPrefab, 5, 10);
 		Manager.Pool.CreatePool(bloodPrefab, 1, 2);
+		Manager.Pool.CreatePool(healPrefab, 1, 2);
 	}
 
 	private void HandleTitleScene()
@@ -62,12 +65,14 @@ public class EffectManager : Singleton<EffectManager>
 		dustPos = null;
 		rightDashPos = null;
 		leftDashPos = null;
+		healingChair = null;
 	}
 
 	private void HandleGameScene()
 	{
 		player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
 		coinPop = GameObject.FindGameObjectWithTag("CoinPop")?.GetComponent<CoinPop>();
+		healingChair = GameObject.FindGameObjectWithTag("HealingChair")?.GetComponent<HealingChair>();
 
 		GameObject[] monsterObjects = GameObject.FindGameObjectsWithTag("Monster");
 		monsters = new List<Monster>();
@@ -102,14 +107,21 @@ public class EffectManager : Singleton<EffectManager>
 			{
 				hit.OnHitEvent.AddListener(SpawnHit);
 			}
-			if (coinPop != null && monsters != null)
+			if (coinPop != null)
 			{
 				coinPop.OnHitCoinEvent.AddListener(SpawnPopCoin);
+			}
+			if (monsters != null)
+			{
 				foreach (var monster in monsters)
 				{
 					monster.OnHitCoinEvent.AddListener(SpawnMonserCoin);
 					monster.OnHitBloodEvent.AddListener(SpawnBlood);
 				}
+			}
+			if(healingChair != null)
+			{
+				healingChair.OnHealingEvent.AddListener(SpawnHeal);
 			}
 		}
 	}
@@ -252,6 +264,18 @@ public class EffectManager : Singleton<EffectManager>
 		if (bloodAnimation != null)
 		{
 			bloodAnimation.PlayHitBloodAnimation();
+		}
+	}
+
+	private void SpawnHeal()
+	{
+		Vector2 playerPosition = player.transform.position;
+		PooledObject instance = Manager.Pool.GetPool(healPrefab, playerPosition, Quaternion.identity);
+
+		EffectAnimation healAnimation = instance.GetComponent<EffectAnimation>();
+		if (healAnimation != null)
+		{
+			healAnimation.PlayHealAnimation();
 		}
 	}
 }

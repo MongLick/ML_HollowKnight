@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   coinPop: {fileID: 0}
+  healingChair: {fileID: 0}
   hits:
   - {fileID: 0}
   - {fileID: 0}
@@ -67,3 +68,4 @@ MonoBehaviour:
   playerTakeHitPrefab: {fileID: 4552047497536360325, guid: 1198485ccfa57464598476026b6b66bd, type: 3}
   coinPrefab: {fileID: 5656910536656494181, guid: 644bf9936c7d9ec40a49fa4218aab267, type: 3}
   bloodPrefab: {fileID: 8907190132348366345, guid: 622685e8fbf9d9246994a96f2d8916d4, type: 3}
+  healPrefab: {fileID: 1951260153147358961, guid: 34378eccf6a5a5e42a6afc89fb92b0ac, type: 3}

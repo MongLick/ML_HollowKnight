@@ -14,6 +14,8 @@ public class PlayerDieState : BaseState<PlayerStateType>
 
 	public override void Enter()
 	{
+		player.PlayerCollider.enabled = false;
+		player.Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
 		player.Animator.SetTrigger("Die");
 		if (player.DieRoutine != null)
 		{
@@ -26,7 +28,6 @@ public class PlayerDieState : BaseState<PlayerStateType>
 
 	IEnumerator DieCoroutine()
 	{
-		Manager.Scene.LoadScene("TitleScene");
 		yield return new WaitForSeconds(player.DieTime);
 	}
 }

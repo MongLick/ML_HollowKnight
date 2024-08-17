@@ -71,4 +71,12 @@ public class EffectAnimation : MonoBehaviour
 			animator.SetTrigger("Blood");
 		}
 	}
+
+	public void PlayHealAnimation()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("Heal");
+		}
+	}
 }

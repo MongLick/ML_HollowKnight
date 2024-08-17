@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba3388f32ea6e243a6f7918e68daeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGameStart: 0
+  customCursorTexture: {fileID: 2800000, guid: 0ccebd9bc9e518f4895cc85be8be866b, type: 3}
 --- !u!4 &102977618
 Transform:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class GameManager : Singleton<GameManager>
 {
 	[SerializeField] string previousSceneName;
 	[SerializeField] PlayerController player;
+	public PlayerController Player { get { return player; } }
 	[SerializeField] Collider2D playerCollider;
 	public Collider2D PlayerCollider { get { return playerCollider; } }
 	[SerializeField] List<Collider2D> monsterColliders = new List<Collider2D>();
@@ -16,6 +17,12 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] float respawnDelay;
 	[SerializeField] Gate gate;
 	[SerializeField] GatePoint gatePoint;
+	[SerializeField] Texture2D customCursorTexture;
+
+	private void Start()
+	{
+		Cursor.SetCursor(customCursorTexture, Vector2.zero, CursorMode.Auto);
+	}
 
 	public void SetPreviousScene(string sceneName)
 	{
@@ -31,6 +38,14 @@ public class GameManager : Singleton<GameManager>
 	{
 		if (sceneName == "KingsPassScene")
 		{
+			if (previousSceneName == "KingsPassScene")
+			{
+				return new Vector3(8.5f, -1f, 0);
+			}
+		}
+
+		if (sceneName == "KingsPassScene")
+		{
 			if (previousSceneName == "TitleScene")
 			{
 				return new Vector3(8.5f, 19.5f, 0);
@@ -39,7 +54,7 @@ public class GameManager : Singleton<GameManager>
 			{
 				gate.gameObject.SetActive(false);
 				gatePoint.gameObject.GetComponent<Collider2D>().enabled = true;
-				return new Vector3(136.5f, 43.3f, 0);
+				return new Vector3(136.5f, 45f, 0);
 			}
 		}
 
@@ -47,11 +62,11 @@ public class GameManager : Singleton<GameManager>
 		{
 			if (previousSceneName == "KingsPassScene")
 			{
-				return new Vector3(-24, -4.5f, 0);
+				return new Vector3(-24, -4f, 0);
 			}
 			else if (previousSceneName == "CrossroadsScene")
 			{
-				return new Vector3(23.5f, -18f, 0);
+				return new Vector3(23.5f, -17f, 0);
 			}
 		}
 
@@ -59,7 +74,7 @@ public class GameManager : Singleton<GameManager>
 		{
 			if (previousSceneName == "DirtmouthScene")
 			{
-				return new Vector3(-28.3f, -9.6f, 0);
+				return new Vector3(-28.3f, -9f, 0);
 			}
 		}
 

@@ -12,6 +12,7 @@ public class DirtmouthScene : BaseScene
 	{
 		gateBack.OnKingsPassScene.AddListener(KingsPassSceneLoad);
 		crossroadsZone.OnCrossroadsScene.AddListener(CrossroadsScneneLoad);
+		Cursor.visible = false;
 	}
 
 	public void KingsPassSceneLoad()
