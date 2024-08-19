@@ -1,5 +1,6 @@
 {
     "playerPosX": 6.799942493438721,
     "playerPosY": -18.079999923706056,
-    "playerPosZ": 0.0
+    "playerPosZ": 0.0,
+    "playerHealth": 0
 }

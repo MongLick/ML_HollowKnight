@@ -43,6 +43,7 @@ public class Coin : MonoBehaviour
 	{
 		if (playerLayer.Contain(collision.gameObject.layer))
 		{
+			Manager.Data.GameData.Coin++;
 			isInitialized = false;
 			pooledObject.Release();
 		}

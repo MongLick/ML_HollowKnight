@@ -67,7 +67,11 @@ public class HealingChair: MonoBehaviour
 
 	private void HealPlayer()
 	{
+		if(Manager.Data.GameData.Health >= 5)
+		{
+			return;
+		}
 		onHealingEvent?.Invoke();
-		Manager.Game.Player.Hp = 5;
+		Manager.Data.GameData.Health = 5;
 	}
 }

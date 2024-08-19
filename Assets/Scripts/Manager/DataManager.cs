@@ -53,23 +53,4 @@ public class DataManager : Singleton<DataManager>
 	{
 		return File.Exists($"{path}/{index}.txt");
 	}
-
-	public void SavePlayerPosition(Vector3 position)
-	{
-		if (gameData == null)
-		{
-			NewData();
-		}
-		gameData.PlayerPosition = position;
-		SaveData();
-	}
-
-	public Vector3 LoadPlayerPosition()
-	{
-		if (gameData == null)
-		{
-			LoadData();
-		}
-		return gameData?.PlayerPosition ?? Vector3.zero;
-	}
 }

@@ -124,6 +124,11 @@ public class SceneManager : Singleton<SceneManager>
 				yield return null;
 			}
 		}
+
+		if (Manager.Game.Player != null && Manager.Game.Player.IsDie)
+		{
+			Manager.Data.GameData.Health = 5;
+		}
 	}
 
 	IEnumerator FadeIn()

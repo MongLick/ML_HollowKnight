@@ -84,7 +84,6 @@ public class GameManager : Singleton<GameManager>
 	public void OnSceneTransition(string newSceneName)
 	{
 		string previousSceneName = GetPreviousScene();
-
 		Vector3 startPosition = GetStartPosition(newSceneName, previousSceneName);
 
 		if (player != null)

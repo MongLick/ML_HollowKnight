@@ -1,7 +1,6 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -44,8 +43,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public PhysicsMaterial2D TakeHitMaterial { get { return takeHitMaterial; } }
 
 	[Header("Specs")]
-	[SerializeField] int hp;
-	public int Hp { get { return hp; } set { hp = value; } }
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } }
 	[SerializeField] int blinkCount;
@@ -381,8 +378,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 		{
 			isBlink = true;
 			isTakeHit = true;
-			hp -= damage;
-			if (hp <= 0)
+			Manager.Data.GameData.Health -= damage;
+			if (Manager.Data.GameData.Health <= 0)
 			{
 				isDie = true;
 			}

@@ -28,6 +28,7 @@ public class KingsPassScene : BaseScene
 	private void PlayerDieLoadScene()
 	{
 		Manager.Scene.LoadScene("KingsPassScene");
+		Manager.Data.GameData.Health = 5;
 	}
 
 	private void OnEnable()

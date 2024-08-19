@@ -1,21 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class GameData
 {
-	public float playerPosX;
-	public float playerPosY;
-	public float playerPosZ;
+	private int health = 5;
+	public int Health { get { return health; } set { health = value; OnhealthChanged?.Invoke(value); } }
+	private int coin = 0;
+	public int Coin { get { return coin; } set { coin = value; OnCoinChanged?.Invoke(value); } }
 
-	public Vector3 PlayerPosition
-	{
-		get => new Vector3(playerPosX, playerPosY, playerPosZ);
-		set
-		{
-			playerPosX = value.x;
-			playerPosY = value.y;
-			playerPosZ = value.z;
-		}
-	}
+	public UnityAction<int> OnhealthChanged;
+	public UnityAction<int> OnCoinChanged;
 }

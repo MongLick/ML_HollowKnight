@@ -22,7 +22,6 @@ public class PlayerDieState : BaseState<PlayerStateType>
 			player.StopCoroutine(player.DieRoutine);
 		}
 		player.DieRoutine = player.StartCoroutine(DieCoroutine());
-
 		player.OnDieEvent?.Invoke();
 	}
 
