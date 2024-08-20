@@ -4008,9 +4008,89 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 766769679512882759, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 766769679512882759, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 766769679512882759, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 766769679512882759, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2976673372161112710, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
       propertyPath: m_Name
       value: PlayerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227544782842065020, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227544782842065020, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227544782842065020, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227544782842065020, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548873314321804006, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548873314321804006, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548873314321804006, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548873314321804006, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059217222596679479, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059217222596679479, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059217222596679479, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7059217222596679479, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076601276371058649, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076601276371058649, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076601276371058649, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076601276371058649, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8915882212093254423, guid: c3dfaafbbb35c4e4d80808a3f14d2e01, type: 3}
       propertyPath: m_Pivot.x

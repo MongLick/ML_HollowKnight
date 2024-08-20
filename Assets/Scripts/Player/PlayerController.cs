@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public bool ApplyKnockback { get { return applyKnockback; } set { applyKnockback = value; } }
 	private bool applyUpKnockback;
 	public bool ApplyUpKnockback { get { return applyUpKnockback; } set { applyUpKnockback = value; } }
+	private bool hasPlayedMoveSound;
 	private Coroutine lookRoutine;
 	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
 	private Coroutine dashRoutine;
@@ -269,12 +270,22 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 		if (isMoving)
 		{
+			if (!hasPlayedMoveSound && isGround)
+			{
+				Manager.Sound.PlaySFX(Manager.Sound.PlayerMove);
+				hasPlayedMoveSound = true;
+			}
 			lastMoveDir = moveDir;
 			if (isDash)
 			{
 				return;
 			}
 			render.flipX = moveDir.x > 0;
+		}
+		else
+		{
+			hasPlayedMoveSound = false;
+			Manager.Sound.StopSFX(Manager.Sound.PlayerMove);
 		}
 	}
 

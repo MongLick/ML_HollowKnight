@@ -11,8 +11,10 @@ public class SceneManager : Singleton<SceneManager>
 	[SerializeField] Image fadeFast;
 	public Image FadeFast { get { return fadeFast; } set { FadeFast = value; } }
 	[SerializeField] float fadeTime;
+	public float FadeTime { get { return fadeTime; } }
 	[SerializeField] float respawnFadeTime;
 	[SerializeField] bool isRespawn;
+	public bool IsRespawn { get { return isRespawn; } }
 	[SerializeField] UnityEvent<string> onLoadScene;
 	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
 	[SerializeField] BaseScene curScene;
@@ -74,9 +76,6 @@ public class SceneManager : Singleton<SceneManager>
 		yield return fadeCoroutine;
 
 		Manager.Game.SetPreviousScene(UnitySceneManager.GetActiveScene().name);
-
-		//Manager.Pool.ClearPool();
-		Manager.Sound.StopSFX();
 		Manager.UI.ClearPopUpUI();
 		Manager.UI.ClearWindowUI();
 		Manager.UI.CloseInGameUI();
@@ -103,8 +102,9 @@ public class SceneManager : Singleton<SceneManager>
 		fade.gameObject.SetActive(false);
 	}
 
-	IEnumerator FadeOut()
+	public IEnumerator FadeOut()
 	{
+		Debug.Log(3);
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
 		Color fadeInColor = new Color(fade.color.r, fade.color.g, fade.color.b, 0f);
@@ -131,7 +131,7 @@ public class SceneManager : Singleton<SceneManager>
 		}
 	}
 
-	IEnumerator FadeIn()
+	public IEnumerator FadeIn()
 	{
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
@@ -139,7 +139,7 @@ public class SceneManager : Singleton<SceneManager>
 
 		while (rate <= 1)
 		{
-			if(isRespawn)
+			if (isRespawn)
 			{
 				rate += Time.deltaTime / respawnFadeTime;
 				fade.color = Color.Lerp(fadeOutColor, fadeInColor, rate);
