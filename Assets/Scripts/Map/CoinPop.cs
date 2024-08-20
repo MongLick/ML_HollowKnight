@@ -12,6 +12,7 @@ public class CoinPop : MonoBehaviour, IDamageable
 
 	public void TakeDamage(int damage)
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.CoinPop);
 		animator.SetTrigger("CoinPop");
 		hp -= damage;
 		onHitCoinEvent.Invoke();

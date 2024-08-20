@@ -34,6 +34,7 @@ public class KingsPassScene : BaseScene
 	private void OnEnable()
 	{
 		Manager.Game.KingsPassUpdate();
+		Manager.Sound.PlayBGM(Manager.Sound.KingsPassSoundClip);
 	}
 
 	public override IEnumerator LoadingRoutine()

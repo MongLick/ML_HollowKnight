@@ -46,6 +46,7 @@ public class Gate : MonoBehaviour, IDamageable
 		}
 		else if (hp <= 0)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.Gate);
 			gameObject.SetActive(false);
 			onDirtmouthLoadScene?.Invoke();
 		}
@@ -53,6 +54,7 @@ public class Gate : MonoBehaviour, IDamageable
 
 	public void TakeDamage(int damage)
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.Door);
 		hp -= damage;
 		for (int i = 0; i < stoneCount; i++)
 		{

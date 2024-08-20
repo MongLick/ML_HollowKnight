@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[Header("Debug")]
 	[SerializeField] LayerMask groundCheckLayer;
 	[SerializeField] LayerMask monsterCheckLayer;
-	[SerializeField] LayerMask sideWallCheckLayer;
 	private Vector2 moveDir;
 	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
 	private Vector2 lastMoveDir;
@@ -106,8 +105,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
-	private bool isSideWall;
-	public bool IsSideWall { get { return isSideWall; } }
 	private bool isJumpCharging;
 	public bool IsJumpCharging { get { return isJumpCharging; } }
 	private bool isLookUp;
@@ -183,9 +180,15 @@ public class PlayerController : MonoBehaviour, IDamageable
 			}
 		}
 
+		if (!isGround)
+		{
+			hasPlayedMoveSound = false;
+			Manager.Sound.StopMoveSFX(Manager.Sound.PlayerMove);
+		}
+
 		if (!isTakeHit && !hasPlayedMoveSound && moveDir != Vector2.zero && isGround)
 		{
-			Manager.Sound.PlayLoopSFX(Manager.Sound.PlayerMove);
+			Manager.Sound.PlayMoveSFX(Manager.Sound.PlayerMove);
 			hasPlayedMoveSound = true;
 		}
 	}
@@ -243,24 +246,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (sideWallCheckLayer.Contain(collision.gameObject.layer))
-		{
-			isSideWall = true;
-		}
-
-		if (monsterCheckLayer.Contain(collision.gameObject.layer) && !isSideWall)
+		if (monsterCheckLayer.Contain(collision.gameObject.layer))
 		{
 			pushX = transform.position.x - collision.transform.position.x;
 
 			rigid.velocity = new Vector2(pushX * hitKnockbackPower, pushY).normalized * hitKnockbackPower;
-		}
-	}
-
-	private void OnCollisionExit2D(Collision2D collision)
-	{
-		if (sideWallCheckLayer.Contain(collision.gameObject.layer))
-		{
-			isSideWall = false;
 		}
 	}
 
@@ -279,7 +269,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		{
 			if (!hasPlayedMoveSound && isGround && !isTakeHit)
 			{
-				Manager.Sound.PlayLoopSFX(Manager.Sound.PlayerMove);
+				Manager.Sound.PlayMoveSFX(Manager.Sound.PlayerMove);
 				hasPlayedMoveSound = true;
 			}
 			lastMoveDir = moveDir;
@@ -292,7 +282,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		else
 		{
 			hasPlayedMoveSound = false;
-			Manager.Sound.StopLoopSFX(Manager.Sound.PlayerMove);
+			Manager.Sound.StopMoveSFX(Manager.Sound.PlayerMove);
 		}
 	}
 
@@ -319,7 +309,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 		if (value.isPressed && isGround)
 		{
-			Manager.Sound.PlaySFX(Manager.Sound.PlayerJump);
+			Manager.Sound.PlayJumpSFX(Manager.Sound.PlayerJump);
 			animator.SetTrigger("Jump");
 			isJumpCharging = true;
 			if (jumpRoutine != null)
@@ -398,7 +388,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		{
 			if (hasPlayedMoveSound)
 			{
-				Manager.Sound.StopLoopSFX(Manager.Sound.PlayerMove);
+				Manager.Sound.StopMoveSFX(Manager.Sound.PlayerMove);
 				hasPlayedMoveSound = false;
 			}
 			Manager.Sound.PlaySFX(Manager.Sound.PlayerTakeHit);

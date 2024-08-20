@@ -7,6 +7,7 @@ using UnityEngine.Video;
 public class TitleScene : BaseScene
 {
 	[SerializeField] bool isGameStart;
+	public bool IsGameStart { get { return isGameStart; } }
 	[SerializeField] bool isButtonClick;
 	[SerializeField] VideoPlayer videoPlayer;
 	[SerializeField] VideoClip videoClip1;

@@ -28,6 +28,7 @@ public class Door : MonoBehaviour, IDamageable
 	public void TakeDamage(int damage)
 	{
 		hp -= damage;
+		Manager.Sound.PlaySFX(Manager.Sound.Door);
 		if (hp <= 0)
 		{
 			for (int i = 0; i < stoneCount; i++)

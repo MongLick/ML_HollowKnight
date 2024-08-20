@@ -14,6 +14,7 @@ public class PlayerDieState : BaseState<PlayerStateType>
 
 	public override void Enter()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.PlayerDie);
 		player.PlayerCollider.enabled = false;
 		player.Rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
 		player.Animator.SetTrigger("Die");

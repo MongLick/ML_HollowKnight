@@ -15,6 +15,8 @@ public class SceneManager : Singleton<SceneManager>
 	[SerializeField] float respawnFadeTime;
 	[SerializeField] bool isRespawn;
 	public bool IsRespawn { get { return isRespawn; } }
+	[SerializeField] bool isSceneChange;
+	public bool IsSceneChange { get { return isSceneChange; } }
 	[SerializeField] UnityEvent<string> onLoadScene;
 	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
 	[SerializeField] BaseScene curScene;
@@ -63,6 +65,7 @@ public class SceneManager : Singleton<SceneManager>
 
 	IEnumerator LoadingRoutine(string sceneName)
 	{
+		isSceneChange = true;
 		if (fade.gameObject.activeSelf)
 		{
 			if (fadeCoroutine != null)
@@ -97,6 +100,7 @@ public class SceneManager : Singleton<SceneManager>
 		Time.timeScale = 1f;
 		onLoadScene?.Invoke(sceneName);
 
+		isSceneChange = false;
 		fadeCoroutine = StartCoroutine(FadeIn());
 		yield return fadeCoroutine;
 		fade.gameObject.SetActive(false);

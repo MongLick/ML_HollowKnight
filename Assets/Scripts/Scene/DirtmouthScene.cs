@@ -32,6 +32,7 @@ public class DirtmouthScene : BaseScene
 	private void OnEnable()
 	{
 		Manager.Game.DirtmouthUpdate();
+		Manager.Sound.PlayBGM(Manager.Sound.DirtmouthSoundClip);
 	}
 
 	public override IEnumerator LoadingRoutine()

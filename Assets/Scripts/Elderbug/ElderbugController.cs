@@ -121,6 +121,7 @@ public class ElderbugController : MonoBehaviour
 
 			if (currentLineIndex < dialogueLines.Length)
 			{
+				Manager.Sound.PlaySFX(Manager.Sound.Elderbug[currentLineIndex]);
 				StartCoroutine(TypeSentence(dialogueLines[currentLineIndex]));
 				currentLineIndex++;
 			}

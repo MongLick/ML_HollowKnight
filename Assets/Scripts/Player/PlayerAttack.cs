@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour
 	[SerializeField] PlayerController player;
 	[SerializeField] List<GameObject> attackObjects;
 	[SerializeField] List<Vector3> attackPositions;
+	[SerializeField] float delay;
 
 	private Dictionary<string, GameObject> attackEffectDictionary;
 	private Dictionary<GameObject, Vector3> attackEffectPositionDictionary;
@@ -30,8 +31,38 @@ public class PlayerAttack : MonoBehaviour
 
 	public void OnAttackAnimationEvent(string effectName, bool isFacingRight)
 	{
+		StartCoroutine(ActivateAndScheduleNextEffect(effectName, isFacingRight));
+	}
+
+	private IEnumerator ActivateAndScheduleNextEffect(string effectName, bool isFacingRight)
+	{
 		ActivateEffect(effectName, isFacingRight);
-		StartCoroutine(DeactivateEffectAfterTime(effectName, 0.05f));
+		yield return new WaitForSeconds(delay);
+		DeactivateEffect(effectName);
+
+		string nextEffectName = null;
+		switch (effectName)
+		{
+			case "Attack01":
+				nextEffectName = "Attack02";
+				break;
+			case "Attack03":
+				nextEffectName = "Attack04";
+				break;
+			case "AttackTop01":
+				nextEffectName = "AttackTop02";
+				break;
+			case "AttackBottom01":
+				nextEffectName = "AttackBottom02";
+				break;
+		}
+
+		if (!string.IsNullOrEmpty(nextEffectName))
+		{
+			ActivateEffect(nextEffectName, isFacingRight);
+			yield return new WaitForSeconds(delay); 
+			DeactivateEffect(nextEffectName);
+		}
 	}
 
 	public void ActivateEffect(string effectName, bool shouldFlip)
@@ -88,11 +119,5 @@ public class PlayerAttack : MonoBehaviour
 		{
 			effect.SetActive(false);
 		}
-	}
-
-	private IEnumerator DeactivateEffectAfterTime(string effectName, float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		DeactivateEffect(effectName);
 	}
 }

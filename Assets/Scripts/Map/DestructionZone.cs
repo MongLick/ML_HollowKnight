@@ -53,6 +53,7 @@ public class DestructionZone : MonoBehaviour
 	{
 		if (breakEffect != null)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.Gate);
 			GameObject effectInstance = Instantiate(breakEffect, position.position, Quaternion.Euler(0, 0, -90));
 			ParticleSystem ps = effectInstance.GetComponent<ParticleSystem>();
 			if (ps != null)

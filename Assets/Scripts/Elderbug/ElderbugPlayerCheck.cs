@@ -8,6 +8,8 @@ public class ElderbugPlayerCheck : MonoBehaviour
 	[SerializeField] LayerMask playerLayer;
 	[SerializeField] bool isPlayerLeft;
 	public bool IsPlayerLeft { get { return isPlayerLeft; } }
+	[SerializeField] bool isPlayerFirst;
+	public bool IsPlayerFirst { get { return isPlayerFirst; } }
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -15,6 +17,11 @@ public class ElderbugPlayerCheck : MonoBehaviour
 		{
 			elderbug.Animator.SetBool("LeftIdle", true);
 			isPlayerLeft = true;
+		}
+		if(!isPlayerFirst)
+		{
+			Manager.Sound.PlaySFX(Manager.Sound.ElderbugFirst);
+			isPlayerFirst = true;
 		}
 	}
 

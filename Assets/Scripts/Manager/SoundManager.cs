@@ -5,17 +5,27 @@ public class SoundManager : Singleton<SoundManager>
 {
     [SerializeField] AudioSource bgmSource;
 	[SerializeField] AudioSource sfxSource;
-	[SerializeField] AudioSource sfxLoopSource;
+	[SerializeField] AudioSource sfxMovdSource;
+	[SerializeField] AudioSource sfxJumpSource;
+	[SerializeField] AudioSource sfxAttackSource;
 
-    public float BGMVolme { get { return bgmSource.volume; } set { bgmSource.volume = value; } }
-    public float SFXVolme { get { return sfxSource.volume;} set { sfxSource.volume = value; sfxLoopSource.volume = value; } }
+	public float BGMVolme { get { return bgmSource.volume; } set { bgmSource.volume = value; } }
+    public float SFXVolme { get { return sfxSource.volume;} set { sfxSource.volume = value; sfxMovdSource.volume = value; sfxJumpSource.volume = value; sfxAttackSource.volume = value; } }
 
 	[Header("Sound Clips")]
     [SerializeField] AudioClip titleSoundClip;
     public AudioClip TitleSoundClip { get { return titleSoundClip; } }
+	[SerializeField] AudioClip kingsPassSoundClip;
+	public AudioClip KingsPassSoundClip { get { return kingsPassSoundClip; } }
+	[SerializeField] AudioClip dirtmouthSoundClip;
+	public AudioClip DirtmouthSoundClip { get { return dirtmouthSoundClip; } }
+	[SerializeField] AudioClip crossoradsSoundClip;
+	public AudioClip CrossoradsSoundClip { get { return crossoradsSoundClip; } }
 	[SerializeField] AudioClip uiButton;
 	public AudioClip UiButton { get { return uiButton; } }
-    [SerializeField] AudioClip playerMove;
+	[SerializeField] AudioClip uiButtonChange;
+	public AudioClip UiButtonChange { get { return uiButtonChange; } }
+	[SerializeField] AudioClip playerMove;
 	public AudioClip PlayerMove { get { return playerMove; } }
 	[SerializeField] AudioClip playerJump;
 	public AudioClip PlayerJump { get { return playerJump; } }
@@ -35,12 +45,22 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip PlayerDash { get { return playerDash; } }
 	[SerializeField] AudioClip playerHeal;
 	public AudioClip PlayerHeal { get { return playerHeal; } }
+	[SerializeField] AudioClip playerDie;
+	public AudioClip PlayerDie { get { return playerDie; } }
+	[SerializeField] AudioClip door;
+	public AudioClip Door { get { return door; } }
+	[SerializeField] AudioClip gate;
+	public AudioClip Gate { get { return gate; } }
+	[SerializeField] AudioClip coinPop;
+	public AudioClip CoinPop { get { return coinPop; } }
 	[SerializeField] AudioClip coin;
 	public AudioClip Coin { get { return coin; } }
 	[SerializeField] AudioClip monsterTakeHit;
 	public AudioClip MonsterTakeHit { get { return monsterTakeHit; } }
-
-
+	[SerializeField] AudioClip elderbugFirst;
+	public AudioClip ElderbugFirst { get { return elderbugFirst; } }
+	[SerializeField] AudioClip[] elderbug;
+	public AudioClip[] Elderbug { get { return elderbug; } }
 
 	public void PlayBGM(AudioClip clip)
     {
@@ -58,27 +78,46 @@ public class SoundManager : Singleton<SoundManager>
         bgmSource.Stop();
 	}
 
-    public void PlayLoopSFX(AudioClip clip)
+    public void PlayMoveSFX(AudioClip clip)
     {
-		sfxLoopSource.clip = clip;
-		sfxLoopSource.Play();
+		sfxMovdSource.clip = clip;
+		if(Manager.Scene.IsSceneChange)
+		{
+			StopMoveSFX(clip);
+			return;
+		}
+		sfxMovdSource.Play();
     }
 
-    public void StopLoopSFX(AudioClip clip)
+    public void StopMoveSFX(AudioClip clip)
     {
-		sfxLoopSource.clip = clip;
-		sfxLoopSource.Stop();
+		sfxMovdSource.clip = clip;
+		sfxMovdSource.Stop();
     }
+
+	public void PlayJumpSFX(AudioClip clip)
+	{
+		if (Manager.Scene.IsSceneChange)
+		{
+			return;
+		}
+		sfxJumpSource.clip = clip;
+		sfxJumpSource.PlayOneShot(clip);
+	}
+
+	public void PlayAttackSFX(AudioClip clip)
+	{
+		if (Manager.Scene.IsSceneChange)
+		{
+			return;
+		}
+		sfxAttackSource.clip = clip;
+		sfxAttackSource.PlayOneShot(clip);
+	}
 
 	public void PlaySFX(AudioClip clip)
 	{
 		sfxSource.clip = clip;
 		sfxSource.PlayOneShot(clip);
-	}
-
-	public void StopSFX(AudioClip clip)
-	{
-		sfxSource.clip = clip;
-		sfxSource.Stop();
 	}
 }

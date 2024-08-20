@@ -24,6 +24,7 @@ public class CrossroadsScene : BaseScene
 	private void OnEnable()
 	{
 		Manager.Game.CrossroadsUpdate();
+		Manager.Sound.PlayBGM(Manager.Sound.CrossoradsSoundClip);
 	}
 
 	private void PlayerDieLoadScene()
