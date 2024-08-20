@@ -71,6 +71,7 @@ public class HealingChair: MonoBehaviour
 		{
 			return;
 		}
+		Manager.Sound.PlaySFX(Manager.Sound.PlayerHeal);
 		onHealingEvent?.Invoke();
 		Manager.Data.GameData.Health = 5;
 	}

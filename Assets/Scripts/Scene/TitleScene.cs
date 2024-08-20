@@ -7,6 +7,7 @@ using UnityEngine.Video;
 public class TitleScene : BaseScene
 {
 	[SerializeField] bool isGameStart;
+	[SerializeField] bool isButtonClick;
 	[SerializeField] VideoPlayer videoPlayer;
 	[SerializeField] VideoClip videoClip1;
 	[SerializeField] VideoClip videoClip2;
@@ -22,14 +23,22 @@ public class TitleScene : BaseScene
 
 	public void ButtonClick()
 	{
-		Manager.Sound.PlaySFX(Manager.Sound.UiButton);
+		if (!isButtonClick)
+		{
+			isButtonClick = true;
+			Manager.Sound.PlaySFX(Manager.Sound.UiButton);
+		}
 	}
 
 	public void StartButton()
 	{
-		Manager.Sound.PlaySFX(Manager.Sound.UiButton);
-		
-		StartCoroutine(LoadingRoutine());
+		if (!isGameStart)
+		{
+			isGameStart = true;
+			Manager.Sound.PlaySFX(Manager.Sound.UiButton);
+
+			StartCoroutine(LoadingRoutine());
+		}
 	}
 
 	private void OnVideoClip1Ended(VideoPlayer vp)
@@ -49,11 +58,7 @@ public class TitleScene : BaseScene
 
 	private void KingsPassSceneLoad()
 	{
-		if(!isGameStart)
-		{
-			Manager.Scene.LoadScene("KingsPassScene");
-			isGameStart = true;
-		}
+		Manager.Scene.LoadScene("KingsPassScene");
 	}
 
 	public void TitleSceneEnd()

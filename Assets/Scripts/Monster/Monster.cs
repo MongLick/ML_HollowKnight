@@ -23,6 +23,7 @@ public class Monster : MonoBehaviour, IDamageable
 
 	public virtual void TakeDamage(int damage)
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.MonsterTakeHit);
 		hp -= damage;
 		onHitBloodEvent?.Invoke(this);
 		if (hp <= 0)

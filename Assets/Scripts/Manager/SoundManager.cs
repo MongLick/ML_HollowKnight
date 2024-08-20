@@ -4,10 +4,11 @@ using UnityEngine;
 public class SoundManager : Singleton<SoundManager>
 {
     [SerializeField] AudioSource bgmSource;
-    [SerializeField] AudioSource sfxSource;
+	[SerializeField] AudioSource sfxSource;
+	[SerializeField] AudioSource sfxLoopSource;
 
     public float BGMVolme { get { return bgmSource.volume; } set { bgmSource.volume = value; } }
-    public float SFXVolme { get { return sfxSource.volume; } set { sfxSource.volume = value; } }
+    public float SFXVolme { get { return sfxSource.volume;} set { sfxSource.volume = value; sfxLoopSource.volume = value; } }
 
 	[Header("Sound Clips")]
     [SerializeField] AudioClip titleSoundClip;
@@ -20,8 +21,14 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip PlayerJump { get { return playerJump; } }
 	[SerializeField] AudioClip playerLand;
 	public AudioClip PlayerLand { get { return playerLand; } }
-	[SerializeField] AudioClip playerAttack;
-	public AudioClip PlayerAttack { get { return playerAttack; } }
+	[SerializeField] AudioClip playerAttack1;
+	public AudioClip PlayerAttack1 { get { return playerAttack1; } }
+	[SerializeField] AudioClip playerAttack2;
+	public AudioClip PlayerAttack2 { get { return playerAttack2; } }
+	[SerializeField] AudioClip playerAttack3;
+	public AudioClip PlayerAttack3 { get { return playerAttack3; } }
+	[SerializeField] AudioClip playerAttack4;
+	public AudioClip PlayerAttack4 { get { return playerAttack4; } }
 	[SerializeField] AudioClip playerTakeHit;
 	public AudioClip PlayerTakeHit { get { return playerTakeHit; } }
 	[SerializeField] AudioClip playerDash;
@@ -47,25 +54,31 @@ public class SoundManager : Singleton<SoundManager>
 
     public void StopBGM(AudioClip clip)
     {
-        if (bgmSource.isPlaying == false)
-            return;
-
 		bgmSource.clip = clip;
         bgmSource.Stop();
 	}
 
-    public void PlaySFX(AudioClip clip)
+    public void PlayLoopSFX(AudioClip clip)
     {
-		sfxSource.clip = clip;
-		sfxSource.Play();
+		sfxLoopSource.clip = clip;
+		sfxLoopSource.Play();
     }
 
-    public void StopSFX(AudioClip clip)
+    public void StopLoopSFX(AudioClip clip)
     {
-        if (sfxSource.isPlaying == false)
-            return;
+		sfxLoopSource.clip = clip;
+		sfxLoopSource.Stop();
+    }
 
+	public void PlaySFX(AudioClip clip)
+	{
+		sfxSource.clip = clip;
+		sfxSource.PlayOneShot(clip);
+	}
+
+	public void StopSFX(AudioClip clip)
+	{
 		sfxSource.clip = clip;
 		sfxSource.Stop();
-    }
+	}
 }

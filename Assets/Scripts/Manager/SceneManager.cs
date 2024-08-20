@@ -104,7 +104,6 @@ public class SceneManager : Singleton<SceneManager>
 
 	public IEnumerator FadeOut()
 	{
-		Debug.Log(3);
 		float rate = 0;
 		Color fadeOutColor = new Color(fade.color.r, fade.color.g, fade.color.b, 1f);
 		Color fadeInColor = new Color(fade.color.r, fade.color.g, fade.color.b, 0f);

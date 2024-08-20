@@ -182,6 +182,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 				cannotDash = false;
 			}
 		}
+
+		if (!isTakeHit && !hasPlayedMoveSound && moveDir != Vector2.zero && isGround)
+		{
+			Manager.Sound.PlayLoopSFX(Manager.Sound.PlayerMove);
+			hasPlayedMoveSound = true;
+		}
 	}
 	private void IsOnGround()
 	{
@@ -229,6 +235,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerLand);
 			animator.SetTrigger("Land");
 			onFallEvent?.Invoke();
 		}
@@ -270,9 +277,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 		if (isMoving)
 		{
-			if (!hasPlayedMoveSound && isGround)
+			if (!hasPlayedMoveSound && isGround && !isTakeHit)
 			{
-				Manager.Sound.PlaySFX(Manager.Sound.PlayerMove);
+				Manager.Sound.PlayLoopSFX(Manager.Sound.PlayerMove);
 				hasPlayedMoveSound = true;
 			}
 			lastMoveDir = moveDir;
@@ -285,7 +292,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		else
 		{
 			hasPlayedMoveSound = false;
-			Manager.Sound.StopSFX(Manager.Sound.PlayerMove);
+			Manager.Sound.StopLoopSFX(Manager.Sound.PlayerMove);
 		}
 	}
 
@@ -297,6 +304,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 		else
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerDash);
 			isDash = true;
 			dashCoolTime = 0;
 		}
@@ -311,6 +319,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 		if (value.isPressed && isGround)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerJump);
 			animator.SetTrigger("Jump");
 			isJumpCharging = true;
 			if (jumpRoutine != null)
@@ -387,6 +396,13 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		if (!isBlink)
 		{
+			if (hasPlayedMoveSound)
+			{
+				Manager.Sound.StopLoopSFX(Manager.Sound.PlayerMove);
+				hasPlayedMoveSound = false;
+			}
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerTakeHit);
+			hasPlayedMoveSound = false;
 			isBlink = true;
 			isTakeHit = true;
 			Manager.Data.GameData.Health -= damage;

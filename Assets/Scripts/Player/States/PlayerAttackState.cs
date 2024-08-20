@@ -93,15 +93,18 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 	{
 		if (player.IsLookUp)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerAttack3);
 			player.Animator.SetTrigger("AttackTop");
 		}
 		else if (player.IsLookDown && player.Rigid.velocity.y != 0)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerAttack4);
 			player.Animator.SetTrigger("AttackBottom");
 			player.ApplyUpKnockback = true;
 		}
 		else
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerAttack1);
 			player.Animator.SetTrigger("Attack1");
 			player.IsComboAttackActive = true;
 			player.ApplyKnockback = true;
@@ -111,6 +114,7 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 
 		if (player.IsComboAttackActive && player.AttackCount > 0)
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.PlayerAttack2);
 			player.Animator.SetTrigger("Attack2");
 			player.ApplyKnockback = true;
 			player.AttackCount = 0;
