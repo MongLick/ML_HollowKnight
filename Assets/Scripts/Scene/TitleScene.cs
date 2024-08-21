@@ -6,13 +6,12 @@ using UnityEngine.Video;
 
 public class TitleScene : BaseScene
 {
-	[SerializeField] bool isGameStart;
-	public bool IsGameStart { get { return isGameStart; } }
-	[SerializeField] bool isButtonClick;
 	[SerializeField] VideoPlayer videoPlayer;
+	public VideoPlayer VideoPlayer { get { return videoPlayer; } set { videoPlayer = value; } }
 	[SerializeField] VideoClip videoClip1;
+	public VideoClip VideoClip1 { get { return videoClip1; } set { videoClip1 = value; } }
 	[SerializeField] VideoClip videoClip2;
-	[SerializeField] Image videoBack;
+	public VideoClip VideoClip2 { get { return videoClip2; } set { videoClip2 = value; } }
 
 	private void Start()
 	{
@@ -20,26 +19,18 @@ public class TitleScene : BaseScene
 		Manager.Sound.PlayBGM(Manager.Sound.TitleSoundClip);
 
 		videoPlayer.loopPointReached += OnVideoClip1Ended;
+
+		Manager.UI.IsTitleSceneActive = true;
 	}
 
-	public void ButtonClick()
+	private void OnDisable()
 	{
-		if (!isButtonClick)
+		if (Manager.UI.TitleUIInstance != null)
 		{
-			isButtonClick = true;
-			Manager.Sound.PlaySFX(Manager.Sound.UiButton);
+			Manager.UI.TitleUIInstance.SetActive(false);
 		}
-	}
 
-	public void StartButton()
-	{
-		if (!isGameStart)
-		{
-			isGameStart = true;
-			Manager.Sound.PlaySFX(Manager.Sound.UiButton);
-
-			StartCoroutine(LoadingRoutine());
-		}
+		Manager.UI.IsTitleSceneActive = false;
 	}
 
 	private void OnVideoClip1Ended(VideoPlayer vp)
@@ -54,7 +45,7 @@ public class TitleScene : BaseScene
 	private void OnVideoClip2Ended(VideoPlayer vp)
 	{
 		KingsPassSceneLoad();
-		videoBack.gameObject.SetActive(false);
+		Manager.UI.VideoBack.gameObject.SetActive(false);
 	}
 
 	private void KingsPassSceneLoad()
@@ -62,24 +53,8 @@ public class TitleScene : BaseScene
 		Manager.Scene.LoadScene("KingsPassScene");
 	}
 
-	public void TitleSceneEnd()
-	{
-#if UNITY_EDITOR
-		UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-	}
-
 	public override IEnumerator LoadingRoutine()
 	{
-		Manager.Scene.LoadFadeOut();
-		yield return new WaitForSeconds(Manager.Scene.FadeTime);
-		Cursor.visible = false;
-		videoBack.gameObject.SetActive(true);
-		Manager.Sound.StopBGM(Manager.Sound.TitleSoundClip);
-		Manager.Scene.LoadFadeIn();
-		videoPlayer.clip = videoClip1;
-		videoPlayer.Play();
+		yield return null;
 	}
 }

@@ -20,6 +20,7 @@ public class SceneManager : Singleton<SceneManager>
 	[SerializeField] UnityEvent<string> onLoadScene;
 	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
 	[SerializeField] BaseScene curScene;
+	public BaseScene CurScene { get { return curScene; } }
 	[SerializeField] Coroutine fadeCoroutine;
 	[SerializeField] Image loading;
 	public Image Loading { get { return loading; } set { loading = value; } }

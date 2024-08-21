@@ -8,14 +8,14 @@ public class ButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField] Image leftHighlightImage;
 	[SerializeField] Image rightHighlightImage;
-	[SerializeField] TitleScene titelScene;
+
+	private void OnEnable()
+	{
+		ShowHighlightImages(false);
+	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		if(titelScene.IsGameStart)
-		{
-			return;
-		}
 		Manager.Sound.PlaySFX(Manager.Sound.UiButtonChange);
 		ShowHighlightImages(true);
 	}

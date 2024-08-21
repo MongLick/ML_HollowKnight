@@ -5,118 +5,130 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    [SerializeField] Canvas popUpCanvas;
-    [SerializeField] Canvas windowCanvas;
-    [SerializeField] Canvas inGameCanvas;
+	[SerializeField] Canvas popUpCanvas;
+	[SerializeField] Canvas windowCanvas;
+	[SerializeField] Canvas inGameCanvas;
+	[SerializeField] Canvas videoCanvas;
 
-    [SerializeField] Image popUpBlocker;
-    [SerializeField] Button inGameBlocker;
+	[SerializeField] GameObject titlePrefab;
+	[SerializeField] Image videoBack;
+	public Image VideoBack { get { return videoBack; } }
 
-    private Stack<PopUpUI> popUpStack = new Stack<PopUpUI>();
-    private float prevTimeScale;
-    private InGameUI curInGameUI;
+	private Stack<PopUpUI> popUpStack = new Stack<PopUpUI>();
+	private InGameUI curInGameUI;
+	private GameObject titleUIInstance;
+	public GameObject TitleUIInstance { get { return titleUIInstance; } set { titleUIInstance = value; } }
 
-    private void Start()
-    {
-        EnsureEventSystem();
-    }
+	private bool isTitleSceneActive;
+	public bool IsTitleSceneActive { get { return isTitleSceneActive; } set { isTitleSceneActive = value; } }
 
-    public void EnsureEventSystem()
-    {
-        if (EventSystem.current != null)
-            return;
+	private void Start()
+	{
+		EnsureEventSystem();
 
-        EventSystem eventSystem = Resources.Load<EventSystem>("UI/EventSystem");
-        Instantiate(eventSystem);
-    }
+		Camera mainCamera = Camera.main;
+		popUpCanvas.worldCamera = mainCamera;
+		windowCanvas.worldCamera = mainCamera;
+		inGameCanvas.worldCamera = mainCamera;
+		videoCanvas.worldCamera = mainCamera;
 
-    public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
-    {
-        if (popUpStack.Count > 0)
-        {
-            PopUpUI topUI = popUpStack.Peek();
-            topUI.gameObject.SetActive(false);
-        }
-        else
-        {
-            popUpBlocker.gameObject.SetActive(true);
-            prevTimeScale = Time.timeScale;
-            Time.timeScale = 0f;
-        }
+		if (titlePrefab != null)
+		{
+			titleUIInstance = Instantiate(titlePrefab, popUpCanvas.transform);
+			titleUIInstance.SetActive(true);
+		}
+	}
 
-        T ui = Instantiate(popUpUI, popUpCanvas.transform);
-        popUpStack.Push(ui);
-        return ui;
-    }
+	public void EnsureEventSystem()
+	{
+		if (EventSystem.current != null)
+			return;
 
-    public void ClosePopUpUI()
-    {
-        PopUpUI ui = popUpStack.Pop();
-        Destroy(ui.gameObject);
+		EventSystem eventSystem = Resources.Load<EventSystem>("UI/EventSystem");
+		Instantiate(eventSystem);
+	}
 
-        if (popUpStack.Count > 0)
-        {
-            PopUpUI topUI = popUpStack.Peek();
-            topUI.gameObject.SetActive(true);
-        }
-        else
-        {
-            popUpBlocker.gameObject.SetActive(false);
-            Time.timeScale = prevTimeScale;
-        }
-    }
+	public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
+	{
+		if (popUpStack.Count > 0)
+		{
+			PopUpUI topUI = popUpStack.Peek();
+			topUI.gameObject.SetActive(false);
+		}
 
-    public void ClearPopUpUI()
-    {
-        while (popUpStack.Count > 0)
-        {
-            ClosePopUpUI();
-        }
-    }
+		T ui = Instantiate(popUpUI, popUpCanvas.transform);
+		popUpStack.Push(ui);
+		return ui;
+	}
 
-    public T ShowWindowUI<T>(T windowUI) where T : WindowUI
-    {
-        return Instantiate(windowUI, windowCanvas.transform);
-    }
+	public void ClosePopUpUI()
+	{
+		PopUpUI ui = popUpStack.Pop();
+		Destroy(ui.gameObject);
 
-    public void SelectWindowUI(WindowUI windowUI)
-    {
-        windowUI.transform.SetAsLastSibling();
-    }
+		if (popUpStack.Count > 0)
+		{
+			PopUpUI topUI = popUpStack.Peek();
+			topUI.gameObject.SetActive(true);
+		}
+		else
+		{
+			if (isTitleSceneActive)
+			{
+				titleUIInstance.SetActive(true);
+			}
+		}
+	}
 
-    public void CloseWindowUI(WindowUI windowUI)
-    {
-        Destroy(windowUI.gameObject);
-    }
+	public void ClearPopUpUI()
+	{
+		while (popUpStack.Count > 0)
+		{
+			ClosePopUpUI();
+		}
+	}
 
-    public void ClearWindowUI()
-    {
-        for (int i = 0; i < windowCanvas.transform.childCount; i++)
-        {
-            Destroy(windowCanvas.transform.GetChild(i).gameObject);
-        }
-    }
+	public T ShowWindowUI<T>(T windowUI) where T : WindowUI
+	{
+		return Instantiate(windowUI, windowCanvas.transform);
+	}
 
-    public T ShowInGameUI<T>(T inGameUI) where T : InGameUI
-    {
-        if (curInGameUI != null)
-        {
-            Destroy(curInGameUI.gameObject);
-        }
+	public void SelectWindowUI(WindowUI windowUI)
+	{
+		windowUI.transform.SetAsLastSibling();
+	}
 
-        T ui = Instantiate(inGameUI, inGameCanvas.transform);
-        curInGameUI = ui;
-        inGameBlocker.gameObject.SetActive(true);
-        return ui;
-    }
+	public void CloseWindowUI(WindowUI windowUI)
+	{
+		Destroy(windowUI.gameObject);
+	}
 
-    public void CloseInGameUI()
-    {
-        if (curInGameUI == null)
-            return;
+	public void ClearWindowUI()
+	{
+		for (int i = 0; i < windowCanvas.transform.childCount; i++)
+		{
+			Destroy(windowCanvas.transform.GetChild(i).gameObject);
+		}
+	}
 
-        inGameBlocker.gameObject.SetActive(false);
-        Destroy(curInGameUI.gameObject);
-        curInGameUI = null;
-    }
+	public T ShowInGameUI<T>(T inGameUI) where T : InGameUI
+	{
+		if (curInGameUI != null)
+		{
+			Destroy(curInGameUI.gameObject);
+		}
+
+		T ui = Instantiate(inGameUI, inGameCanvas.transform);
+		curInGameUI = ui;
+		return ui;
+	}
+
+	public void CloseInGameUI()
+	{
+		if (curInGameUI == null)
+			return;
+
+		Destroy(curInGameUI.gameObject);
+		curInGameUI = null;
+	}
 }
