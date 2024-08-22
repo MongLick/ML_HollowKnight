@@ -78,6 +78,14 @@ public class GameManager : Singleton<GameManager>
 			}
 		}
 
+		if (sceneName == "BossScene")
+		{
+			if (previousSceneName == "CrossroadsScene")
+			{
+				return new Vector3(1.8f, -9.5f, 0);
+			}
+		}
+
 		return Vector3.zero;
 	}
 
@@ -128,6 +136,25 @@ public class GameManager : Singleton<GameManager>
 	}
 
 	public void CrossroadsUpdate()
+	{
+		player = null;
+		playerCollider = null;
+		monsterColliders.Clear();
+
+		player = FindAnyObjectByType<PlayerController>();
+		playerCollider = FindAnyObjectByType<PlayerController>().GetComponent<Collider2D>();
+		var allMonsters = FindObjectsOfType<Collider2D>();
+
+		foreach (var collider in allMonsters)
+		{
+			if (collider != null && monsterLayer.Contain(collider.gameObject.layer))
+			{
+				monsterColliders.Add(collider);
+			}
+		}
+	}
+
+	public void BossUpdate()
 	{
 		player = null;
 		playerCollider = null;

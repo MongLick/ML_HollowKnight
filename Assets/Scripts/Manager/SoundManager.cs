@@ -21,6 +21,8 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip DirtmouthSoundClip { get { return dirtmouthSoundClip; } }
 	[SerializeField] AudioClip crossoradsSoundClip;
 	public AudioClip CrossoradsSoundClip { get { return crossoradsSoundClip; } }
+	[SerializeField] AudioClip bossSoundClip;
+	public AudioClip BossSoundClip { get { return bossSoundClip; } }
 	[SerializeField] AudioClip uiButton;
 	public AudioClip UiButton { get { return uiButton; } }
 	[SerializeField] AudioClip uiButtonChange;

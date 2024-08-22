@@ -31,6 +31,16 @@ public class CrossroadsZone : MonoBehaviour
 		}
 	}
 
+	public void SceneChange()
+	{
+		if (isPlayerTrigger)
+		{
+			isSceneChange = true;
+			onCrossroadsScene?.Invoke();
+			return;
+		}
+	}
+
 	private IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{
 		float elapsedTime = 0f;
@@ -53,15 +63,5 @@ public class CrossroadsZone : MonoBehaviour
 			yield return null;
 		}
 		canvasGroup.alpha = 0f;
-	}
-
-	private void Update()
-	{
-		if(isPlayerTrigger && Input.GetKeyDown(KeyCode.V))
-		{
-			isSceneChange = true;
-			onCrossroadsScene?.Invoke();
-			return;
-		}
 	}
 }

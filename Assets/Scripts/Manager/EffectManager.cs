@@ -40,6 +40,7 @@ public class EffectManager : Singleton<EffectManager>
 			case "KingsPassScene":
 			case "DirtmouthScene":
 			case "CrossroadsScene":
+			case "BossScene":
 				HandleGameScene();
 				break;
 		}

@@ -186,6 +186,7 @@ MonoBehaviour:
   kingsPassSoundClip: {fileID: 8300000, guid: 6747a447d7b6bd743b57c1a1699ab879, type: 3}
   dirtmouthSoundClip: {fileID: 8300000, guid: d7a8a26ac35d16147853d23834d7c4b7, type: 3}
   crossoradsSoundClip: {fileID: 8300000, guid: d753463fcaa8e7641a8a28b513526f45, type: 3}
+  bossSoundClip: {fileID: 8300000, guid: cafb56c65b0f30e4cb3298016b8237d7, type: 3}
   uiButton: {fileID: 8300000, guid: 1bd269b72bd2fe248ab6127a86284a5f, type: 3}
   uiButtonChange: {fileID: 8300000, guid: 3c47350ec02ee1e46b9fdccfaca472c9, type: 3}
   playerMove: {fileID: 8300000, guid: f6ffb7bdb3581d64ea1ea4cb425bfa87, type: 3}

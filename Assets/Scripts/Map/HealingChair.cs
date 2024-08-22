@@ -57,17 +57,9 @@ public class HealingChair: MonoBehaviour
 		canvasGroup.alpha = 0f;
 	}
 
-	private void Update()
+	public void HealPlayer()
 	{
-		if (Input.GetKeyDown(KeyCode.V) && isPlayerTrigger)
-		{
-			HealPlayer();
-		}
-	}
-
-	private void HealPlayer()
-	{
-		if(Manager.Data.GameData.Health >= 5)
+		if(Manager.Data.GameData.Health >= 5 && isPlayerTrigger)
 		{
 			return;
 		}

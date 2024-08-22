@@ -16,7 +16,7 @@ public class Monster : MonoBehaviour, IDamageable
 	[SerializeField] float knockbackPower;
 	public float KnockbackPower { get { return knockbackPower; } }
 
-	public void ApplyKnockback(Vector2 direction)
+	public virtual void ApplyKnockback(Vector2 direction)
 	{
 		rigid.AddForce(direction * knockbackPower, ForceMode2D.Impulse);
 	}

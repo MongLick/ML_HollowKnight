@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 129848904}
   - component: {fileID: 129848903}
   - component: {fileID: 129848907}
+  - component: {fileID: 129848908}
   m_Layer: 0
   m_Name: Elderbug
   m_TagString: Untagged
@@ -666,6 +667,33 @@ MonoBehaviour:
   isPlayerTrigger: 0
   isTypingEnd: 0
   currentLineIndex: 0
+--- !u!114 &129848908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129848902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteracted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 129848907}
+        m_TargetAssemblyTypeName: ElderbugController, Assembly-CSharp
+        m_MethodName: Talk
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &149725923
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +947,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.1009383, y: 1.5500989}
+  m_Offset: {x: -3.1009383, y: 3.3666964}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -930,7 +958,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.8418684, y: 4.3318415}
+  m_Size: {x: 5.8418684, y: 7.9650364}
   m_EdgeRadius: 0
 --- !u!114 &226669368
 MonoBehaviour:
@@ -949,6 +977,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isPlayerLeft: 0
+  isPlayerFirst: 0
 --- !u!1001 &235487283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2605,6 +2634,7 @@ GameObject:
   - component: {fileID: 722869251}
   - component: {fileID: 722869253}
   - component: {fileID: 722869252}
+  - component: {fileID: 722869254}
   m_Layer: 0
   m_Name: CrossroadsZone
   m_TagString: Untagged
@@ -2694,6 +2724,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.2473774, y: 5.7425394}
   m_EdgeRadius: 0
+--- !u!114 &722869254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722869250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteracted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 722869252}
+        m_TargetAssemblyTypeName: CrossroadsZone, Assembly-CSharp
+        m_MethodName: SceneChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &762072849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3610,7 +3667,7 @@ Transform:
   m_GameObject: {fileID: 1047427042}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.8, y: -0.4328065, z: 0.07213121}
+  m_LocalPosition: {x: 31.8, y: -0.48, z: 0.07213121}
   m_LocalScale: {x: 5.842189, y: 32.255573, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5499,6 +5556,7 @@ GameObject:
   - component: {fileID: 1983457926}
   - component: {fileID: 1983457928}
   - component: {fileID: 1983457929}
+  - component: {fileID: 1983457930}
   m_Layer: 0
   m_Name: HealingChair
   m_TagString: HealingChair
@@ -5639,6 +5697,33 @@ MonoBehaviour:
   onHealingEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1983457930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983457924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteracted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1983457929}
+        m_TargetAssemblyTypeName: HealingChair, Assembly-CSharp
+        m_MethodName: HealPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1999928705
 GameObject:
   m_ObjectHideFlags: 0

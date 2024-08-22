@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CrossroadsScene.unity
     guid: ebeb43e29fb04834da2aea69e1ddabd0
+  - enabled: 1
+    path: Assets/Scenes/BossScene.unity
+    guid: 87233c78fcde99b4da92b3723691c52d
   m_configObjects: {}

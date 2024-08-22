@@ -859,6 +859,7 @@ MonoBehaviour:
   pushX: -0.68779373
   pushY: 10
   hitKnockbackPower: 15
+  range: 5
   groundCheckLayer:
     serializedVersion: 2
     m_Bits: 64

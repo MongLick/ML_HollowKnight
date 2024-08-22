@@ -55,6 +55,38 @@ public class ElderbugController : MonoBehaviour
 		}
 	}
 
+	public void Talk()
+	{
+		if (!isTyping && isPlayerTrigger)
+		{
+			if (currentLineIndex == dialogueLines.Length)
+			{
+				StartCoroutine(FadeOut(dialogueCanvasGroup2));
+				StartCoroutine(FadeIn(dialogueCanvasGroup));
+				currentLineIndex = 0;
+				return;
+			}
+
+			if (currentLineIndex == 0)
+			{
+				StartCoroutine(FadeOut(dialogueCanvasGroup));
+				StartCoroutine(FadeIn(dialogueCanvasGroup2));
+			}
+
+			if (currentLineIndex < dialogueLines.Length)
+			{
+				Manager.Sound.PlaySFX(Manager.Sound.Elderbug[currentLineIndex]);
+				StartCoroutine(TypeSentence(dialogueLines[currentLineIndex]));
+				currentLineIndex++;
+			}
+		}
+
+		if (!isPlayerTrigger && currentLineIndex != 0)
+		{
+			StartCoroutine(FadeOut(dialogueCanvasGroup2));
+		}
+	}
+
 	private IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{
 		float elapsedTime = 0f;
@@ -99,37 +131,5 @@ public class ElderbugController : MonoBehaviour
 		isTyping = false;
 		animator.SetBool("LeftTalk", false);
 		animator.SetBool("RightTalk", false);
-	}
-
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.V) && !isTyping && isPlayerTrigger)
-		{
-			if (currentLineIndex == dialogueLines.Length)
-			{
-				StartCoroutine(FadeOut(dialogueCanvasGroup2));
-				StartCoroutine(FadeIn(dialogueCanvasGroup));
-				currentLineIndex = 0;
-				return;
-			}
-
-			if (currentLineIndex == 0)
-			{
-				StartCoroutine(FadeOut(dialogueCanvasGroup));
-				StartCoroutine(FadeIn(dialogueCanvasGroup2));
-			}
-
-			if (currentLineIndex < dialogueLines.Length)
-			{
-				Manager.Sound.PlaySFX(Manager.Sound.Elderbug[currentLineIndex]);
-				StartCoroutine(TypeSentence(dialogueLines[currentLineIndex]));
-				currentLineIndex++;
-			}
-		}
-
-		if (!isPlayerTrigger && currentLineIndex != 0)
-		{
-			StartCoroutine(FadeOut(dialogueCanvasGroup2));
-		}
 	}
 }

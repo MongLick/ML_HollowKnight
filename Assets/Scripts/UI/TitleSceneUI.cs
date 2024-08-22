@@ -33,7 +33,8 @@ public class TitleSceneUI : PopUpUI
 		{
 			isGameStart = true;
 			Manager.Sound.PlaySFX(Manager.Sound.UiButton);
-
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 			StartCoroutine(LoadingRoutine());
 		}
 	}
@@ -58,7 +59,6 @@ public class TitleSceneUI : PopUpUI
 	{
 		Manager.Scene.LoadFadeOut();
 		yield return new WaitForSeconds(Manager.Scene.FadeTime);
-		Cursor.visible = false;
 		Manager.UI.VideoBack.gameObject.SetActive(true);
 		Manager.Sound.StopBGM(Manager.Sound.TitleSoundClip);
 		Manager.Scene.LoadFadeIn();

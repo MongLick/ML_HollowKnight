@@ -89,6 +89,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float PushY { get { return pushY; } }
 	[SerializeField] float hitKnockbackPower;
 	public float HitKnockbackPower { get { return hitKnockbackPower; } }
+	[SerializeField] float range;
+	public float Range { get { return range; } }
 
 	[Header("Debug")]
 	[SerializeField] LayerMask groundCheckLayer;
@@ -113,6 +115,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public bool IsLookDown { get { return isLookDown; } }
 	private bool isAttack;
 	public bool IsAttack { get { return isAttack; } set { isAttack = value; } }
+	private bool isInteraction;
+	public bool IsInteraction { get { return isInteraction; } set { isInteraction = value; } }
 	private bool isComboAttackActive;
 	public bool IsComboAttackActive { get { return isComboAttackActive; } set { isComboAttackActive = value; } }
 	private bool isTakeHit;
@@ -147,6 +151,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	private Coroutine dieRoutine;
 	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
 	public PlayerStateType CurrentState;
+	Collider2D[] colliders = new Collider2D[20];
 
 	private void Awake()
 	{
@@ -327,7 +332,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnAttack(InputValue value)
 	{
-		if (isDie)
+		if (isDie && isTakeHit)
 		{
 			return;
 		}
@@ -365,6 +370,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 		isLookDown = value.isPressed;
 	}
 
+	private void OnInteract(InputValue value)
+	{
+		Interact();
+	}
+
 	private void Move()
 	{
 		if (!isDash)
@@ -380,6 +390,21 @@ public class PlayerController : MonoBehaviour, IDamageable
 		Vector2 velocity = rigid.velocity;
 		velocity.y = currentJumpPower;
 		rigid.velocity = velocity;
+	}
+
+	private void Interact()
+	{
+		int size = Physics2D.OverlapCircleNonAlloc(transform.position, range, colliders);
+
+		for (int i = 0; i < size; i++)
+		{
+			IInteractable interactable = colliders[i].GetComponent<IInteractable>();
+			if (interactable != null)
+			{
+				interactable.Interact(this);
+				break;
+			}
+		}
 	}
 
 	public void TakeDamage(int damage)
