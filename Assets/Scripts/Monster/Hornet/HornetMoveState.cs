@@ -15,20 +15,30 @@ public class HornetMoveState : BaseState<HornetStateType>
 
 	public override void Enter()
 	{
-		hornet.Animator.SetTrigger("Move");
 		hornet.StartCoroutine(MoveCoroutine());
 	}
 
 	public override void Update()
 	{
-		if (hornet.IsMove)
+		Vector2 playerPosition = Manager.Game.Player.transform.position;
+		Vector2 currentPosition = hornet.transform.position;
+		Vector2 playerDirection;
+
+		playerDirection = new Vector2(playerPosition.x - currentPosition.x, 0).normalized;
+		hornet.MoveDirection = playerDirection;
+		if (playerDirection.x > 0)
 		{
-			MoveForward();
+			hornet.Render.flipX = true;
 		}
 		else
 		{
-			ChangeState(HornetStateType.Idle);
+			hornet.Render.flipX = false;
 		}
+	}
+
+	public override void FixedUpdate()
+	{
+		MoveForward();
 	}
 
 	private void MoveForward()
@@ -38,8 +48,9 @@ public class HornetMoveState : BaseState<HornetStateType>
 
 	IEnumerator MoveCoroutine()
 	{
-		hornet.IsMove = true;
+		hornet.Animator.SetBool("Move", true);
 		yield return new WaitForSeconds(hornet.MoveTime);
-		hornet.IsMove = false;
+		hornet.Animator.SetBool("Move", false);
+		ChangeState(HornetStateType.Idle);
 	}
 }

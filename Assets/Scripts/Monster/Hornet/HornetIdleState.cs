@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
-using static PlayerState;
-using static UnityEditor.VersionControl.Asset;
 
 public class HornetIdleState : BaseState<HornetStateType>
 {
@@ -14,17 +11,41 @@ public class HornetIdleState : BaseState<HornetStateType>
 		this.hornet = hornet;
 	}
 
+	public override void Update()
+	{
+		if(hornet.IsDie)
+		{
+			return;
+		}
+
+		Vector2 playerPosition = Manager.Game.Player.transform.position;
+		Vector2 currentPosition = hornet.transform.position;
+		Vector2 playerDirection;
+
+		playerDirection = new Vector2(playerPosition.x - currentPosition.x, 0).normalized;
+		hornet.MoveDirection = playerDirection;
+		if (playerDirection.x > 0)
+		{
+			hornet.Render.flipX = true;
+		}
+		else
+		{
+			hornet.Render.flipX = false;
+		}
+	}
+
 	public override void Enter()
 	{
-		int randomIndex = Random.Range(1, 9);
-		HornetStateType randomState = (HornetStateType)randomIndex;
+		hornet.StopAllCoroutines();
+		hornet.Rigid.velocity = Vector2.zero;
 		hornet.StartCoroutine(IdleCoroutine());
-		//ChangeState(randomState);
-		ChangeState(HornetStateType.Move);
 	}
 
 	IEnumerator IdleCoroutine()
 	{
+		int randomIndex = Random.Range(1, 6);
+		HornetStateType randomState = (HornetStateType)randomIndex;
 		yield return new WaitForSeconds(hornet.IdleTime);
+		ChangeState(randomState);
 	}
 }

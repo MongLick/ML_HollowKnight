@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BossScene : BaseScene
 {
+	[SerializeField] EndZone endZone;
 	private void Start()
 	{
+		endZone.OnTitleScene.AddListener(TitleScneneLoad);
 		Manager.Game.Player.OnDieEvent.AddListener(PlayerDieLoadScene);
 		Cursor.visible = false;
 	}
@@ -19,6 +21,11 @@ public class BossScene : BaseScene
 	private void PlayerDieLoadScene()
 	{
 		Manager.Scene.LoadScene("DirtmouthScene");
+	}
+
+	public void TitleScneneLoad()
+	{
+		Manager.Scene.LoadScene("TitleScene");
 	}
 
 	public override IEnumerator LoadingRoutine()

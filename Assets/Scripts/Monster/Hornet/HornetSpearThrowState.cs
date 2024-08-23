@@ -11,4 +11,26 @@ public class HornetSpearThrowState : BaseState<HornetStateType>
 	{
 		this.hornet = hornet;
 	}
+
+	public override void Enter()
+	{
+		hornet.StartCoroutine(SpearThrowCoroutine());
+	}
+
+	public override void FixedUpdate()
+	{
+		SpearThrow();
+	}
+
+	private void SpearThrow()
+	{
+		
+	}
+
+	IEnumerator SpearThrowCoroutine()
+	{
+		hornet.Animator.SetTrigger("SpearThrow");
+		yield return new WaitForSeconds(hornet.SpearThrowTime);
+		ChangeState(HornetStateType.Idle);
+	}
 }

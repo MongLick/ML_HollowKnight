@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static CreeperState;
 using static HornetState;
@@ -10,14 +11,26 @@ public class HornetController : Monster
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float moveSpeed;
 	public float MoveSpeed { get { return moveSpeed; } }
+	[SerializeField] float dashSpeed;
+	public float DashSpeed { get { return dashSpeed; } }
+	[SerializeField] float jumpPower;
+	public float JumpPower { get { return jumpPower; } }
+	[SerializeField] float maxFallSpeed;
+	public float MaxFallSpeed { get { return maxFallSpeed; } }
+	[SerializeField] float backStepPower;
+	public float BackStepPower { get { return backStepPower; } }
 	[SerializeField] float idleTime;
 	public float IdleTime { get { return idleTime; } }
 	[SerializeField] float moveTime;
 	public float MoveTime { get { return moveTime; } }
 	[SerializeField] float jumpTime;
 	public float JumpTime { get { return jumpTime; } }
+	[SerializeField] float fallTime;
+	public float FallTime { get { return fallTime; } }
 	[SerializeField] float dashTime;
 	public float DashTime { get { return dashTime; } }
+	[SerializeField] float dieTime;
+	public float DieTime { get { return dieTime; } }
 	[SerializeField] float spearThrowTime;
 	public float SpearThrowTime { get { return spearThrowTime; } }
 	[SerializeField] float circularAttackTime;
@@ -30,8 +43,6 @@ public class HornetController : Monster
 	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
 	private bool isDie;
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
-	private bool isMove;
-	public bool IsMove { get { return isMove; } set { isMove = value; } }
 	[SerializeField] SpriteRenderer render;
 	public SpriteRenderer Render { get { return render; } }
 	[SerializeField] LayerMask playerCheck;
@@ -42,6 +53,11 @@ public class HornetController : Monster
 	public HornetStateType CurrentState;
 	[SerializeField] Vector2 moveDirection;
 	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
+	[SerializeField] LayerMask groundCheckLayer;
+	private Vector2 velocity;
+	private bool isGround;
+	[SerializeField] Collider2D hornetcollider;
+	public Collider2D Hornetcollider {get { return hornetcollider; } set { hornetcollider = value; } }
 
 	private void Awake()
 	{
@@ -51,10 +67,10 @@ public class HornetController : Monster
 		hornetState.AddState(HornetStateType.Jump, new HornetJumpState(this));
 		hornetState.AddState(HornetStateType.Dash, new HornetDashState(this));
 		hornetState.AddState(HornetStateType.SpearThrow, new HornetSpearThrowState(this));
+		hornetState.AddState(HornetStateType.BackStep, new HornetBackStepState(this));
 		hornetState.AddState(HornetStateType.CircularAttack, new HornetCircularAttackState(this));
 		hornetState.AddState(HornetStateType.Groggy, new HornetGroggyState(this));
 		hornetState.AddState(HornetStateType.Die, new HornetDieState(this));
-		hornetState.AddState(HornetStateType.BackStep, new HornetBackStepState(this));
 		hornetState.Start(HornetStateType.Idle);
 	}
 
@@ -62,6 +78,38 @@ public class HornetController : Monster
 	{
 		CurrentState = hornetState.GetCurrentState();
 		hornetState.Update();
+		if(isGround)
+		{
+			if (Hp <= 0 && !isDie)
+			{
+				isDie = true;
+				StopAllCoroutines();
+				hornetState.ChangeState(HornetStateType.Die);
+			}
+		}
+		if (Hp == 10 || Hp == 30 && !(hornetState.GetCurrentState() == HornetStateType.Groggy))
+		{
+			Hp--;
+			StopAllCoroutines();
+			hornetState.ChangeState(HornetStateType.Groggy);
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		hornetState.FixedUpdate();
+		velocity = Rigid.velocity;
+
+		if (Rigid.velocity.y < -0.01f && !isGround)
+		{
+			animator.SetTrigger("Fall");
+		}
+
+		if (velocity.y < -maxFallSpeed)
+		{
+			velocity.y = -maxFallSpeed;
+			Rigid.velocity = velocity;
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -77,8 +125,25 @@ public class HornetController : Monster
 		}
 	}
 
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (groundCheckLayer.Contain(collision.gameObject.layer))
+		{
+			isGround = true;
+			animator.SetTrigger("Land");
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D collision)
+	{
+		if (groundCheckLayer.Contain(collision.gameObject.layer))
+		{
+			isGround = false;
+		}
+	}
+
 	public override void ApplyKnockback(Vector2 direction)
 	{
-		
+
 	}
 }

@@ -11,4 +11,18 @@ public class HornetGroggyState : BaseState<HornetStateType>
 	{
 		this.hornet = hornet;
 	}
+
+	public override void Enter()
+	{
+		hornet.StartCoroutine(GroggyCoroutine());
+	}
+
+	IEnumerator GroggyCoroutine()
+	{
+		hornet.Animator.SetBool("Move", false);
+		hornet.Animator.SetBool("Groggy", true);
+		yield return new WaitForSeconds(hornet.GroggyTime);
+		hornet.Animator.SetBool("Groggy", false);
+		ChangeState(HornetStateType.Idle);
+	}
 }
