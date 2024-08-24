@@ -1,13 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class EffectManager : Singleton<EffectManager>
 {
 	[SerializeField] PlayerController player;
+	[SerializeField] HornetController hornet;
 	[SerializeField] List<Monster> monsters;
 	[SerializeField] CoinPop coinPop;
 	[SerializeField] HealingChair healingChair;
@@ -22,6 +19,9 @@ public class EffectManager : Singleton<EffectManager>
 	[SerializeField] PooledObject coinPrefab;
 	[SerializeField] PooledObject bloodPrefab;
 	[SerializeField] PooledObject healPrefab;
+	[SerializeField] PooledObject spearPrefab;
+	[SerializeField] PooledObject launchPrefab;
+	[SerializeField] PooledObject circularPrefab;
 
 	private void Start()
 	{
@@ -55,6 +55,9 @@ public class EffectManager : Singleton<EffectManager>
 		Manager.Pool.CreatePool(coinPrefab, 5, 10);
 		Manager.Pool.CreatePool(bloodPrefab, 1, 2);
 		Manager.Pool.CreatePool(healPrefab, 1, 2);
+		Manager.Pool.CreatePool(spearPrefab, 1, 2);
+		Manager.Pool.CreatePool(launchPrefab, 1, 2);
+		Manager.Pool.CreatePool(circularPrefab, 1, 2);
 	}
 
 	private void HandleTitleScene()
@@ -67,11 +70,13 @@ public class EffectManager : Singleton<EffectManager>
 		rightDashPos = null;
 		leftDashPos = null;
 		healingChair = null;
+		hornet = null;
 	}
 
 	private void HandleGameScene()
 	{
 		player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+		hornet = GameObject.FindGameObjectWithTag("Hornet")?.GetComponent<HornetController>();
 		coinPop = GameObject.FindGameObjectWithTag("CoinPop")?.GetComponent<CoinPop>();
 		healingChair = GameObject.FindGameObjectWithTag("HealingChair")?.GetComponent<HealingChair>();
 
@@ -120,9 +125,15 @@ public class EffectManager : Singleton<EffectManager>
 					monster.OnHitBloodEvent.AddListener(SpawnBlood);
 				}
 			}
-			if(healingChair != null)
+			if (healingChair != null)
 			{
 				healingChair.OnHealingEvent.AddListener(SpawnHeal);
+			}
+			if(hornet != null)
+			{
+				hornet.OnSpearThrowEvent.AddListener(SpawnSpear);
+				hornet.OnLaunchEvent.AddListener(SpawnLaunch);
+				hornet.OnCircularEvent.AddListener(SpawnCircular);
 			}
 		}
 	}
@@ -220,7 +231,7 @@ public class EffectManager : Singleton<EffectManager>
 			for (int i = 0; i < coinCount; i++)
 			{
 				Vector2 monsterPosition = monster.transform.position;
-				Vector2 randomOffset = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+				Vector2 randomOffset = new Vector2(Random.Range(0, 1f), Random.Range(0f, 1f));
 
 				Vector2 spawnPosition = monsterPosition + randomOffset;
 
@@ -277,6 +288,44 @@ public class EffectManager : Singleton<EffectManager>
 		if (healAnimation != null)
 		{
 			healAnimation.PlayHealAnimation();
+		}
+	}
+
+	private void SpawnSpear()
+	{
+		Vector2 hornetPosition = hornet.transform.position;
+		PooledObject instance = Manager.Pool.GetPool(spearPrefab, hornetPosition, Quaternion.identity);
+
+		EffectAnimation spearAnimation = instance.GetComponent<EffectAnimation>();
+		if (spearAnimation != null)
+		{
+			spearAnimation.PlaySpear();
+		}
+	}
+
+	private void SpawnLaunch()
+	{
+		Vector2 hornetPosition = hornet.transform.position;
+		PooledObject instance = Manager.Pool.GetPool(launchPrefab, hornetPosition, Quaternion.identity);
+
+		EffectAnimation launchAnimation = instance.GetComponent<EffectAnimation>();
+		if (launchAnimation != null)
+		{
+			launchAnimation.PlayLaunch();
+		}
+	}
+
+	private void SpawnCircular()
+	{
+		Collider2D hornetCollider = Manager.Game.Hornet.GetComponent<Collider2D>();
+		Vector2 hornetPosition = hornetCollider.bounds.center;
+
+		PooledObject instance = Manager.Pool.GetPool(circularPrefab, hornetPosition, Quaternion.identity);
+
+		EffectAnimation circularAnimation = instance.GetComponent<EffectAnimation>();
+		if (circularAnimation != null)
+		{
+			circularAnimation.PlayCircular();
 		}
 	}
 }

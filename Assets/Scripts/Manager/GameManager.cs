@@ -7,6 +7,8 @@ public class GameManager : Singleton<GameManager>
 	[SerializeField] string previousSceneName;
 	[SerializeField] PlayerController player;
 	public PlayerController Player { get { return player; } }
+	[SerializeField] HornetController hornet;
+	public HornetController Hornet { get { return hornet; } }
 	[SerializeField] Collider2D playerCollider;
 	public Collider2D PlayerCollider { get { return playerCollider; } }
 	[SerializeField] List<Collider2D> monsterColliders = new List<Collider2D>();
@@ -86,6 +88,14 @@ public class GameManager : Singleton<GameManager>
 			}
 		}
 
+		if (sceneName == "TitleScene")
+		{
+			if (previousSceneName == "BossScene")
+			{
+				Manager.UI.OnTitleSceneLoad();
+			}
+		}
+
 		return Vector3.zero;
 	}
 
@@ -159,9 +169,11 @@ public class GameManager : Singleton<GameManager>
 		player = null;
 		playerCollider = null;
 		monsterColliders.Clear();
+		hornet = null;
 
 		player = FindAnyObjectByType<PlayerController>();
 		playerCollider = FindAnyObjectByType<PlayerController>().GetComponent<Collider2D>();
+		hornet = FindAnyObjectByType<HornetController>();
 		var allMonsters = FindObjectsOfType<Collider2D>();
 
 		foreach (var collider in allMonsters)

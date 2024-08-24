@@ -17,18 +17,10 @@ public class HornetCircularAttackState : BaseState<HornetStateType>
 		hornet.StartCoroutine(CircularAttackCoroutine());
 	}
 
-	public override void FixedUpdate()
-	{
-		CircularAttack();
-	}
-
-	private void CircularAttack()
-	{
-
-	}
-
 	IEnumerator CircularAttackCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetCircularAttack);
+		hornet.OnCircularEvent?.Invoke();
 		hornet.Animator.SetTrigger("CircularAttack");
 		hornet.Rigid.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
 		yield return new WaitForSeconds(hornet.CircularAttackTime);

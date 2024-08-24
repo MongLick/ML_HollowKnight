@@ -31,6 +31,7 @@ public class HornetBackStepState : BaseState<HornetStateType>
 
 	IEnumerator BackStepCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetBackStep);
 		hornet.Animator.SetTrigger("BackStep");
 		yield return new WaitForSeconds(hornet.BackStepTime);
 		ChangeState(HornetStateType.Idle);

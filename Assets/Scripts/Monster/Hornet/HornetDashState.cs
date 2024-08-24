@@ -31,6 +31,8 @@ public class HornetDashState : BaseState<HornetStateType>
 
 	IEnumerator DashCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetDash);
+		hornet.OnLaunchEvent?.Invoke();
 		hornet.Animator.SetTrigger("Dash");
 		yield return new WaitForSeconds(hornet.DashTime);
 		ChangeState(HornetStateType.Idle);

@@ -48,6 +48,7 @@ public class HornetMoveState : BaseState<HornetStateType>
 
 	IEnumerator MoveCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetMove);
 		hornet.Animator.SetBool("Move", true);
 		yield return new WaitForSeconds(hornet.MoveTime);
 		hornet.Animator.SetBool("Move", false);

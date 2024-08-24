@@ -79,4 +79,28 @@ public class EffectAnimation : MonoBehaviour
 			animator.SetTrigger("Heal");
 		}
 	}
+
+	public void PlaySpear()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("Spear");
+		}
+	}
+
+	public void PlayLaunch()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("LaunchEffect");
+		}
+	}
+
+	public void PlayCircular()
+	{
+		if (animator != null)
+		{
+			animator.SetTrigger("CircularEffect");
+		}
+	}
 }

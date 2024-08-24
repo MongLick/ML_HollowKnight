@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using static CreeperState;
 using static HornetState;
 
 public class HornetController : Monster
 {
+	[SerializeField] UnityEvent onSpearThrowEvent;
+	public UnityEvent OnSpearThrowEvent { get { return onSpearThrowEvent; } set { onSpearThrowEvent = value; } }
+	[SerializeField] UnityEvent onLaunchEvent;
+	public UnityEvent OnLaunchEvent { get { return onLaunchEvent; } set { onLaunchEvent = value; } }
+	[SerializeField] UnityEvent onCircularEvent;
+	public UnityEvent OnCircularEvent { get { return onCircularEvent; } set { onCircularEvent = value; } }
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float moveSpeed;
@@ -76,6 +83,14 @@ public class HornetController : Monster
 
 	private void Update()
 	{
+		if (isDie)
+		{
+			return;
+		}
+		if(Manager.Game.Player.IsDie)
+		{
+			hornetState.ChangeState(HornetStateType.Idle);
+		}
 		CurrentState = hornetState.GetCurrentState();
 		hornetState.Update();
 		if(isGround)
@@ -97,6 +112,11 @@ public class HornetController : Monster
 
 	private void FixedUpdate()
 	{
+		if(isDie)
+		{
+			return;
+		}
+
 		hornetState.FixedUpdate();
 		velocity = Rigid.velocity;
 
@@ -127,8 +147,13 @@ public class HornetController : Monster
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+		if(isDie)
+		{
+			return;
+		}
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
+			Manager.Sound.PlaySFX(Manager.Sound.HornetLand);
 			isGround = true;
 			animator.SetTrigger("Land");
 		}

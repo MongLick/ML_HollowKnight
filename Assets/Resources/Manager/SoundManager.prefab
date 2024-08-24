@@ -213,6 +213,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: eafac93b59734ad4fa7dce4543507fb1, type: 3}
   - {fileID: 8300000, guid: 389575ebca5eb024f893e8234d3191e8, type: 3}
   - {fileID: 8300000, guid: f17d3afcb02a21e4ab18fd94be893a77, type: 3}
+  hornetMove: {fileID: 8300000, guid: 024ea3927db2cf5468a040498f3b4867, type: 3}
+  hornetJump: {fileID: 8300000, guid: 7971015156e1b2e4bb3ec93e37198e1d, type: 3}
+  hornetLand: {fileID: 8300000, guid: 3480fa96c9b46e441bee05fa65c72204, type: 3}
+  hornetBackStep: {fileID: 8300000, guid: e53f589b9c4c54145b7e191642e613b1, type: 3}
+  hornetCircularAttack: {fileID: 8300000, guid: e06bf5b416e39b44faeb00c9a99574aa, type: 3}
+  hornetDash: {fileID: 8300000, guid: 92ab1a6c3e354144d8c5c82de054b00f, type: 3}
+  hornetDie: {fileID: 8300000, guid: 7e90aa96ad8598a4b9fd54cdccb14d8d, type: 3}
+  hornetGroggy: {fileID: 8300000, guid: a3985ffd30e676644a925915cedc30cd, type: 3}
+  hornetSpear: {fileID: 8300000, guid: e14f769257ba67d4d8740c3520befdcc, type: 3}
 --- !u!1 &1677397172729163637
 GameObject:
   m_ObjectHideFlags: 0

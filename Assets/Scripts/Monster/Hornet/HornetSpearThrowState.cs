@@ -17,19 +17,13 @@ public class HornetSpearThrowState : BaseState<HornetStateType>
 		hornet.StartCoroutine(SpearThrowCoroutine());
 	}
 
-	public override void FixedUpdate()
-	{
-		SpearThrow();
-	}
-
-	private void SpearThrow()
-	{
-		
-	}
-
 	IEnumerator SpearThrowCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetSpear);
 		hornet.Animator.SetTrigger("SpearThrow");
+		yield return new WaitForSeconds(0.2f);
+		hornet.OnLaunchEvent?.Invoke();
+		hornet.OnSpearThrowEvent?.Invoke();
 		yield return new WaitForSeconds(hornet.SpearThrowTime);
 		ChangeState(HornetStateType.Idle);
 	}

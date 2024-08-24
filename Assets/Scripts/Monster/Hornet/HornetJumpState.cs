@@ -48,6 +48,7 @@ public class HornetJumpState : BaseState<HornetStateType>
 
 	IEnumerator JumpCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetJump);
 		hornet.Animator.SetTrigger("Jump");
 		yield return new WaitForSeconds(hornet.JumpTime);
 		int randomIndex = Random.Range(0, 2);

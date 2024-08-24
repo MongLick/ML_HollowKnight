@@ -34,7 +34,7 @@ public class EndZone : MonoBehaviour
 
 	public void SceneChange()
 	{
-		if (isPlayerTrigger && hornet.IsDie)
+		if (isPlayerTrigger && hornet.IsDie && !isSceneChange)
 		{
 			isSceneChange = true;
 			onTitleScene?.Invoke();

@@ -12,6 +12,7 @@ TagManager:
   - LeftDash
   - Hit
   - HealingChair
+  - Hornet
   layers:
   - Default
   - TransparentFX

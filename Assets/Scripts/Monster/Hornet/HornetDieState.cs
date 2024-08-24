@@ -20,8 +20,9 @@ public class HornetDieState : BaseState<HornetStateType>
 
 	IEnumerator DieCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetDie);
 		hornet.IsDie = true;
-		hornet.Animator.SetTrigger("Die");
+		hornet.Animator.SetBool("Die", true);
 		hornet.Hornetcollider.enabled = false;
 		hornet.Rigid.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
 		hornet.Rigid.velocity = Vector2.zero;

@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 1042449682}
   m_Layer: 7
   m_Name: Hornet
-  m_TagString: Untagged
+  m_TagString: Hornet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1057,9 +1057,18 @@ MonoBehaviour:
   onHitBloodEvent:
     m_PersistentCalls:
       m_Calls: []
-  hp: 31
+  hp: 40
   rigid: {fileID: 1042449681}
   knockbackPower: 0
+  onSpearThrowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onLaunchEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onCircularEvent:
+    m_PersistentCalls:
+      m_Calls: []
   damage: 1
   moveSpeed: 3
   dashSpeed: 10
@@ -1073,7 +1082,7 @@ MonoBehaviour:
   dashTime: 1
   dieTime: 1
   spearThrowTime: 2
-  circularAttackTime: 1
+  circularAttackTime: 2
   groggyTime: 3
   backStepTime: 0.3
   render: {fileID: 1042449679}
@@ -1271,8 +1280,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -22.06921, y: -11}
-  - {x: 19.713783, y: -11}
+  - {x: -22.06921, y: -11.2}
+  - {x: 19.713783, y: -11.2}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

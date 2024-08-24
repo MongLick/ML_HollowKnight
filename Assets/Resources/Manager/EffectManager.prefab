@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  hornet: {fileID: 0}
   monsters:
   - {fileID: 0}
   - {fileID: 0}
@@ -69,3 +70,7 @@ MonoBehaviour:
   coinPrefab: {fileID: 5656910536656494181, guid: 644bf9936c7d9ec40a49fa4218aab267, type: 3}
   bloodPrefab: {fileID: 8907190132348366345, guid: 622685e8fbf9d9246994a96f2d8916d4, type: 3}
   healPrefab: {fileID: 1951260153147358961, guid: 34378eccf6a5a5e42a6afc89fb92b0ac, type: 3}
+  spearPrefab: {fileID: 8689539395418789437, guid: 5e7b400e86f4a664a82b511e83cc23f3, type: 3}
+  launchPrefab: {fileID: 2529490164712946246, guid: 8f0d57ed5815d214ea4a22eeba2ecd01, type: 3}
+  returnPrefab: {fileID: 1236884820290132616, guid: b4c0b3424e6cb4f4e88eff2b5419260f, type: 3}
+  circularPrefab: {fileID: 644545905467411675, guid: 2f7f618f4e0ecb44aa7c9696fe3b29a6, type: 3}

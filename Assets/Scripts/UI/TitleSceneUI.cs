@@ -57,12 +57,14 @@ public class TitleSceneUI : PopUpUI
 
 	public IEnumerator LoadingRoutine()
 	{
+		title = FindObjectOfType<TitleScene>();
 		Manager.Scene.LoadFadeOut();
 		yield return new WaitForSeconds(Manager.Scene.FadeTime);
 		Manager.UI.VideoBack.gameObject.SetActive(true);
 		Manager.Sound.StopBGM(Manager.Sound.TitleSoundClip);
 		Manager.Scene.LoadFadeIn();
 		title.VideoPlayer.clip = title.VideoClip1;
+		isGameStart = false;
 		title.VideoPlayer.Play();
 	}
 }

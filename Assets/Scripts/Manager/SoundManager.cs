@@ -63,6 +63,24 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip ElderbugFirst { get { return elderbugFirst; } }
 	[SerializeField] AudioClip[] elderbug;
 	public AudioClip[] Elderbug { get { return elderbug; } }
+	[SerializeField] AudioClip hornetMove;
+	public AudioClip HornetMove { get { return hornetMove; } }
+	[SerializeField] AudioClip hornetJump;
+	public AudioClip HornetJump { get { return hornetJump; } }
+	[SerializeField] AudioClip hornetLand;
+	public AudioClip HornetLand { get { return hornetLand; } }
+	[SerializeField] AudioClip hornetBackStep;
+	public AudioClip HornetBackStep { get { return hornetBackStep; } }
+	[SerializeField] AudioClip hornetCircularAttack;
+	public AudioClip HornetCircularAttack { get { return hornetCircularAttack; } }
+	[SerializeField] AudioClip hornetDash;
+	public AudioClip HornetDash { get { return hornetDash; } }
+	[SerializeField] AudioClip hornetDie;
+	public AudioClip HornetDie { get { return hornetDie; } }
+	[SerializeField] AudioClip hornetGroggy;
+	public AudioClip HornetGroggy { get { return hornetGroggy; } }
+	[SerializeField] AudioClip hornetSpear;
+	public AudioClip HornetSpear { get { return hornetSpear; } }
 
 	public void PlayBGM(AudioClip clip)
     {

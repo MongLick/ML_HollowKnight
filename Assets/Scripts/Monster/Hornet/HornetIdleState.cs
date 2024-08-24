@@ -13,7 +13,7 @@ public class HornetIdleState : BaseState<HornetStateType>
 
 	public override void Update()
 	{
-		if(hornet.IsDie)
+		if(hornet.IsDie && Manager.Game.Player.IsDie)
 		{
 			return;
 		}
@@ -36,13 +36,17 @@ public class HornetIdleState : BaseState<HornetStateType>
 
 	public override void Enter()
 	{
+		if (Manager.Game.Player.IsDie)
+		{
+			return;
+		}
 		hornet.StopAllCoroutines();
 		hornet.Rigid.velocity = Vector2.zero;
 		hornet.StartCoroutine(IdleCoroutine());
 	}
 
 	IEnumerator IdleCoroutine()
-	{
+	{	
 		int randomIndex = Random.Range(1, 6);
 		HornetStateType randomState = (HornetStateType)randomIndex;
 		yield return new WaitForSeconds(hornet.IdleTime);

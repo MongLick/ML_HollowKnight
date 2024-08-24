@@ -19,6 +19,7 @@ public class HornetGroggyState : BaseState<HornetStateType>
 
 	IEnumerator GroggyCoroutine()
 	{
+		Manager.Sound.PlaySFX(Manager.Sound.HornetGroggy);
 		hornet.Animator.SetBool("Move", false);
 		hornet.Animator.SetBool("Groggy", true);
 		yield return new WaitForSeconds(hornet.GroggyTime);
