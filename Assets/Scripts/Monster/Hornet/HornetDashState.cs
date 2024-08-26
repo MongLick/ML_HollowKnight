@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
 public class HornetDashState : BaseState<HornetStateType>
 {
 	private HornetController hornet;
-	private Vector2 dashDirection;
 
 	public HornetDashState(HornetController hornet)
 	{
@@ -15,7 +13,7 @@ public class HornetDashState : BaseState<HornetStateType>
 
 	public override void Enter()
 	{
-		dashDirection = hornet.MoveDirection.normalized;
+		hornet.DashDirection = hornet.MoveDirection.normalized;
 		hornet.StartCoroutine(DashCoroutine());
 	}
 
@@ -26,10 +24,10 @@ public class HornetDashState : BaseState<HornetStateType>
 
 	private void DashForward()
 	{
-		hornet.Rigid.velocity = dashDirection * hornet.DashSpeed;
+		hornet.Rigid.velocity = hornet.DashDirection * hornet.DashSpeed;
 	}
 
-	IEnumerator DashCoroutine()
+	private IEnumerator DashCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetDash);
 		hornet.OnLaunchEvent?.Invoke();

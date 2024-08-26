@@ -1,17 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class BossZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] CanvasGroup BossZoneCanvas;
-	[SerializeField] float fadeDuration;
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onBossScene;
-	public UnityEvent OnBossScene { get { return onBossScene; } }
-	[SerializeField] bool isPlayerTrigger;
-	[SerializeField] bool isSceneChange;
+	public UnityEvent OnBossScene { get { return onBossScene; } set { onBossScene = value; } }
+
+	[Header("Components")]
+	[SerializeField] CanvasGroup BossZoneCanvas;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
+	[SerializeField] float fadeDuration;
+	private bool isPlayerTrigger;
+	private bool isSceneChange;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{

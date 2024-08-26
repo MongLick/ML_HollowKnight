@@ -1,12 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrossroadsTextZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
+	[Header("Components")]
 	[SerializeField] CanvasGroup CrossroadsCanvas;
 	[SerializeField] BoxCollider2D boxCollider;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
 	[SerializeField] float fadeDuration;
 	[SerializeField] float fadeDely;
 

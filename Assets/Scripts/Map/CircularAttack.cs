@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CircularAttack : MonoBehaviour
 {
-	[SerializeField] private LayerMask playerCheck;
+	[Header("Components")]
+	[SerializeField] LayerMask playerCheck;
+
+	[Header("Specs")]
 	[SerializeField] int damage;
 
 	private void OnTriggerEnter2D(Collider2D collision)

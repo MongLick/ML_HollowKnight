@@ -1,9 +1,33 @@
 using UnityEngine;
-using UnityEngine.Events;
 using static VengeflyState;
 
 public class VengeflyController : Monster
 {
+	[Header("Components")]
+	[SerializeField] SpriteRenderer render;
+	public SpriteRenderer Render { get { return render; } }
+	[SerializeField] Animator animator;
+	public Animator Animator { get { return animator; } }
+	[SerializeField] Collider2D[] players;
+	public Collider2D[] Players { get { return players; } set { players = value; } }
+	[SerializeField] StateMachine<VengeflyStateType> vengeflyState;
+	public VengeflyStateType CurrentState;
+	[SerializeField] LayerMask playerCheck;
+	public LayerMask PlayerCheck { get { return playerCheck; } }
+
+	[Header("Vector")]
+	[SerializeField] Vector2 moveDirection;
+	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
+	[SerializeField] Vector2 startPos;
+	public Vector3 StartPos { get { return startPos; } set { startPos = value; } }
+
+	[Header("Coroutine")]
+	private Coroutine takeHitRoutine;
+	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
+	private Coroutine dieRoutine;
+	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
+
+	[Header("Specs")]
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float detectionRadius;
@@ -14,32 +38,12 @@ public class VengeflyController : Monster
 	public float DieTime { get { return dieTime; } }
 	[SerializeField] float takeHitTime;
 	public float TakeHitTime { get { return takeHitTime; } }
-	[SerializeField] bool isPlayerInRange;
+	private bool isPlayerInRange;
 	public bool IsPlayerInRange { get { return isPlayerInRange; } set { isPlayerInRange = value; } }
 	private bool isTakeHit;
 	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
 	private bool isDie;
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
-	[SerializeField] SpriteRenderer render;
-	public SpriteRenderer Render { get { return render; } }
-	[SerializeField] LayerMask playerCheck;
-	public LayerMask PlayerCheck { get { return playerCheck; } }
-	[SerializeField] Vector2 moveDirection;
-	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
-	[SerializeField] Vector2 startPos;
-	public Vector3 StartPos { get { return startPos; } set { startPos = value; } }
-	[SerializeField] Animator animator;
-	public Animator Animator { get { return animator; } }
-	[SerializeField] Collider2D[] players;
-	public Collider2D[] Players { get { return players; } set { players = value; } }
-
-	private Coroutine takeHitRoutine;
-	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
-	private Coroutine dieRoutine;
-	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
-
-	StateMachine<VengeflyStateType> vengeflyState;
-	public VengeflyStateType CurrentState;
 
 	private void Awake()
 	{

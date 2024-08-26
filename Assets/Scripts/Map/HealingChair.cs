@@ -1,16 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealingChair: MonoBehaviour
+public class HealingChair : MonoBehaviour
 {
+	[Header("UnityEvent")]
+	[SerializeField] UnityEvent onHealingEvent;
+	public UnityEvent OnHealingEvent { get { return onHealingEvent; } set { onHealingEvent = value; } }
+
+	[Header("Components")]
 	[SerializeField] CanvasGroup saveCanvas;
 	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
 	[SerializeField] float fadeDuration;
-	[SerializeField] bool isPlayerTrigger;
-	[SerializeField] UnityEvent onHealingEvent;
-	public UnityEvent OnHealingEvent { get { return onHealingEvent; } }
+	private bool isPlayerTrigger;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -31,6 +35,17 @@ public class HealingChair: MonoBehaviour
 			StartCoroutine(FadeOut(saveCanvas));
 			isPlayerTrigger = false;
 		}
+	}
+
+	public void HealPlayer()
+	{
+		if (Manager.Data.GameData.Health >= 5 && isPlayerTrigger)
+		{
+			return;
+		}
+		Manager.Sound.PlaySFX(Manager.Sound.PlayerHeal);
+		onHealingEvent?.Invoke();
+		Manager.Data.GameData.Health = 5;
 	}
 
 	private IEnumerator FadeIn(CanvasGroup canvasGroup)
@@ -55,16 +70,5 @@ public class HealingChair: MonoBehaviour
 			yield return null;
 		}
 		canvasGroup.alpha = 0f;
-	}
-
-	public void HealPlayer()
-	{
-		if(Manager.Data.GameData.Health >= 5 && isPlayerTrigger)
-		{
-			return;
-		}
-		Manager.Sound.PlaySFX(Manager.Sound.PlayerHeal);
-		onHealingEvent?.Invoke();
-		Manager.Data.GameData.Health = 5;
 	}
 }

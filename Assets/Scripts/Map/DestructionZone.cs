@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class DestructionZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerCheckLayer;
+	[Header("Components")]
 	[SerializeField] List<GameObject> groundObjects;
-	[SerializeField] float delay;
 	[SerializeField] GameObject breakEffect;
 	[SerializeField] Transform breakPos1;
 	[SerializeField] Transform breakPos2;
 	[SerializeField] Transform breakPos3;
-	[SerializeField] bool effectTriggered;
+	[SerializeField] LayerMask playerCheckLayer;
+
+	[Header("Specs")]
+	[SerializeField] float delay;
+	private bool effectTriggered;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -36,19 +39,6 @@ public class DestructionZone : MonoBehaviour
 		}
 	}
 
-	private IEnumerator DestroyAfterDelay(GameObject ground, float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		ground.gameObject.SetActive(false);
-		if (effectTriggered)
-		{
-			CreateEffectAtPosition(breakPos1);
-			CreateEffectAtPosition(breakPos2);
-			CreateEffectAtPosition(breakPos3);
-			effectTriggered = false;
-		}
-	}
-
 	private void CreateEffectAtPosition(Transform position)
 	{
 		if (breakEffect != null)
@@ -61,6 +51,19 @@ public class DestructionZone : MonoBehaviour
 				ps.Play();
 			}
 			StartCoroutine(DestroyEffectAfterTime(effectInstance, 2f));
+		}
+	}
+
+	private IEnumerator DestroyAfterDelay(GameObject ground, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		ground.gameObject.SetActive(false);
+		if (effectTriggered)
+		{
+			CreateEffectAtPosition(breakPos1);
+			CreateEffectAtPosition(breakPos2);
+			CreateEffectAtPosition(breakPos3);
+			effectTriggered = false;
 		}
 	}
 

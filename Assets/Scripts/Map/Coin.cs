@@ -1,24 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+	[Header("Components")]
+	[SerializeField] Rigidbody2D rigid;
+	[SerializeField] PooledObject pooledObject;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Vector")]
 	private Vector2 velocity;
 	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
-	[SerializeField] Rigidbody2D rigid;
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] float bounceForce;
-	[SerializeField] private float rotationSpeed;
-	[SerializeField] PooledObject pooledObject;
-	[SerializeField] bool isInitialized;
-	[SerializeField] float maxYSpeed;
 
-	public void Initialize(Vector3 direction)
-	{
-		isInitialized = true;
-		rigid.AddForce(direction, ForceMode2D.Impulse);
-	}
+	[Header("Specs")]
+	[SerializeField] float bounceForce;
+	[SerializeField] float rotationSpeed;
+	[SerializeField] float maxYSpeed;
+	private bool isInitialized;
 
 	private void FixedUpdate()
 	{
@@ -48,5 +45,11 @@ public class Coin : MonoBehaviour
 			isInitialized = false;
 			pooledObject.Release();
 		}
+	}
+
+	public void Initialize(Vector3 direction)
+	{
+		isInitialized = true;
+		rigid.AddForce(direction, ForceMode2D.Impulse);
 	}
 }

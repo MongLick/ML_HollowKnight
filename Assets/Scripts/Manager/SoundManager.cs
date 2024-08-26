@@ -1,20 +1,21 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [SerializeField] AudioSource bgmSource;
+	[Header("AudioSource")]
+	[SerializeField] AudioSource bgmSource;
 	[SerializeField] AudioSource sfxSource;
 	[SerializeField] AudioSource sfxMovdSource;
 	[SerializeField] AudioSource sfxJumpSource;
 	[SerializeField] AudioSource sfxAttackSource;
 
 	public float BGMVolme { get { return bgmSource.volume; } set { bgmSource.volume = value; } }
-    public float SFXVolme { get { return sfxSource.volume;} set { sfxSource.volume = value; sfxMovdSource.volume = value; sfxJumpSource.volume = value; sfxAttackSource.volume = value; } }
+	public float SFXVolme { get { return sfxSource.volume; } set { sfxSource.volume = value; sfxMovdSource.volume = value; sfxJumpSource.volume = value; sfxAttackSource.volume = value; } }
 
 	[Header("Sound Clips")]
-    [SerializeField] AudioClip titleSoundClip;
-    public AudioClip TitleSoundClip { get { return titleSoundClip; } }
+	[Header("BGM")]
+	[SerializeField] AudioClip titleSoundClip;
+	public AudioClip TitleSoundClip { get { return titleSoundClip; } }
 	[SerializeField] AudioClip kingsPassSoundClip;
 	public AudioClip KingsPassSoundClip { get { return kingsPassSoundClip; } }
 	[SerializeField] AudioClip dirtmouthSoundClip;
@@ -23,10 +24,14 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip CrossoradsSoundClip { get { return crossoradsSoundClip; } }
 	[SerializeField] AudioClip bossSoundClip;
 	public AudioClip BossSoundClip { get { return bossSoundClip; } }
+
+	[Header("UI")]
 	[SerializeField] AudioClip uiButton;
 	public AudioClip UiButton { get { return uiButton; } }
 	[SerializeField] AudioClip uiButtonChange;
 	public AudioClip UiButtonChange { get { return uiButtonChange; } }
+
+	[Header("Player")]
 	[SerializeField] AudioClip playerMove;
 	public AudioClip PlayerMove { get { return playerMove; } }
 	[SerializeField] AudioClip playerJump;
@@ -49,20 +54,12 @@ public class SoundManager : Singleton<SoundManager>
 	public AudioClip PlayerHeal { get { return playerHeal; } }
 	[SerializeField] AudioClip playerDie;
 	public AudioClip PlayerDie { get { return playerDie; } }
-	[SerializeField] AudioClip door;
-	public AudioClip Door { get { return door; } }
-	[SerializeField] AudioClip gate;
-	public AudioClip Gate { get { return gate; } }
-	[SerializeField] AudioClip coinPop;
-	public AudioClip CoinPop { get { return coinPop; } }
-	[SerializeField] AudioClip coin;
-	public AudioClip Coin { get { return coin; } }
+
+	[Header("Monster")]
 	[SerializeField] AudioClip monsterTakeHit;
 	public AudioClip MonsterTakeHit { get { return monsterTakeHit; } }
-	[SerializeField] AudioClip elderbugFirst;
-	public AudioClip ElderbugFirst { get { return elderbugFirst; } }
-	[SerializeField] AudioClip[] elderbug;
-	public AudioClip[] Elderbug { get { return elderbug; } }
+
+	[Header("Hornet")]
 	[SerializeField] AudioClip hornetMove;
 	public AudioClip HornetMove { get { return hornetMove; } }
 	[SerializeField] AudioClip hornetJump;
@@ -82,38 +79,54 @@ public class SoundManager : Singleton<SoundManager>
 	[SerializeField] AudioClip hornetSpear;
 	public AudioClip HornetSpear { get { return hornetSpear; } }
 
-	public void PlayBGM(AudioClip clip)
-    {
-        if (bgmSource.isPlaying)
-        {
-            bgmSource.Stop();
-        }
-        bgmSource.clip = clip;
-        bgmSource.Play();
-    }
+	[Header("Elderbug")]
+	[SerializeField] AudioClip[] elderbug;
+	public AudioClip[] Elderbug { get { return elderbug; } }
+	[SerializeField] AudioClip elderbugFirst;
+	public AudioClip ElderbugFirst { get { return elderbugFirst; } }
 
-    public void StopBGM(AudioClip clip)
-    {
+	[Header("GameObjects")]
+	[SerializeField] AudioClip door;
+	public AudioClip Door { get { return door; } }
+	[SerializeField] AudioClip gate;
+	public AudioClip Gate { get { return gate; } }
+	[SerializeField] AudioClip coinPop;
+	public AudioClip CoinPop { get { return coinPop; } }
+	[SerializeField] AudioClip coin;
+	public AudioClip Coin { get { return coin; } }
+
+	public void PlayBGM(AudioClip clip)
+	{
+		if (bgmSource.isPlaying)
+		{
+			bgmSource.Stop();
+		}
 		bgmSource.clip = clip;
-        bgmSource.Stop();
+		bgmSource.Play();
 	}
 
-    public void PlayMoveSFX(AudioClip clip)
-    {
+	public void StopBGM(AudioClip clip)
+	{
+		bgmSource.clip = clip;
+		bgmSource.Stop();
+	}
+
+	public void PlayMoveSFX(AudioClip clip)
+	{
 		sfxMovdSource.clip = clip;
-		if(Manager.Scene.IsSceneChange)
+		if (Manager.Scene.IsSceneChange)
 		{
 			StopMoveSFX(clip);
 			return;
 		}
 		sfxMovdSource.Play();
-    }
+	}
 
-    public void StopMoveSFX(AudioClip clip)
-    {
+	public void StopMoveSFX(AudioClip clip)
+	{
 		sfxMovdSource.clip = clip;
 		sfxMovdSource.Stop();
-    }
+	}
 
 	public void PlayJumpSFX(AudioClip clip)
 	{

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
@@ -53,7 +52,7 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 		}
 	}
 
-	IEnumerator TakeHitCoroutine()
+	private IEnumerator TakeHitCoroutine()
 	{
 		player.Animator.SetTrigger("TakeHit");
 
@@ -64,7 +63,7 @@ public class PlayerTakeHitState : BaseState<PlayerStateType>
 			player.Renderer.color = Color.white;
 			yield return new WaitForSeconds(player.BlinkDuration);
 		}
-		if(player.IsDie)
+		if (player.IsDie)
 		{
 			player.IsBlink = false;
 			yield break;

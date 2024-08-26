@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,24 +6,28 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : Singleton<SceneManager>
 {
+	[Header("UnityEvent")]
+	[SerializeField] UnityEvent<string> onLoadScene;
+	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } set { onLoadScene = value; } }
+
+	[Header("Components")]
 	[SerializeField] Image fade;
 	[SerializeField] Image fadeFast;
 	public Image FadeFast { get { return fadeFast; } set { FadeFast = value; } }
-	[SerializeField] float fadeTime;
-	public float FadeTime { get { return fadeTime; } }
-	[SerializeField] float respawnFadeTime;
-	[SerializeField] bool isRespawn;
-	public bool IsRespawn { get { return isRespawn; } }
-	[SerializeField] bool isSceneChange;
-	public bool IsSceneChange { get { return isSceneChange; } }
-	[SerializeField] UnityEvent<string> onLoadScene;
-	public UnityEvent<string> OnLoadScene { get { return onLoadScene; } }
+	[SerializeField] Image loading;
+	public Image Loading { get { return loading; } set { loading = value; } }
 	[SerializeField] BaseScene curScene;
 	public BaseScene CurScene { get { return curScene; } }
 	[SerializeField] Coroutine fadeCoroutine;
-	[SerializeField] Image loading;
-	public Image Loading { get { return loading; } set { loading = value; } }
 
+	[Header("Specs")]
+	[SerializeField] float respawnFadeTime;
+	[SerializeField] float fadeTime;
+	public float FadeTime { get { return fadeTime; } }
+	private bool isRespawn;
+	public bool IsRespawn { get { return isRespawn; } }
+	private bool isSceneChange;
+	public bool IsSceneChange { get { return isSceneChange; } }
 
 	public BaseScene GetCurScene()
 	{
@@ -61,50 +64,6 @@ public class SceneManager : Singleton<SceneManager>
 		StartCoroutine(FadeIn());
 		fade.gameObject.SetActive(false);
 		isRespawn = fade;
-	}
-
-
-	IEnumerator LoadingRoutine(string sceneName)
-	{
-		isSceneChange = true;
-		if (fade.gameObject.activeSelf)
-		{
-			if (fadeCoroutine != null)
-			{
-				StopCoroutine(fadeCoroutine);
-			}
-		}
-
-		fadeCoroutine = StartCoroutine(FadeOut());
-		fade.gameObject.SetActive(true);
-		yield return fadeCoroutine;
-
-		Manager.Game.SetPreviousScene(UnitySceneManager.GetActiveScene().name);
-		Manager.UI.ClearPopUpUI();
-		Manager.UI.ClearWindowUI();
-		Manager.UI.CloseInGameUI();
-		fadeFast.gameObject.SetActive(false);
-		loading.gameObject.SetActive(false);
-
-		Time.timeScale = 0f;
-
-		AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName);
-		yield return oper;
-
-		Manager.UI.EnsureEventSystem();
-
-		BaseScene curScene = GetCurScene();
-		yield return curScene.LoadingRoutine();
-
-
-		Manager.Game.OnSceneTransition(sceneName);
-		Time.timeScale = 1f;
-		onLoadScene?.Invoke(sceneName);
-
-		isSceneChange = false;
-		fadeCoroutine = StartCoroutine(FadeIn());
-		yield return fadeCoroutine;
-		fade.gameObject.SetActive(false);
 	}
 
 	public IEnumerator FadeOut()
@@ -156,5 +115,48 @@ public class SceneManager : Singleton<SceneManager>
 				yield return null;
 			}
 		}
+	}
+
+	private IEnumerator LoadingRoutine(string sceneName)
+	{
+		isSceneChange = true;
+		if (fade.gameObject.activeSelf)
+		{
+			if (fadeCoroutine != null)
+			{
+				StopCoroutine(fadeCoroutine);
+			}
+		}
+
+		fadeCoroutine = StartCoroutine(FadeOut());
+		fade.gameObject.SetActive(true);
+		yield return fadeCoroutine;
+
+		Manager.Game.SetPreviousScene(UnitySceneManager.GetActiveScene().name);
+		Manager.UI.ClearPopUpUI();
+		Manager.UI.ClearWindowUI();
+		Manager.UI.CloseInGameUI();
+		fadeFast.gameObject.SetActive(false);
+		loading.gameObject.SetActive(false);
+
+		Time.timeScale = 0f;
+
+		AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName);
+		yield return oper;
+
+		Manager.UI.EnsureEventSystem();
+
+		BaseScene curScene = GetCurScene();
+		yield return curScene.LoadingRoutine();
+
+
+		Manager.Game.OnSceneTransition(sceneName);
+		Time.timeScale = 1f;
+		onLoadScene?.Invoke(sceneName);
+
+		isSceneChange = false;
+		fadeCoroutine = StartCoroutine(FadeIn());
+		yield return fadeCoroutine;
+		fade.gameObject.SetActive(false);
 	}
 }

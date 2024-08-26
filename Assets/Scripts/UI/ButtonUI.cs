@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+	[Header("Components")]
 	[SerializeField] Image leftHighlightImage;
 	[SerializeField] Image rightHighlightImage;
 

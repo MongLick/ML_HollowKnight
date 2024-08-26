@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static VengeflyState;
 
@@ -21,7 +20,7 @@ public class VengeflyDieState : BaseState<VengeflyStateType>
 		vengefly.DieRoutine = vengefly.StartCoroutine(DieCoroutine());
 	}
 
-	IEnumerator DieCoroutine()
+	private IEnumerator DieCoroutine()
 	{
 		vengefly.Animator.SetTrigger("Die");
 		yield return new WaitForSeconds(vengefly.DieTime);

@@ -1,16 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class TitleSceneUI : PopUpUI
 {
+	[Header("Components")]
 	[SerializeField] SettingsPopupUI settingsPopupUI;
-	[SerializeField] bool isGameStart;
+	[SerializeField] TitleScene title;
+
+	[Header("Specs")]
+	private bool isGameStart;
 	public bool IsGameStart { get { return isGameStart; } }
-	[SerializeField] bool isButtonClick;
-	private TitleScene title;
+	private bool isButtonClick;
 
 	protected override void Awake()
 	{

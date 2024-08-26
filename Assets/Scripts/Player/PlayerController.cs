@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 {
 	private Dictionary<Transform, Vector3> initialChildPositions = new Dictionary<Transform, Vector3>();
 
-	[Header("Event")]
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onJumpEvent;
 	public UnityEvent OnJumpEvent { get { return onJumpEvent; } set { onJumpEvent = value; } }
 	[SerializeField] UnityEvent onFallEvent;
@@ -41,6 +41,38 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public PhysicsMaterial2D BasicMaterial { get { return basicMaterial; } }
 	[SerializeField] PhysicsMaterial2D takeHitMaterial;
 	public PhysicsMaterial2D TakeHitMaterial { get { return takeHitMaterial; } }
+	[SerializeField] Collider2D[] colliders = new Collider2D[20];
+	[SerializeField] StateMachine<PlayerStateType> playerState;
+	public PlayerStateType CurrentState;
+	[SerializeField] AnimatorStateInfo stateInfo;
+	[SerializeField] LayerMask groundCheckLayer;
+	[SerializeField] LayerMask monsterCheckLayer;
+
+	[Header("Vector")]
+	private Vector2 moveDir;
+	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
+	private Vector2 lastMoveDir;
+	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
+	private Vector2 lastAttackDirection;
+	public Vector2 LastAttackDirection { get { return lastAttackDirection; } set { lastAttackDirection = value; } }
+	private Vector2 velocity;
+	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
+
+	[Header("Coroutine")]
+	private Coroutine lookRoutine;
+	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
+	private Coroutine dashRoutine;
+	public Coroutine DashRoutine { get { return dashRoutine; } set { dashRoutine = value; } }
+	private Coroutine jumpRoutine;
+	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
+	private Coroutine attackRoutine;
+	public Coroutine AttackRoutine { get { return attackRoutine; } set { attackRoutine = value; } }
+	private Coroutine knockbackRoutine;
+	public Coroutine KnockbackRoutine { get { return knockbackRoutine; } set { knockbackRoutine = value; } }
+	private Coroutine takeHitRoutine;
+	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
+	private Coroutine dieRoutine;
+	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
 
 	[Header("Specs")]
 	[SerializeField] int damage;
@@ -91,20 +123,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public float HitKnockbackPower { get { return hitKnockbackPower; } }
 	[SerializeField] float range;
 	public float Range { get { return range; } }
-
-	[Header("Debug")]
-	[SerializeField] LayerMask groundCheckLayer;
-	[SerializeField] LayerMask monsterCheckLayer;
-	private Vector2 moveDir;
-	public Vector2 MoveDir { get { return moveDir; } set { moveDir = value; } }
-	private Vector2 lastMoveDir;
-	public Vector2 LastMoveDir { get { return lastMoveDir; } set { lastMoveDir = value; } }
-	private Vector2 lastAttackDirection;
-	public Vector2 LastAttackDirection { get { return lastAttackDirection; } set { lastAttackDirection = value; } }
-	private Vector2 velocity;
-	public Vector2 Velocity { get { return velocity; } set { velocity = value; } }
-	private AnimatorStateInfo stateInfo;
-	StateMachine<PlayerStateType> playerState;
 	private bool isGround;
 	public bool IsGround { get { return isGround; } }
 	private bool isJumpCharging;
@@ -136,22 +154,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 	private bool applyUpKnockback;
 	public bool ApplyUpKnockback { get { return applyUpKnockback; } set { applyUpKnockback = value; } }
 	private bool hasPlayedMoveSound;
-	private Coroutine lookRoutine;
-	public Coroutine LookRoutine { get { return lookRoutine; } set { lookRoutine = value; } }
-	private Coroutine dashRoutine;
-	public Coroutine DashRoutine { get { return dashRoutine; } set { dashRoutine = value; } }
-	private Coroutine jumpRoutine;
-	public Coroutine JumpRoutine { get { return jumpRoutine; } set { jumpRoutine = value; } }
-	private Coroutine attackRoutine;
-	public Coroutine AttackRoutine { get { return attackRoutine; } set { attackRoutine = value; } }
-	private Coroutine knockbackRoutine;
-	public Coroutine KnockbackRoutine { get { return knockbackRoutine; } set { knockbackRoutine = value; } }
-	private Coroutine takeHitRoutine;
-	public Coroutine TakeHitRoutine { get { return takeHitRoutine; } set { takeHitRoutine = value; } }
-	private Coroutine dieRoutine;
-	public Coroutine DieRoutine { get { return dieRoutine; } set { dieRoutine = value; } }
-	public PlayerStateType CurrentState;
-	Collider2D[] colliders = new Collider2D[20];
 
 	private void Awake()
 	{
@@ -196,10 +198,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 			Manager.Sound.PlayMoveSFX(Manager.Sound.PlayerMove);
 			hasPlayedMoveSound = true;
 		}
-	}
-	private void IsOnGround()
-	{
-		isGround = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundCheckLayer);
 	}
 
 	private void FixedUpdate()
@@ -407,6 +405,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 	}
 
+	private void IsOnGround()
+	{
+		isGround = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundCheckLayer);
+	}
+
 	public void TakeDamage(int damage)
 	{
 		if (!isBlink)
@@ -461,7 +464,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		playerAttack.OnAttackAnimationEvent(effectName, lastAttackDirection.x > 0);
 	}
 
-	IEnumerator JumpCoroutine()
+	private IEnumerator JumpCoroutine()
 	{
 		while (isJumpCharging)
 		{

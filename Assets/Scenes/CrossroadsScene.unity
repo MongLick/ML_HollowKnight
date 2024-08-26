@@ -349,16 +349,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6438e8a96e9a59241831d2b302ae5e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  UpDirtmouthZoneCanvas: {fileID: 1716305553}
-  fadeDuration: 0.5
   onDirtmouthScene:
     m_PersistentCalls:
       m_Calls: []
-  isPlayerTrigger: 0
-  isSceneChange: 0
+  UpDirtmouthZoneCanvas: {fileID: 1716305553}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  fadeDuration: 0.5
 --- !u!61 &199719086
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -416,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 199719085}
@@ -1452,11 +1450,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137b24321400f244ca000f097cd392fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CrossroadsCanvas: {fileID: 745382257}
+  boxCollider: {fileID: 903245671}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  CrossroadsCanvas: {fileID: 745382257}
-  boxCollider: {fileID: 903245671}
   fadeDuration: 1
   fadeDely: 1
 --- !u!1 &912541935
@@ -3175,16 +3173,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c31792df67d4f347818d7b902299506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  BossZoneCanvas: {fileID: 1202986906}
-  fadeDuration: 0.5
   onBossScene:
     m_PersistentCalls:
       m_Calls: []
-  isPlayerTrigger: 0
-  isSceneChange: 0
+  BossZoneCanvas: {fileID: 1202986906}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  fadeDuration: 0.5
 --- !u!114 &1598748939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3197,7 +3193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1598748938}

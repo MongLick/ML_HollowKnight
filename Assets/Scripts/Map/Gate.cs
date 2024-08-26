@@ -1,21 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Gate : MonoBehaviour, IDamageable
 {
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onDirtmouthLoadScene;
-	public UnityEvent OnDirtmouthUnloadScene { get { return onDirtmouthLoadScene; } }
+	public UnityEvent OnDirtmouthUnloadScene { get { return onDirtmouthLoadScene; } set { onDirtmouthLoadScene = value; } }
 
 	[Header("Components")]
 	[SerializeField] List<GameObject> stonePrefabs;
 	[SerializeField] Rigidbody2D rigid;
 	[SerializeField] SpriteRenderer render;
-
-	[Header("Sprites")]
 	[SerializeField] Sprite damagedSprite1;
-	[SerializeField] Sprite damagedSprite2; 
+	[SerializeField] Sprite damagedSprite2;
+
+	[Header("Vector")]
+	private Vector2 randomPosition;
+	private Vector2 forceDirection;
+	private Vector2 force;
 
 	[Header("Specs")]
 	[SerializeField] int hp;
@@ -28,11 +31,6 @@ public class Gate : MonoBehaviour, IDamageable
 	[SerializeField] float maxLaunchAngle;
 	[SerializeField] float minForceMagnitude;
 	[SerializeField] float maxForceMagnitude;
-
-	[Header("Vector")]
-	[SerializeField] Vector2 randomPosition;
-	[SerializeField] Vector2 forceDirection;
-	[SerializeField] Vector2 force;
 
 	private void UpdateSprite()
 	{

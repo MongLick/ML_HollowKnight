@@ -1,19 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using static CreeperState;
 using static HornetState;
 
 public class HornetController : Monster
 {
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onSpearThrowEvent;
 	public UnityEvent OnSpearThrowEvent { get { return onSpearThrowEvent; } set { onSpearThrowEvent = value; } }
 	[SerializeField] UnityEvent onLaunchEvent;
 	public UnityEvent OnLaunchEvent { get { return onLaunchEvent; } set { onLaunchEvent = value; } }
 	[SerializeField] UnityEvent onCircularEvent;
 	public UnityEvent OnCircularEvent { get { return onCircularEvent; } set { onCircularEvent = value; } }
+
+	[Header("Components")]
+	[SerializeField] SpriteRenderer render;
+	public SpriteRenderer Render { get { return render; } }
+	[SerializeField] Animator animator;
+	public Animator Animator { get { return animator; } }
+	[SerializeField] Collider2D hornetcollider;
+	public Collider2D Hornetcollider { get { return hornetcollider; } set { hornetcollider = value; } }
+	[SerializeField] StateMachine<HornetStateType> hornetState;
+	public HornetStateType CurrentState;
+	[SerializeField] LayerMask playerCheck;
+	public LayerMask PlayerCheck { get { return playerCheck; } }
+	[SerializeField] LayerMask groundCheckLayer;
+
+	[Header("Vector")]
+	private Vector2 backStepDirection;
+	public Vector2 BackStepDirection { get { return backStepDirection; } set { backStepDirection = value; } }
+	private Vector2 dashDirection;
+	public Vector2 DashDirection { get { return dashDirection; } set { dashDirection = value; } }
+	private Vector2 moveDirection;
+	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
+	private Vector2 velocity;
+
+	[Header("Specs")]
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
 	[SerializeField] float moveSpeed;
@@ -50,21 +71,7 @@ public class HornetController : Monster
 	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
 	private bool isDie;
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
-	[SerializeField] SpriteRenderer render;
-	public SpriteRenderer Render { get { return render; } }
-	[SerializeField] LayerMask playerCheck;
-	public LayerMask PlayerCheck { get { return playerCheck; } }
-	[SerializeField] Animator animator;
-	public Animator Animator { get { return animator; } }
-	StateMachine<HornetStateType> hornetState;
-	public HornetStateType CurrentState;
-	[SerializeField] Vector2 moveDirection;
-	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
-	[SerializeField] LayerMask groundCheckLayer;
-	private Vector2 velocity;
 	private bool isGround;
-	[SerializeField] Collider2D hornetcollider;
-	public Collider2D Hornetcollider {get { return hornetcollider; } set { hornetcollider = value; } }
 
 	private void Awake()
 	{
@@ -87,13 +94,13 @@ public class HornetController : Monster
 		{
 			return;
 		}
-		if(Manager.Game.Player.IsDie)
+		if (Manager.Game.Player.IsDie)
 		{
 			hornetState.ChangeState(HornetStateType.Idle);
 		}
 		CurrentState = hornetState.GetCurrentState();
 		hornetState.Update();
-		if(isGround)
+		if (isGround)
 		{
 			if (Hp <= 0 && !isDie)
 			{
@@ -112,7 +119,7 @@ public class HornetController : Monster
 
 	private void FixedUpdate()
 	{
-		if(isDie)
+		if (isDie)
 		{
 			return;
 		}
@@ -147,7 +154,7 @@ public class HornetController : Monster
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if(isDie)
+		if (isDie)
 		{
 			return;
 		}

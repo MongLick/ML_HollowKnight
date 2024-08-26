@@ -1,4 +1,3 @@
-using UnityEngine;
 using static VengeflyState;
 
 public class VengeflyIdleState : BaseState<VengeflyStateType>

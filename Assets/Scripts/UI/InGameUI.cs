@@ -2,19 +2,22 @@ using UnityEngine;
 
 public class InGameUI : BaseUI
 {
-    public Transform followTarget;
-    public Vector3 followOffset;
+	[Header("Components")]
+	public Transform followTarget;
 
-    private void LateUpdate()
-    {
-        if (followTarget != null)
-        {
-            transform.position = Camera.main.WorldToScreenPoint(followTarget.position) + followOffset;
-        }
-    }
+	[Header("Vector")]
+	public Vector3 followOffset;
 
-    public void Close()
-    {
-        Manager.UI.CloseInGameUI();
-    }
+	private void LateUpdate()
+	{
+		if (followTarget != null)
+		{
+			transform.position = Camera.main.WorldToScreenPoint(followTarget.position) + followOffset;
+		}
+	}
+
+	public void Close()
+	{
+		Manager.UI.CloseInGameUI();
+	}
 }

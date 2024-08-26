@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static CreeperState;
 
@@ -25,22 +24,22 @@ public class CreeperTakeHitState : BaseState<CreeperStateType>
 
 	public override void Update()
 	{
-		if(creeper.IsDie)
+		if (creeper.IsDie)
 		{
 			ChangeState(CreeperStateType.Die);
 		}
-		else if(!creeper.IsTakeHit)
+		else if (!creeper.IsTakeHit)
 		{
 			ChangeState(CreeperStateType.Move);
 		}
 	}
 
-	IEnumerator TakeHitCoroutine()
+	private IEnumerator TakeHitCoroutine()
 	{
 		creeper.Animator.SetTrigger("TakeHit");
 		yield return new WaitForSeconds(creeper.TakeHitTime);
 		creeper.IsTakeHit = false;
-		if(creeper.Hp <= 0)
+		if (creeper.Hp <= 0)
 		{
 			creeper.IsDie = true;
 		}

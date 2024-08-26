@@ -1,18 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EndZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] CanvasGroup EndCanvas;
-	[SerializeField] float fadeDuration;
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onTitleScene;
-	public UnityEvent OnTitleScene { get { return onTitleScene; } }
+	public UnityEvent OnTitleScene { get { return onTitleScene; } set { onTitleScene = value; } }
+
+	[Header("Components")]
+	[SerializeField] HornetController hornet;
+	[SerializeField] CanvasGroup EndCanvas;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
+	[SerializeField] float fadeDuration;
 	[SerializeField] bool isPlayerTrigger;
 	[SerializeField] bool isSceneChange;
-	[SerializeField] HornetController hornet;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{

@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KingsPassScene : BaseScene
 {
+	[Header("Components")]
 	[SerializeField] Gate gate;
 	[SerializeField] Image SceneImage;
 	[SerializeField] GatePoint gatePoint;
@@ -16,6 +15,12 @@ public class KingsPassScene : BaseScene
 		gatePoint.OnDirtmouthSceneLoad.AddListener(DirtmouthLoadScene);
 		Manager.Game.Player.OnDieEvent.AddListener(PlayerDieLoadScene);
 		Cursor.visible = false;
+	}
+
+	private void OnEnable()
+	{
+		Manager.Game.KingsPassUpdate();
+		Manager.Sound.PlayBGM(Manager.Sound.KingsPassSoundClip);
 	}
 
 	public void DirtmouthLoadScene()
@@ -29,12 +34,6 @@ public class KingsPassScene : BaseScene
 	{
 		Manager.Scene.LoadScene("KingsPassScene");
 		Manager.Data.GameData.Health = 5;
-	}
-
-	private void OnEnable()
-	{
-		Manager.Game.KingsPassUpdate();
-		Manager.Sound.PlayBGM(Manager.Sound.KingsPassSoundClip);
 	}
 
 	public override IEnumerator LoadingRoutine()

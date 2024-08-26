@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class TitleScene : BaseScene
 {
+	[Header("Components")]
 	[SerializeField] VideoPlayer videoPlayer;
 	public VideoPlayer VideoPlayer { get { return videoPlayer; } set { videoPlayer = value; } }
 	[SerializeField] VideoClip videoClip1;

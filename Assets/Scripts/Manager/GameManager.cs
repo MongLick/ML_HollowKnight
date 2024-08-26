@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-	[SerializeField] string previousSceneName;
+	[Header("Components")]
+	[SerializeField] List<Collider2D> monsterColliders = new List<Collider2D>();
+	public List<Collider2D> MonsterColliders { get { return monsterColliders; } }
 	[SerializeField] PlayerController player;
 	public PlayerController Player { get { return player; } }
 	[SerializeField] HornetController hornet;
 	public HornetController Hornet { get { return hornet; } }
 	[SerializeField] Collider2D playerCollider;
 	public Collider2D PlayerCollider { get { return playerCollider; } }
-	[SerializeField] List<Collider2D> monsterColliders = new List<Collider2D>();
-	public List<Collider2D> MonsterColliders { get { return monsterColliders; } }
-	[SerializeField] LayerMask monsterLayer;
 	[SerializeField] Transform respawnPoint;
 	public Transform RespawnPoint { get { return respawnPoint; } }
-	[SerializeField] float respawnDelay;
 	[SerializeField] Gate gate;
 	[SerializeField] GatePoint gatePoint;
 	[SerializeField] Texture2D customCursorTexture;
+	[SerializeField] LayerMask monsterLayer;
+
+	[Header("Specs")]
+	[SerializeField] string previousSceneName;
+	[SerializeField] float respawnDelay;
 
 	private void Start()
 	{

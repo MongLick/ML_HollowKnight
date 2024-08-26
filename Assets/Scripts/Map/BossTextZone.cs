@@ -1,12 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossTextZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
+	[Header("Components")]
 	[SerializeField] CanvasGroup bossCanvas;
 	[SerializeField] BoxCollider2D boxCollider;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
 	[SerializeField] float fadeDuration;
 	[SerializeField] float fadeDely;
 

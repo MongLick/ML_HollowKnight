@@ -1,40 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spear : MonoBehaviour
 {
-	[SerializeField] private SpriteRenderer render;
+	[Header("Components")]
+	[SerializeField] SpriteRenderer render;
 	[SerializeField] Rigidbody2D rigid;
-	[SerializeField] private float speed;
-	[SerializeField] private float maxDistance;
-	[SerializeField] private int damage;
-	private bool returning;
+	[SerializeField] Collider2D hornetCollider;
+	[SerializeField] LayerMask playerCheck;
 
-	[SerializeField] private LayerMask playerCheck;
+	[Header("Vector2")]
 	private Vector2 startPosition;
 	private Vector2 direction;
-	[SerializeField] Collider2D hornetCollider;
+
+	[Header("Specs")]
+	[SerializeField] int damage;
+	[SerializeField] float speed;
+	[SerializeField] float maxDistance;
+	private bool returning;
 
 	private void OnEnable()
 	{
 		UpdateDirection();
-	}
-
-	private void UpdateDirection()
-	{
-		if (Manager.Game.Hornet != null)
-		{
-			returning = false;
-			Collider2D hornetCollider = Manager.Game.Hornet.GetComponent<Collider2D>();
-			startPosition = hornetCollider.bounds.center;
-			transform.position = startPosition;
-
-			Vector2 targetPosition = Manager.Game.Player.transform.position;
-			direction = (targetPosition - startPosition).normalized;
-			direction.y = 0;
-			render.flipX = direction.x > 0;
-		}
 	}
 
 	private void FixedUpdate()
@@ -65,6 +51,22 @@ public class Spear : MonoBehaviour
 			{
 				damageable.TakeDamage(damage);
 			}
+		}
+	}
+
+	private void UpdateDirection()
+	{
+		if (Manager.Game.Hornet != null)
+		{
+			returning = false;
+			Collider2D hornetCollider = Manager.Game.Hornet.GetComponent<Collider2D>();
+			startPosition = hornetCollider.bounds.center;
+			transform.position = startPosition;
+
+			Vector2 targetPosition = Manager.Game.Player.transform.position;
+			direction = (targetPosition - startPosition).normalized;
+			direction.y = 0;
+			render.flipX = direction.x > 0;
 		}
 	}
 }

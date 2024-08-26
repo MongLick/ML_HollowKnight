@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
 public class HornetBackStepState : BaseState<HornetStateType>
 {
 	private HornetController hornet;
-	private Vector2 backStepDirection;
 
 	public HornetBackStepState(HornetController hornet)
 	{
@@ -15,7 +13,7 @@ public class HornetBackStepState : BaseState<HornetStateType>
 
 	public override void Enter()
 	{
-		backStepDirection = hornet.MoveDirection.normalized;
+		hornet.BackStepDirection = hornet.MoveDirection.normalized;
 		hornet.StartCoroutine(BackStepCoroutine());
 	}
 
@@ -26,7 +24,7 @@ public class HornetBackStepState : BaseState<HornetStateType>
 
 	private void MoveBackStep()
 	{
-		hornet.Rigid.velocity = -backStepDirection * hornet.BackStepPower;
+		hornet.Rigid.velocity = -hornet.BackStepDirection * hornet.BackStepPower;
 	}
 
 	IEnumerator BackStepCoroutine()

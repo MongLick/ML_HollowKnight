@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
-using UnityEngine.Playables;
 using static PlayerState;
 
 public class PlayerAttackState : BaseState<PlayerStateType>
@@ -49,7 +46,7 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 			{
 				ApplyUpKnockback();
 			}
-			else if(player.ApplyKnockback)
+			else if (player.ApplyKnockback)
 			{
 				ApplyKnockback();
 			}
@@ -89,7 +86,7 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		player.KnockbackRoutine = player.StartCoroutine(SmoothKnockbackCoroutine());
 	}
 
-	IEnumerator AttackCoroutine()
+	private IEnumerator AttackCoroutine()
 	{
 		if (player.IsLookUp)
 		{
@@ -128,11 +125,11 @@ public class PlayerAttackState : BaseState<PlayerStateType>
 		ChangeState(PlayerStateType.Idle);
 	}
 
-	IEnumerator SmoothKnockbackCoroutine()
+	private IEnumerator SmoothKnockbackCoroutine()
 	{
 		yield return new WaitForSeconds(player.KnockbackTime);
 		player.ApplyKnockback = false;
-		player.ApplyUpKnockback= false;
+		player.ApplyUpKnockback = false;
 		player.IsMonsterAttack = false;
 	}
 }

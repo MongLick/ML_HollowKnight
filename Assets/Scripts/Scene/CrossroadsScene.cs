@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrossroadsScene : BaseScene
 {
+	[Header("Components")]
 	[SerializeField] UpDestructionZone upDestructionZone;
 	[SerializeField] BossZone bossZone;
 
@@ -13,6 +13,12 @@ public class CrossroadsScene : BaseScene
 		bossZone.OnBossScene.AddListener(BossScneneLoad);
 		Manager.Game.Player.OnDieEvent.AddListener(PlayerDieLoadScene);
 		Cursor.visible = false;
+	}
+
+	private void OnEnable()
+	{
+		Manager.Game.CrossroadsUpdate();
+		Manager.Sound.PlayBGM(Manager.Sound.CrossoradsSoundClip);
 	}
 
 	public void DestructionScneneLoad()
@@ -29,12 +35,6 @@ public class CrossroadsScene : BaseScene
 		Manager.Scene.FadeFast.gameObject.SetActive(true);
 		Manager.Scene.Loading.gameObject.SetActive(true);
 		Cursor.visible = false;
-	}
-
-	private void OnEnable()
-	{
-		Manager.Game.CrossroadsUpdate();
-		Manager.Sound.PlayBGM(Manager.Sound.CrossoradsSoundClip);
 	}
 
 	private void PlayerDieLoadScene()

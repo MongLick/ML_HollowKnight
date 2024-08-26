@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static VengeflyState;
 
@@ -14,7 +12,7 @@ public class VengeflyReturnState : BaseState<VengeflyStateType>
 
 	public override void Update()
 	{
-		if(vengefly.IsPlayerInRange)
+		if (vengefly.IsPlayerInRange)
 		{
 			ChangeState(VengeflyStateType.Move);
 		}

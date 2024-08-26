@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsPopupUI : PopUpUI
 {
+	[Header("Components")]
 	[SerializeField] GameObject titleSceneUI;
 	[SerializeField] AudioSettingsUI audioSettingsPrefab;
 	[SerializeField] KeyboardPopupUI keyboardPopupPrefab;

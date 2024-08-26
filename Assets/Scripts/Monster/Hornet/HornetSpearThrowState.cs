@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
@@ -17,7 +16,7 @@ public class HornetSpearThrowState : BaseState<HornetStateType>
 		hornet.StartCoroutine(SpearThrowCoroutine());
 	}
 
-	IEnumerator SpearThrowCoroutine()
+	private IEnumerator SpearThrowCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetSpear);
 		hornet.Animator.SetTrigger("SpearThrow");

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
@@ -17,7 +16,7 @@ public class HornetCircularAttackState : BaseState<HornetStateType>
 		hornet.StartCoroutine(CircularAttackCoroutine());
 	}
 
-	IEnumerator CircularAttackCoroutine()
+	private IEnumerator CircularAttackCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetCircularAttack);
 		hornet.OnCircularEvent?.Invoke();

@@ -1,17 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Launch : MonoBehaviour
 {
-	[SerializeField] private SpriteRenderer render;
+	[Header("Components")]
+	[SerializeField] SpriteRenderer render;
+
+	[Header("Vector")]
 	private Vector2 startPosition;
 	private Vector2 direction;
-	[SerializeField] private float offsetDistance;
+
+	[Header("Specs")]
+	[SerializeField] float offsetDistance;
 
 	private void OnEnable()
 	{
-		if(Manager.Game.Hornet != null)
+		if (Manager.Game.Hornet != null)
 		{
 			Collider2D hornetCollider = Manager.Game.Hornet.GetComponent<Collider2D>();
 			Vector2 hornetPosition = hornetCollider.bounds.center;

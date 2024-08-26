@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,11 @@ public class Door : MonoBehaviour, IDamageable
 	[Header("Components")]
 	[SerializeField] List<GameObject> stonePrefabs;
 	[SerializeField] Rigidbody2D rigid;
+
+	[Header("Vector")]
+	private Vector2 randomPosition;
+	private Vector2 forceDirection;
+	private Vector2 force;
 
 	[Header("Specs")]
 	[SerializeField] int hp;
@@ -20,10 +24,6 @@ public class Door : MonoBehaviour, IDamageable
 	[SerializeField] float minForceMagnitude;
 	[SerializeField] float maxForceMagnitude;
 
-	[Header("Vector")]
-	[SerializeField] Vector2 randomPosition;
-	[SerializeField] Vector2 forceDirection;
-	[SerializeField] Vector2 force;
 
 	public void TakeDamage(int damage)
 	{

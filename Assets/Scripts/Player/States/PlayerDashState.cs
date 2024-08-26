@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
@@ -36,7 +34,7 @@ public class PlayerDashState : BaseState<PlayerStateType>
 		}
 	}
 
-	IEnumerator DashCoroutine()
+	private IEnumerator DashCoroutine()
 	{
 		player.CannotDash = true;
 		player.IsDash = true;

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
@@ -46,7 +45,7 @@ public class HornetJumpState : BaseState<HornetStateType>
 		hornet.Rigid.velocity = jumpVelocity;
 	}
 
-	IEnumerator JumpCoroutine()
+	private IEnumerator JumpCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetJump);
 		hornet.Animator.SetTrigger("Jump");

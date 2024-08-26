@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+	[Header("Components")]
 	[SerializeField] Canvas popUpCanvas;
 	[SerializeField] Canvas windowCanvas;
 	[SerializeField] Canvas inGameCanvas;
 	[SerializeField] Canvas videoCanvas;
-
 	[SerializeField] GameObject titlePrefab;
+	[SerializeField] GameObject titleUIInstance;
+	public GameObject TitleUIInstance { get { return titleUIInstance; } set { titleUIInstance = value; } }
+	[SerializeField] Stack<PopUpUI> popUpStack = new Stack<PopUpUI>();
+	[SerializeField] InGameUI curInGameUI;
 	[SerializeField] Image videoBack;
 	public Image VideoBack { get { return videoBack; } }
 
-	private Stack<PopUpUI> popUpStack = new Stack<PopUpUI>();
-	private InGameUI curInGameUI;
-	private GameObject titleUIInstance;
-	public GameObject TitleUIInstance { get { return titleUIInstance; } set { titleUIInstance = value; } }
-
+	[Header("Specs")]
 	private bool isTitleSceneActive;
 	public bool IsTitleSceneActive { get { return isTitleSceneActive; } set { isTitleSceneActive = value; } }
 

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
@@ -26,7 +25,7 @@ public class PlayerDieState : BaseState<PlayerStateType>
 		player.OnDieEvent?.Invoke();
 	}
 
-	IEnumerator DieCoroutine()
+	private IEnumerator DieCoroutine()
 	{
 		yield return new WaitForSeconds(player.DieTime);
 	}

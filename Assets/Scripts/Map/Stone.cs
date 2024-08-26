@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Stone : MonoBehaviour
 {
+	[Header("Specs")]
 	[SerializeField] float destroyTime;
 
 	private void Start()

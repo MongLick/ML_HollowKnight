@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spikes : MonoBehaviour
 {
+	[Header("Components")]
 	[SerializeField] LayerMask playerCheckLayer;
+
+	[Header("Specs")]
 	[SerializeField] int damage;
 
 	private void OnTriggerEnter2D(Collider2D collision)

@@ -1,14 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CoinPop : MonoBehaviour, IDamageable
 {
-	[SerializeField] int hp;
-	[SerializeField] Animator animator;
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onHitCoinEvent;
-	public UnityEvent OnHitCoinEvent { get { return onHitCoinEvent; } }
+	public UnityEvent OnHitCoinEvent { get { return onHitCoinEvent; } set { onHitCoinEvent = value; } }
+
+	[Header("Components")]
+	[SerializeField] Animator animator;
+
+	[Header("Specs")]
+	[SerializeField] int hp;
 
 	public void TakeDamage(int damage)
 	{
@@ -16,7 +19,7 @@ public class CoinPop : MonoBehaviour, IDamageable
 		animator.SetTrigger("CoinPop");
 		hp -= damage;
 		onHitCoinEvent.Invoke();
-		if(hp <= 0)
+		if (hp <= 0)
 		{
 			Destroy(gameObject);
 		}

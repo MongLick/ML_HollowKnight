@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
@@ -17,7 +16,7 @@ public class HornetGroggyState : BaseState<HornetStateType>
 		hornet.StartCoroutine(GroggyCoroutine());
 	}
 
-	IEnumerator GroggyCoroutine()
+	private IEnumerator GroggyCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetGroggy);
 		hornet.Animator.SetBool("Move", false);

@@ -759,17 +759,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca62a90a8ca41c4d81f19b644ec9375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  EndCanvas: {fileID: 1526716778}
-  fadeDuration: 1
   onTitleScene:
     m_PersistentCalls:
       m_Calls: []
+  hornet: {fileID: 1042449682}
+  EndCanvas: {fileID: 1526716778}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  fadeDuration: 1
   isPlayerTrigger: 0
   isSceneChange: 0
-  hornet: {fileID: 1042449682}
 --- !u!61 &1039078200
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -842,7 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1039078199}
@@ -1057,8 +1057,8 @@ MonoBehaviour:
   onHitBloodEvent:
     m_PersistentCalls:
       m_Calls: []
-  hp: 40
   rigid: {fileID: 1042449681}
+  hp: 40
   knockbackPower: 0
   onSpearThrowEvent:
     m_PersistentCalls:
@@ -1069,6 +1069,16 @@ MonoBehaviour:
   onCircularEvent:
     m_PersistentCalls:
       m_Calls: []
+  render: {fileID: 1042449679}
+  animator: {fileID: 1042449678}
+  hornetcollider: {fileID: 1042449677}
+  CurrentState: 0
+  playerCheck:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckLayer:
+    serializedVersion: 2
+    m_Bits: 64
   damage: 1
   moveSpeed: 3
   dashSpeed: 10
@@ -1085,17 +1095,6 @@ MonoBehaviour:
   circularAttackTime: 2
   groggyTime: 3
   backStepTime: 0.3
-  render: {fileID: 1042449679}
-  playerCheck:
-    serializedVersion: 2
-    m_Bits: 8
-  animator: {fileID: 1042449678}
-  CurrentState: 0
-  moveDirection: {x: 0, y: 0}
-  groundCheckLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  hornetcollider: {fileID: 1042449677}
 --- !u!1001 &1156107181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1752,11 +1751,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f010a66eb7bb1248accb25284c92dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossCanvas: {fileID: 398359791}
+  boxCollider: {fileID: 1770019545}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  bossCanvas: {fileID: 398359791}
-  boxCollider: {fileID: 1770019545}
   fadeDuration: 1
   fadeDely: 1
 --- !u!61 &1770019545

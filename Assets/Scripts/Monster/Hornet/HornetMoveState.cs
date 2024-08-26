@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
-using static VengeflyState;
 
 public class HornetMoveState : BaseState<HornetStateType>
 {
@@ -46,7 +44,7 @@ public class HornetMoveState : BaseState<HornetStateType>
 		hornet.Rigid.velocity = hornet.MoveDirection * hornet.MoveSpeed;
 	}
 
-	IEnumerator MoveCoroutine()
+	private IEnumerator MoveCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetMove);
 		hornet.Animator.SetBool("Move", true);

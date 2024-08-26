@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossScene : BaseScene
 {
+	[Header("Components")]
 	[SerializeField] EndZone endZone;
+
 	private void Start()
 	{
 		endZone.OnTitleScene.AddListener(TitleScneneLoad);

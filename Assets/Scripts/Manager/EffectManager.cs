@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class EffectManager : Singleton<EffectManager>
 {
+	[Header("Components")]
+	[SerializeField] List<Monster> monsters;
+	[SerializeField] List<AttackDamage> hits;
 	[SerializeField] PlayerController player;
 	[SerializeField] HornetController hornet;
-	[SerializeField] List<Monster> monsters;
-	[SerializeField] CoinPop coinPop;
 	[SerializeField] HealingChair healingChair;
-	[SerializeField] List<AttackDamage> hits;
+	[SerializeField] CoinPop coinPop;
 	[SerializeField] Transform dustPos;
 	[SerializeField] Transform rightDashPos;
 	[SerializeField] Transform leftDashPos;
@@ -129,7 +130,7 @@ public class EffectManager : Singleton<EffectManager>
 			{
 				healingChair.OnHealingEvent.AddListener(SpawnHeal);
 			}
-			if(hornet != null)
+			if (hornet != null)
 			{
 				hornet.OnSpearThrowEvent.AddListener(SpawnSpear);
 				hornet.OnLaunchEvent.AddListener(SpawnLaunch);

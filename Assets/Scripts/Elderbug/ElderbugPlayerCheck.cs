@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ElderbugPlayerCheck : MonoBehaviour
 {
+	[Header("Components")]
 	[SerializeField] ElderbugController elderbug;
 	[SerializeField] LayerMask playerLayer;
-	[SerializeField] bool isPlayerLeft;
+
+	[Header("Specs")]
+	private bool isPlayerLeft;
 	public bool IsPlayerLeft { get { return isPlayerLeft; } }
-	[SerializeField] bool isPlayerFirst;
+	private bool isPlayerFirst;
 	public bool IsPlayerFirst { get { return isPlayerFirst; } }
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -18,7 +19,7 @@ public class ElderbugPlayerCheck : MonoBehaviour
 			elderbug.Animator.SetBool("LeftIdle", true);
 			isPlayerLeft = true;
 		}
-		if(!isPlayerFirst)
+		if (!isPlayerFirst)
 		{
 			Manager.Sound.PlaySFX(Manager.Sound.ElderbugFirst);
 			isPlayerFirst = true;

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static VengeflyState;
 
@@ -35,7 +34,7 @@ public class VengeflyTakeHitState : BaseState<VengeflyStateType>
 		}
 	}
 
-	IEnumerator TakeHitCoroutine()
+	private IEnumerator TakeHitCoroutine()
 	{
 		vengefly.Animator.SetTrigger("TakeHit");
 		yield return new WaitForSeconds(vengefly.TakeHitTime);

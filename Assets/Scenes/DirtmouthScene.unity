@@ -633,15 +633,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2892900c0c63a84bb71b140872a7863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerChack: {fileID: 226669368}
   animator: {fileID: 129848904}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  fadeDuration: 0.5
+  playerChack: {fileID: 226669368}
   dialogueCanvasGroup: {fileID: 269686872}
   dialogueCanvasGroup2: {fileID: 1036678867}
   dialogueText: {fileID: 1598394290}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   dialogueLines:
   - "\"\uC548\uB155\uD558\uC2DC\uC624, \uC5EC\uD589\uC790. \uB2E4\uD589\uD788\uB3C4
     \uC774 \uB9C8\uC744\uC744 \uB9DE\uC774\uD560 \uC218 \uC788\uB294 \uC774\uAC00
@@ -663,10 +662,8 @@ MonoBehaviour:
     \uBBF8\uCCD0\uAC00\uACE0 \uC5EC\uD589\uC790\uB4E4\uC740 \uAE30\uC5B5\uC744 \uBE7C\uC557\uAE30\uACE0...\""
   - "\"\uC544\uB9C8\uB3C4 \uAFC8\uC740 \uADF8\uB807\uAC8C \uB300\uB2E8\uD55C \uAC83\uC774
     \uC544\uB2D0\uC9C0\uB3C4...\""
-  isTyping: 0
-  isPlayerTrigger: 0
-  isTypingEnd: 0
   currentLineIndex: 0
+  fadeDuration: 0.5
 --- !u!114 &129848908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 129848907}
@@ -976,8 +973,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  isPlayerLeft: 0
-  isPlayerFirst: 0
 --- !u!1001 &235487283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1546,11 +1541,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd6e2c0e0222754a9cd588a9ff04613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DirtmouthCanvas: {fileID: 1828310845}
+  boxCollider: {fileID: 388717837}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  DirtmouthCanvas: {fileID: 1828310845}
-  boxCollider: {fileID: 388717837}
   fadeDuration: 1
   fadeDely: 1
 --- !u!61 &388717837
@@ -2669,16 +2664,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b00255838c99514e80bc606caa6ee91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  crossroadsZoneCanvas: {fileID: 21860862}
-  fadeDuration: 0.5
   onCrossroadsScene:
     m_PersistentCalls:
       m_Calls: []
-  isPlayerTrigger: 0
-  isSceneChange: 0
+  crossroadsZoneCanvas: {fileID: 21860862}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  fadeDuration: 0.5
 --- !u!61 &722869253
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2736,7 +2729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 722869252}
@@ -3393,7 +3386,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  isGateBackTrigger: 0
 --- !u!61 &1006986053
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5688,15 +5680,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ec20acfec6b0b49b025fc460fb96a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHealingEvent:
+    m_PersistentCalls:
+      m_Calls: []
   saveCanvas: {fileID: 149725924}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
   fadeDuration: 0.5
-  isPlayerTrigger: 0
-  onHealingEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1983457930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5709,7 +5700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528d46f7656a0ba4799748e731b2b938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnInteracted:
+  onInteracted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1983457929}

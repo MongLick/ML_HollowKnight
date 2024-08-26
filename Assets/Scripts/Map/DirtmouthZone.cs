@@ -1,18 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DirtmouthZone : MonoBehaviour
 {
-    [SerializeField] LayerMask playerLayer;
+	[Header("Components")]
 	[SerializeField] CanvasGroup DirtmouthCanvas;
 	[SerializeField] BoxCollider2D boxCollider;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
 	[SerializeField] float fadeDuration;
 	[SerializeField] float fadeDely;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if(playerLayer.Contain(collision.gameObject.layer))
+		if (playerLayer.Contain(collision.gameObject.layer))
 		{
 			boxCollider.enabled = false;
 			StartCoroutine(FadeIn());

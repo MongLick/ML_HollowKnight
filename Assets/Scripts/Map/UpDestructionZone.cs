@@ -1,17 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class UpDestructionZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] CanvasGroup UpDirtmouthZoneCanvas;
-	[SerializeField] float fadeDuration;
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onDirtmouthScene;
-	public UnityEvent OnDirtmouthScene { get { return onDirtmouthScene; } }
-	[SerializeField] bool isPlayerTrigger;
-	[SerializeField] bool isSceneChange;
+	public UnityEvent OnDirtmouthScene { get { return onDirtmouthScene; } set { onDirtmouthScene = value; } }
+
+	[Header("Components")]
+	[SerializeField] CanvasGroup UpDirtmouthZoneCanvas;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
+	[SerializeField] float fadeDuration;
+	private bool isPlayerTrigger;
+	private bool isSceneChange;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -40,7 +44,6 @@ public class UpDestructionZone : MonoBehaviour
 			return;
 		}
 	}
-
 
 	private IEnumerator FadeIn(CanvasGroup canvasGroup)
 	{

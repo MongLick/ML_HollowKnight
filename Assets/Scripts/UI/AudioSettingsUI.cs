@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AudioSettingsUI : PopUpUI
 {
+	[Header("Components")]
 	[SerializeField] Slider masterVolumeSlider;
 	[SerializeField] Slider bgmVolumeSlider;
 	[SerializeField] Slider sfxVolumeSlider;

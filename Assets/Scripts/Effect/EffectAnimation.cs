@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EffectAnimation : MonoBehaviour
 {
+	[Header("Components")]
 	[SerializeField] PlayerController player;
 	[SerializeField] Animator animator;
 	[SerializeField] SpriteRenderer render;

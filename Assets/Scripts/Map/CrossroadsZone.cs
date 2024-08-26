@@ -1,17 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CrossroadsZone : MonoBehaviour
 {
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] CanvasGroup crossroadsZoneCanvas;
-	[SerializeField] float fadeDuration;
+	[Header("UnityEvent")]
 	[SerializeField] UnityEvent onCrossroadsScene;
-	public UnityEvent OnCrossroadsScene { get { return onCrossroadsScene; } }
-	[SerializeField] bool isPlayerTrigger;
-	[SerializeField] bool isSceneChange;
+	public UnityEvent OnCrossroadsScene { get { return onCrossroadsScene; } set { onCrossroadsScene = value; } }
+
+	[Header("Components")]
+	[SerializeField] CanvasGroup crossroadsZoneCanvas;
+	[SerializeField] LayerMask playerLayer;
+
+	[Header("Specs")]
+	[SerializeField] float fadeDuration;
+	private bool isPlayerTrigger;
+	private bool isSceneChange;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{

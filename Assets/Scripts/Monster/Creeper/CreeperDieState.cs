@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static CreeperState;
 
@@ -21,7 +20,7 @@ public class CreeperDieState : BaseState<CreeperStateType>
 		creeper.DieRoutine = creeper.StartCoroutine(DieCoroutine());
 	}
 
-	IEnumerator DieCoroutine()
+	private IEnumerator DieCoroutine()
 	{
 		creeper.Animator.SetTrigger("Die");
 		yield return new WaitForSeconds(creeper.DieTime);

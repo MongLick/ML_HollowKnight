@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static PlayerState;
 
@@ -58,20 +57,20 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 		}
 	}
 
-	IEnumerator LookCoroutine()
+	private IEnumerator LookCoroutine()
 	{
 		while (player.IsLookUp || player.IsLookDown)
 		{
 			player.LookTime += Time.deltaTime;
 
 			if (player.LookTime >= player.LookTimeMax)
-            {
-                player.Animator.SetBool("LookUp", player.IsLookUp);
-                player.Animator.SetBool("LookDown", !player.IsLookUp);
-            }
-			if(player.LookTime >= 1)
 			{
-				if(player.IsLookUp)
+				player.Animator.SetBool("LookUp", player.IsLookUp);
+				player.Animator.SetBool("LookDown", !player.IsLookUp);
+			}
+			if (player.LookTime >= 1)
+			{
+				if (player.IsLookUp)
 				{
 					player.CameraUp.gameObject.SetActive(true);
 				}
@@ -79,7 +78,7 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 				{
 					player.CameraUp.gameObject.SetActive(false);
 				}
-				if(player.IsLookDown)
+				if (player.IsLookDown)
 				{
 					player.CameraDown.gameObject.SetActive(true);
 				}
@@ -91,7 +90,7 @@ public class PlayerIdleState : BaseState<PlayerStateType>
 
 			yield return null;
 		}
-		
+
 		player.LookRoutine = null;
 	}
 }

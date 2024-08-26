@@ -1,27 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering.PostProcessing;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ElderbugController : MonoBehaviour
 {
-	[SerializeField] ElderbugPlayerCheck playerChack;
+	[Header("Components")]
 	[SerializeField] Animator animator;
 	public Animator Animator { get { return animator; } }
-	[SerializeField] LayerMask playerLayer;
-	[SerializeField] float fadeDuration;
+	[SerializeField] ElderbugPlayerCheck playerChack;
 	[SerializeField] CanvasGroup dialogueCanvasGroup;
 	[SerializeField] CanvasGroup dialogueCanvasGroup2;
 	[SerializeField] TMP_Text dialogueText;
+	[SerializeField] LayerMask playerLayer;
 
+	[Header("Specs")]
 	[SerializeField] string[] dialogueLines;
-	[SerializeField] bool isTyping;
-	[SerializeField] bool isPlayerTrigger;
-	[SerializeField] bool isTypingEnd;
-
-	[SerializeField] int currentLineIndex = 0;
+	[SerializeField] int currentLineIndex;
+	[SerializeField] float fadeDuration;
+	private bool isTyping;
+	private bool isPlayerTrigger;
+	private bool isTypingEnd;
 
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -43,14 +41,14 @@ public class ElderbugController : MonoBehaviour
 			if (dialogueCanvasGroup.alpha != 0)
 			{
 				StartCoroutine(FadeOut(dialogueCanvasGroup));
-				
+
 			}
-			if(currentLineIndex != 0)
+			if (currentLineIndex != 0)
 			{
 				StartCoroutine(FadeOut(dialogueCanvasGroup2));
 				currentLineIndex = 0;
 			}
-			
+
 			isPlayerTrigger = false;
 		}
 	}
@@ -113,7 +111,7 @@ public class ElderbugController : MonoBehaviour
 
 	private IEnumerator TypeSentence(string sentence)
 	{
-		if(playerChack.IsPlayerLeft)
+		if (playerChack.IsPlayerLeft)
 		{
 			animator.SetBool("LeftTalk", true);
 		}

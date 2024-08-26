@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static HornetState;
 
@@ -15,10 +14,9 @@ public class HornetDieState : BaseState<HornetStateType>
 	public override void Enter()
 	{
 		hornet.StartCoroutine(DieCoroutine());
-		
 	}
 
-	IEnumerator DieCoroutine()
+	private IEnumerator DieCoroutine()
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.HornetDie);
 		hornet.IsDie = true;
