@@ -24,7 +24,7 @@ public class Monster : MonoBehaviour, IDamageable
 		rigid.AddForce(direction * knockbackPower, ForceMode2D.Impulse);
 	}
 
-	public virtual void TakeDamage(int damage)
+	public virtual void TakeDamage(int damage, Transform hitPosition)
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.MonsterTakeHit);
 		hp -= damage;

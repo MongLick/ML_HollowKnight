@@ -14,6 +14,8 @@ public class VengeflyController : Monster
 	public VengeflyStateType CurrentState;
 	[SerializeField] LayerMask playerCheck;
 	public LayerMask PlayerCheck { get { return playerCheck; } }
+	[SerializeField] LayerMask groundCheck;
+	public LayerMask GroundCheck { get { return groundCheck; } }
 
 	[Header("Vector")]
 	[SerializeField] Vector2 moveDirection;
@@ -38,6 +40,10 @@ public class VengeflyController : Monster
 	public float DieTime { get { return dieTime; } }
 	[SerializeField] float takeHitTime;
 	public float TakeHitTime { get { return takeHitTime; } }
+	[SerializeField] float yOffset;
+	public float YOffset { get { return yOffset; } }
+	[SerializeField] float minHeightFromGround;
+	public float MinHeightFromGround { get { return minHeightFromGround; } }
 	private bool isPlayerInRange;
 	public bool IsPlayerInRange { get { return isPlayerInRange; } set { isPlayerInRange = value; } }
 	private bool isTakeHit;
@@ -69,32 +75,51 @@ public class VengeflyController : Monster
 		CheckForPlayer();
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (playerCheck.Contain(collision.collider.gameObject.layer))
+		if (playerCheck.Contain(collision.gameObject.layer))
 		{
-			IDamageable damageable = collision.collider.GetComponent<IDamageable>();
+			IDamageable damageable = collision.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
-				damageable.TakeDamage(damage);
+				damageable.TakeDamage(damage, transform);
 			}
 		}
 
 		if (collision.gameObject.CompareTag("AirGround"))
 		{
-			Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+			Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision);
 		}
 	}
 
-	public override void TakeDamage(int damage)
+	private void OnTriggerStay2D(Collider2D collision)
 	{
-		base.TakeDamage(damage);
+		if (playerCheck.Contain(collision.gameObject.layer))
+		{
+			IDamageable damageable = collision.GetComponent<IDamageable>();
+			if (damageable != null)
+			{
+				damageable.TakeDamage(damage, transform);
+			}
+		}
+	}
+
+	public override void TakeDamage(int damage, Transform hitPosition)
+	{
+		base.TakeDamage(damage, transform);
 		vengeflyState.ChangeState(VengeflyStateType.TakeHit);
 	}
 
 	private void CheckForPlayer()
 	{
 		players = Physics2D.OverlapCircleAll(transform.position, detectionRadius, playerCheck);
+
+		if(Manager.Game.Player.IsDie)
+		{
+			isPlayerInRange = false;
+			Rigid.constraints |= RigidbodyConstraints2D.FreezePositionY;
+			return;
+		}
 
 		if (players.Length > 0)
 		{

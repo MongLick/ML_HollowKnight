@@ -73,6 +73,10 @@ public class GameManager : Singleton<GameManager>
 			{
 				return new Vector3(23.5f, -17f, 0);
 			}
+			else if (previousSceneName == "BossScene")
+			{
+				return new Vector3(6.7f, -17.5f, 0);
+			}
 		}
 
 		if (sceneName == "CrossroadsScene")
@@ -102,14 +106,84 @@ public class GameManager : Singleton<GameManager>
 		return Vector3.zero;
 	}
 
+	private Vector2 PlayerStartDirection(string sceneName, string previousSceneName)
+	{
+		if (sceneName == "KingsPassScene")
+		{
+			if (previousSceneName == "KingsPassScene")
+			{
+				return Vector2.right;
+			}
+		}
+
+		if (sceneName == "KingsPassScene")
+		{
+			if (previousSceneName == "TitleScene")
+			{
+				return Vector2.right;
+			}
+			else if (previousSceneName == "DirtmouthScene")
+			{
+				gate.gameObject.SetActive(false);
+				gatePoint.gameObject.GetComponent<Collider2D>().enabled = true;
+				return Vector2.left;
+			}
+		}
+
+		if (sceneName == "DirtmouthScene")
+		{
+			if (previousSceneName == "KingsPassScene")
+			{
+				return Vector2.right;
+			}
+			else if (previousSceneName == "CrossroadsScene")
+			{
+				return Vector2.left;
+			}
+			else if (previousSceneName == "BossScene")
+			{
+				return Vector2.right;
+			}
+		}
+
+		if (sceneName == "CrossroadsScene")
+		{
+			if (previousSceneName == "DirtmouthScene")
+			{
+				return Vector2.right;
+			}
+		}
+
+		if (sceneName == "BossScene")
+		{
+			if (previousSceneName == "CrossroadsScene")
+			{
+				return Vector2.right;
+			}
+		}
+
+		if (sceneName == "TitleScene")
+		{
+			if (previousSceneName == "BossScene")
+			{
+				Manager.UI.OnTitleSceneLoad();
+			}
+		}
+
+		return Vector2.right;
+	}
+
 	public void OnSceneTransition(string newSceneName)
 	{
 		string previousSceneName = GetPreviousScene();
 		Vector3 startPosition = GetStartPosition(newSceneName, previousSceneName);
+		Vector2 playerLastMove = PlayerStartDirection(newSceneName, previousSceneName);
+		Debug.Log($"Player Last Move Direction: {playerLastMove}");
 
 		if (player != null)
 		{
 			player.transform.position = startPosition;
+			player.LastMoveDir = playerLastMove;
 			player.RestoreChildPositions();
 		}
 	}

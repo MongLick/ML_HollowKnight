@@ -146,7 +146,7 @@ public class HornetController : Monster
 			IDamageable damageable = collision.collider.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
-				damageable.TakeDamage(damage);
+				damageable.TakeDamage(damage, transform);
 				Rigid.velocity = Vector2.zero;
 			}
 		}

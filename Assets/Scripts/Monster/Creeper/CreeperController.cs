@@ -63,21 +63,21 @@ public class CreeperController : Monster
 		creeperState.Update();
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (playerCheck.Contain(collision.collider.gameObject.layer))
+		if (playerCheck.Contain(collision.gameObject.layer))
 		{
-			IDamageable damageable = collision.collider.GetComponent<IDamageable>();
+			IDamageable damageable = collision.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
-				damageable.TakeDamage(damage);
+				damageable.TakeDamage(damage, transform);
 			}
 		}
 	}
 
-	public override void TakeDamage(int damage)
+	public override void TakeDamage(int damage, Transform hitPosition)
 	{
-		base.TakeDamage(damage);
+		base.TakeDamage(damage, transform);
 		creeperState.ChangeState(CreeperStateType.TakeHit);
 	}
 

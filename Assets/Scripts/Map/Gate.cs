@@ -50,7 +50,7 @@ public class Gate : MonoBehaviour, IDamageable
 		}
 	}
 
-	public void TakeDamage(int damage)
+	public void TakeDamage(int damage, Transform hitPosition)
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.Door);
 		hp -= damage;

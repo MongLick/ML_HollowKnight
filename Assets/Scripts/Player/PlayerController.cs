@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 		playerState.AddState(PlayerStateType.Dash, new PlayerDashState(this));
 		playerState.Start(PlayerStateType.Idle);
 		playerTransform = transform;
-		lastMoveDir = Vector2.right;
 	}
 
 	private void Start()
@@ -175,7 +174,6 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void Update()
 	{
-		IsOnGround();
 		playerState.Update();
 		CurrentState = playerState.GetCurrentState();
 		if (cannotDash)
@@ -241,25 +239,32 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
+			isGround = true;
 			Manager.Sound.PlaySFX(Manager.Sound.PlayerLand);
 			animator.SetTrigger("Land");
 			onFallEvent?.Invoke();
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerExit2D(Collider2D collision)
 	{
-		if (monsterCheckLayer.Contain(collision.gameObject.layer))
+		if (groundCheckLayer.Contain(collision.gameObject.layer))
 		{
-			pushX = transform.position.x - collision.transform.position.x;
+			isGround = false;
+		}
+	}
 
-			rigid.velocity = new Vector2(pushX * hitKnockbackPower, pushY).normalized * hitKnockbackPower;
+	private void OnDisable()
+	{
+		if (Manager.Sound != null)
+		{
+			Manager.Sound.StopMoveSFX(Manager.Sound.PlayerMove);
 		}
 	}
 
 	private void OnMove(InputValue value)
 	{
-		if (isDie)
+		if (isDie && isTakeHit)
 		{
 			return;
 		}
@@ -305,12 +310,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnJump(InputValue value)
 	{
-		if (isDie)
-		{
-			return;
-		}
-
-		if (value.isPressed && isGround)
+		if (value.isPressed && isGround && !isDie && !isTakeHit)
 		{
 			Manager.Sound.PlayJumpSFX(Manager.Sound.PlayerJump);
 			animator.SetTrigger("Jump");
@@ -405,12 +405,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 		}
 	}
 
-	private void IsOnGround()
-	{
-		isGround = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundCheckLayer);
-	}
-
-	public void TakeDamage(int damage)
+	public void TakeDamage(int damage, Transform hitPosition)
 	{
 		if (!isBlink)
 		{
@@ -419,6 +414,10 @@ public class PlayerController : MonoBehaviour, IDamageable
 				Manager.Sound.StopMoveSFX(Manager.Sound.PlayerMove);
 				hasPlayedMoveSound = false;
 			}
+
+			pushX = transform.position.x - hitPosition.transform.position.x;
+			rigid.velocity = new Vector2(pushX * hitKnockbackPower, pushY).normalized * hitKnockbackPower;
+
 			Manager.Sound.PlaySFX(Manager.Sound.PlayerTakeHit);
 			hasPlayedMoveSound = false;
 			isBlink = true;
@@ -457,6 +456,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 				pair.Key.localPosition = pair.Value;
 			}
 		}
+
+		render.flipX = lastMoveDir.x > 0;
 	}
 
 	public void OnAttackAnimationEvent(string effectName)

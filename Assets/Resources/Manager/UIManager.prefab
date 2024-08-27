@@ -357,6 +357,8 @@ MonoBehaviour:
   inGameCanvas: {fileID: 8109004608820484364}
   videoCanvas: {fileID: 9061334462901002237}
   titlePrefab: {fileID: 5599782768435431922, guid: b5f80a79933f7fc44b7e1bd034924158, type: 3}
+  titleUIInstance: {fileID: 0}
+  curInGameUI: {fileID: 0}
   videoBack: {fileID: 3525649708130975793}
 --- !u!1 &8970553941122241092
 GameObject:
@@ -470,6 +472,10 @@ PrefabInstance:
     - target: {fileID: 1424862437282647489, guid: 953726eb158ca8c47bbb169de3767b53, type: 3}
       propertyPath: m_Name
       value: VideoBack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424862437282647489, guid: 953726eb158ca8c47bbb169de3767b53, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5569437344632815314, guid: 953726eb158ca8c47bbb169de3767b53, type: 3}
       propertyPath: m_Pivot.x

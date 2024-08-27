@@ -30,11 +30,23 @@ public class VengeflyMoveState : BaseState<VengeflyStateType>
 	private void MoveTowardsPlayer()
 	{
 		Transform playerTransform = vengefly.Players[0].transform;
-		Vector3 direction = (playerTransform.position - vengefly.transform.position).normalized;
-		Vector2 targetPosition = (Vector2)playerTransform.position;
+		Vector3 targetPosition = new Vector3(playerTransform.position.x, playerTransform.position.y + vengefly.YOffset, playerTransform.position.z);
+		Vector3 direction = (targetPosition - vengefly.transform.position).normalized;
 
 		float distanceToPlayer = Vector2.Distance(vengefly.transform.position, targetPosition);
 		float distanceThreshold = 0.1f;
+
+		RaycastHit2D hit = Physics2D.Raycast(vengefly.transform.position, Vector2.down, Mathf.Infinity, vengefly.GroundCheck);
+		if (hit.collider != null)
+		{
+			float distanceToGround = hit.distance;
+
+			if (distanceToGround < vengefly.MinHeightFromGround)
+			{
+				vengefly.transform.position = new Vector2(vengefly.transform.position.x, vengefly.transform.position.y + (vengefly.MinHeightFromGround - distanceToGround));
+			}
+		}
+
 
 		if (distanceToPlayer > distanceThreshold)
 		{

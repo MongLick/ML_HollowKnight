@@ -14,9 +14,10 @@ public class TitleScene : BaseScene
 
 	private void Start()
 	{
+		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
 		Manager.Sound.PlayBGM(Manager.Sound.TitleSoundClip);
-
+		videoPlayer.targetCamera = Camera.main;
 		videoPlayer.loopPointReached += OnVideoClip1Ended;
 
 		Manager.UI.IsTitleSceneActive = true;
@@ -30,6 +31,9 @@ public class TitleScene : BaseScene
 		}
 
 		Manager.UI.IsTitleSceneActive = false;
+
+		Manager.Data.GameData.Health = 5;
+		Manager.Data.GameData.Coin = 0;
 	}
 
 	private void OnVideoClip1Ended(VideoPlayer vp)

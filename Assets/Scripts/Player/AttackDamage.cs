@@ -18,7 +18,7 @@ public class AttackDamage : MonoBehaviour
 
 		if (damageable != null)
 		{
-			damageable.TakeDamage(player.Damage);
+			damageable.TakeDamage(player.Damage, player.transform);
 			onHitEvent?.Invoke(collision.transform.position);
 		}
 		if (monsterCheck.Contain(collision.gameObject.layer))

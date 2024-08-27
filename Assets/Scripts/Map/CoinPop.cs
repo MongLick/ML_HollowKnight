@@ -13,7 +13,7 @@ public class CoinPop : MonoBehaviour, IDamageable
 	[Header("Specs")]
 	[SerializeField] int hp;
 
-	public void TakeDamage(int damage)
+	public void TakeDamage(int damage, Transform hitPosition)
 	{
 		Manager.Sound.PlaySFX(Manager.Sound.CoinPop);
 		animator.SetTrigger("CoinPop");

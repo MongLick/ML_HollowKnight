@@ -154,18 +154,12 @@ MonoBehaviour:
   onHitBloodEvent:
     m_PersistentCalls:
       m_Calls: []
-  hp: 5
   rigid: {fileID: 2234979871337109370}
+  hp: 5
   knockbackPower: 10
-  damage: 1
-  detectionRadius: 10
-  moveSpeed: 4
-  checkDistance: 0.5
-  dieTime: 0.2
-  takeHitTime: 0.1
-  isPlayerInRange: 0
-  isMovingLeft: 0
   render: {fileID: 5617273107461719767}
+  animator: {fileID: 6951844600507094255}
+  CurrentState: 0
   playerCheck:
     serializedVersion: 2
     m_Bits: 8
@@ -173,8 +167,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   moveDirection: {x: 0, y: 0}
-  animator: {fileID: 6951844600507094255}
-  CurrentState: 0
+  damage: 1
+  detectionRadius: 10
+  moveSpeed: 4
+  checkDistance: 0.5
+  dieTime: 0.2
+  takeHitTime: 0.1
 --- !u!61 &8835758918186232386
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -204,7 +202,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

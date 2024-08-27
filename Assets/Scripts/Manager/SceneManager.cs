@@ -130,8 +130,11 @@ public class SceneManager : Singleton<SceneManager>
 
 		fadeCoroutine = StartCoroutine(FadeOut());
 		fade.gameObject.SetActive(true);
+		if(Manager.Game != null && Manager.Game.Player != null && !Manager.Game.Player.IsDie)
+		{
+			Manager.Game.Player.gameObject.SetActive(false);
+		}
 		yield return fadeCoroutine;
-
 		Manager.Game.SetPreviousScene(UnitySceneManager.GetActiveScene().name);
 		Manager.UI.ClearPopUpUI();
 		Manager.UI.ClearWindowUI();
@@ -156,6 +159,10 @@ public class SceneManager : Singleton<SceneManager>
 
 		isSceneChange = false;
 		fadeCoroutine = StartCoroutine(FadeIn());
+		if (Manager.Game != null && Manager.Game.Player != null && !Manager.Game.Player.IsDie)
+		{
+			Manager.Game.Player.gameObject.SetActive(true);
+		}
 		yield return fadeCoroutine;
 		fade.gameObject.SetActive(false);
 	}

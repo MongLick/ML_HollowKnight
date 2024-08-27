@@ -25,23 +25,25 @@ public class UIManager : Singleton<UIManager>
 	private void Start()
 	{
 		EnsureEventSystem();
-
-		Camera mainCamera = Camera.main;
-		popUpCanvas.worldCamera = mainCamera;
-		windowCanvas.worldCamera = mainCamera;
-		inGameCanvas.worldCamera = mainCamera;
-		videoCanvas.worldCamera = mainCamera;
-
 		OnTitleSceneLoad();
 	}
 
 	public void OnTitleSceneLoad()
 	{
-		if (titlePrefab != null)
+		if (titleUIInstance == null && titlePrefab != null)
 		{
 			titleUIInstance = Instantiate(titlePrefab, popUpCanvas.transform);
 			titleUIInstance.SetActive(true);
 		}
+		else
+		{
+			titleUIInstance.SetActive(true);
+		}
+		Camera mainCamera = Camera.main;
+		popUpCanvas.worldCamera = mainCamera;
+		windowCanvas.worldCamera = mainCamera;
+		inGameCanvas.worldCamera = mainCamera;
+		videoCanvas.worldCamera = mainCamera;
 	}
 
 	public void EnsureEventSystem()

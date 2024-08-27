@@ -25,7 +25,7 @@ public class Door : MonoBehaviour, IDamageable
 	[SerializeField] float maxForceMagnitude;
 
 
-	public void TakeDamage(int damage)
+	public void TakeDamage(int damage, Transform hitPosition)
 	{
 		hp -= damage;
 		Manager.Sound.PlaySFX(Manager.Sound.Door);

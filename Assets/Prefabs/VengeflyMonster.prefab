@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1674850920623594745}
   m_Layer: 7
   m_Name: VengeflyMonster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +165,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.06818867, y: 0.42773002}
@@ -196,21 +196,28 @@ MonoBehaviour:
   onHitCoinEvent:
     m_PersistentCalls:
       m_Calls: []
-  hp: 3
+  onHitBloodEvent:
+    m_PersistentCalls:
+      m_Calls: []
   rigid: {fileID: 6356539209474944490}
+  hp: 3
   knockbackPower: 3
+  render: {fileID: 2530125050431308784}
+  animator: {fileID: 6368241171161992060}
+  players: []
+  CurrentState: 0
+  playerCheck:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheck:
+    serializedVersion: 2
+    m_Bits: 64
+  moveDirection: {x: 0, y: 0}
+  startPos: {x: 0, y: 0}
   damage: 1
   detectionRadius: 10
   moveSpeed: 3
   dieTime: 0.1
   takeHitTime: 0.1
-  isPlayerInRange: 0
-  render: {fileID: 2530125050431308784}
-  playerCheck:
-    serializedVersion: 2
-    m_Bits: 8
-  moveDirection: {x: 0, y: 0}
-  startPos: {x: 0, y: 0}
-  animator: {fileID: 6368241171161992060}
-  players: []
-  CurrentState: 0
+  yOffset: 0.4
+  minHeightFromGround: 0.5

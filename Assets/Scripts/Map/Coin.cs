@@ -6,6 +6,7 @@ public class Coin : MonoBehaviour
 	[SerializeField] Rigidbody2D rigid;
 	[SerializeField] PooledObject pooledObject;
 	[SerializeField] LayerMask playerLayer;
+	[SerializeField] LayerMask groundLayer;
 
 	[Header("Vector")]
 	private Vector2 velocity;
@@ -16,6 +17,11 @@ public class Coin : MonoBehaviour
 	[SerializeField] float rotationSpeed;
 	[SerializeField] float maxYSpeed;
 	private bool isInitialized;
+
+	private void OnEnable()
+	{
+		rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+	}
 
 	private void FixedUpdate()
 	{
@@ -36,7 +42,7 @@ public class Coin : MonoBehaviour
 		}
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (playerLayer.Contain(collision.gameObject.layer))
 		{
@@ -45,11 +51,15 @@ public class Coin : MonoBehaviour
 			isInitialized = false;
 			pooledObject.Release();
 		}
+		if (groundLayer.Contain(collision.gameObject.layer))
+		{
+			rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+		}
 	}
 
 	public void Initialize(Vector3 direction)
 	{
 		isInitialized = true;
-		rigid.AddForce(direction, ForceMode2D.Impulse);
+		rigid.velocity = direction * bounceForce;
 	}
 }

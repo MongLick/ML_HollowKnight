@@ -49,7 +49,7 @@ public class Spear : MonoBehaviour
 			IDamageable damageable = collision.GetComponent<IDamageable>();
 			if (damageable != null)
 			{
-				damageable.TakeDamage(damage);
+				damageable.TakeDamage(damage, transform);
 			}
 		}
 	}
