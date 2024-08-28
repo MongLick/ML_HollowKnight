@@ -202,6 +202,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	{
 		if (isDie || isTakeHit)
 		{
+			isAttack = false;
 			return;
 		}
 

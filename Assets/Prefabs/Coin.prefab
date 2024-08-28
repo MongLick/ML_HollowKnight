@@ -184,7 +184,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  bounceForce: 1
-  bounceTime: 0.2
+  bounceForce: 0.5
   rotationSpeed: 200
   maxYSpeed: 10
+  groundOffset: 0.2

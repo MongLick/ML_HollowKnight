@@ -24,6 +24,8 @@ public class HornetController : Monster
 	[SerializeField] LayerMask playerCheck;
 	public LayerMask PlayerCheck { get { return playerCheck; } }
 	[SerializeField] LayerMask groundCheckLayer;
+	[SerializeField] LayerMask wallCheck;
+	public LayerMask WallCheck { get { return wallCheck; } }
 
 	[Header("Vector")]
 	private Vector2 backStepDirection;
@@ -32,8 +34,14 @@ public class HornetController : Monster
 	public Vector2 DashDirection { get { return dashDirection; } set { dashDirection = value; } }
 	private Vector2 moveDirection;
 	public Vector2 MoveDirection { get { return moveDirection; } set { moveDirection = value; } }
+	private Vector2 targetPos;
+	public Vector2 TargetPos { get { return targetPos; } set { targetPos = value; } }
+	private Vector2 playerPos;
+	public Vector2 PlayerPos { get { return playerPos; } set { playerPos = value; } }
+	private Vector2 direction;
+	public Vector2 Direction { get { return direction; } set { direction = value; } }
 	private Vector2 velocity;
-
+	
 	[Header("Specs")]
 	[SerializeField] int damage;
 	public int Damage { get { return damage; } set { damage = value; } }
@@ -41,6 +49,8 @@ public class HornetController : Monster
 	public float MoveSpeed { get { return moveSpeed; } }
 	[SerializeField] float dashSpeed;
 	public float DashSpeed { get { return dashSpeed; } }
+	[SerializeField] float attackSpeed;
+	public float AttackSpeed { get { return attackSpeed; } }
 	[SerializeField] float jumpPower;
 	public float JumpPower { get { return jumpPower; } }
 	[SerializeField] float maxFallSpeed;
@@ -67,11 +77,14 @@ public class HornetController : Monster
 	public float GroggyTime { get { return groggyTime; } }
 	[SerializeField] float backStepTime;
 	public float BackStepTime { get { return backStepTime; } }
+	[SerializeField] float wallCheckDistance;
+	public float WallCheckDistance { get { return wallCheckDistance; } }
 	private bool isTakeHit;
 	public bool IsTakeHit { get { return isTakeHit; } set { isTakeHit = value; } }
 	private bool isDie;
 	public bool IsDie { get { return isDie; } set { isDie = value; } }
 	private bool isGround;
+	public bool IsGround { get { return isGround; } }
 
 	private void Awake()
 	{
@@ -83,6 +96,7 @@ public class HornetController : Monster
 		hornetState.AddState(HornetStateType.SpearThrow, new HornetSpearThrowState(this));
 		hornetState.AddState(HornetStateType.BackStep, new HornetBackStepState(this));
 		hornetState.AddState(HornetStateType.CircularAttack, new HornetCircularAttackState(this));
+		hornetState.AddState(HornetStateType.DownwardAttack, new HornetDownwardAttackState(this));
 		hornetState.AddState(HornetStateType.Groggy, new HornetGroggyState(this));
 		hornetState.AddState(HornetStateType.Die, new HornetDieState(this));
 		hornetState.Start(HornetStateType.Idle);
@@ -96,6 +110,7 @@ public class HornetController : Monster
 		}
 		if (Manager.Game.Player.IsDie)
 		{
+			animator.SetBool("Move", false);
 			hornetState.ChangeState(HornetStateType.Idle);
 		}
 		CurrentState = hornetState.GetCurrentState();

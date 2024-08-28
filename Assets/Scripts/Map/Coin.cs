@@ -16,6 +16,7 @@ public class Coin : MonoBehaviour
 	[SerializeField] float bounceForce;
 	[SerializeField] float rotationSpeed;
 	[SerializeField] float maxYSpeed;
+	[SerializeField] float groundOffset;
 	private bool isInitialized;
 
 	private void OnEnable()
@@ -44,16 +45,20 @@ public class Coin : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+		if (groundLayer.Contain(collision.gameObject.layer))
+		{
+			Vector3 position = transform.position;
+			position.y = collision.bounds.max.y + groundOffset;
+			transform.position = position;
+
+			rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+		}
 		if (playerLayer.Contain(collision.gameObject.layer))
 		{
 			Manager.Sound.PlaySFX(Manager.Sound.Coin);
 			Manager.Data.GameData.Coin++;
 			isInitialized = false;
 			pooledObject.Release();
-		}
-		if (groundLayer.Contain(collision.gameObject.layer))
-		{
-			rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
 		}
 	}
 

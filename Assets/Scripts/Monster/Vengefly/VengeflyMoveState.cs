@@ -37,7 +37,7 @@ public class VengeflyMoveState : BaseState<VengeflyStateType>
 		float distanceThreshold = 0.1f;
 
 		RaycastHit2D hit = Physics2D.Raycast(vengefly.transform.position, Vector2.down, Mathf.Infinity, vengefly.GroundCheck);
-		if (hit.collider != null)
+		if (hit.collider != null && !hit.collider.CompareTag("AirGround"))
 		{
 			float distanceToGround = hit.distance;
 

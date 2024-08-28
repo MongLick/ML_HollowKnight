@@ -8,6 +8,8 @@ public class VengeflyController : Monster
 	public SpriteRenderer Render { get { return render; } }
 	[SerializeField] Animator animator;
 	public Animator Animator { get { return animator; } }
+	[SerializeField] Collider2D triggerCollider;
+	[SerializeField] Collider2D boxCollider;
 	[SerializeField] Collider2D[] players;
 	public Collider2D[] Players { get { return players; } set { players = value; } }
 	[SerializeField] StateMachine<VengeflyStateType> vengeflyState;
@@ -85,11 +87,6 @@ public class VengeflyController : Monster
 				damageable.TakeDamage(damage, transform);
 			}
 		}
-
-		if (collision.gameObject.CompareTag("AirGround"))
-		{
-			Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision);
-		}
 	}
 
 	private void OnTriggerStay2D(Collider2D collision)
@@ -104,6 +101,14 @@ public class VengeflyController : Monster
 		}
 	}
 
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("AirGround"))
+		{
+			Physics2D.IgnoreCollision(boxCollider, collision.collider, true);
+		}
+	}
+
 	public override void TakeDamage(int damage, Transform hitPosition)
 	{
 		base.TakeDamage(damage, transform);
@@ -114,7 +119,7 @@ public class VengeflyController : Monster
 	{
 		players = Physics2D.OverlapCircleAll(transform.position, detectionRadius, playerCheck);
 
-		if(Manager.Game.Player.IsDie)
+		if (Manager.Game.Player.IsDie)
 		{
 			isPlayerInRange = false;
 			Rigid.constraints |= RigidbodyConstraints2D.FreezePositionY;

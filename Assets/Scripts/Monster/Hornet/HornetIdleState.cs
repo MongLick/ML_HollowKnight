@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using static HornetState;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class HornetIdleState : BaseState<HornetStateType>
 {
@@ -49,6 +50,16 @@ public class HornetIdleState : BaseState<HornetStateType>
 	{
 		int randomIndex = Random.Range(1, 6);
 		HornetStateType randomState = (HornetStateType)randomIndex;
+
+		bool isWallOnRight = Physics2D.Raycast(hornet.transform.position, Vector2.right, hornet.WallCheckDistance, hornet.WallCheck);
+		bool isWallOnLeft = Physics2D.Raycast(hornet.transform.position, Vector2.left, hornet.WallCheckDistance, hornet.WallCheck);
+
+		if ((isWallOnRight || isWallOnLeft))
+		{
+			randomIndex = Random.Range(1, 3);
+			randomState = (HornetStateType)randomIndex;
+		}
+
 		yield return new WaitForSeconds(hornet.IdleTime);
 		ChangeState(randomState);
 	}

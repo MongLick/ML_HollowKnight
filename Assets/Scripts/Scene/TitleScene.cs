@@ -25,15 +25,17 @@ public class TitleScene : BaseScene
 
 	private void OnDisable()
 	{
-		if (Manager.UI.TitleUIInstance != null)
+		if (Manager.UI != null && Manager.UI.TitleUIInstance != null)
 		{
 			Manager.UI.TitleUIInstance.SetActive(false);
+			Manager.UI.IsTitleSceneActive = false;
 		}
 
-		Manager.UI.IsTitleSceneActive = false;
-
-		Manager.Data.GameData.Health = 5;
-		Manager.Data.GameData.Coin = 0;
+		if (Manager.Data != null && Manager.Data.GameData != null)
+		{
+			Manager.Data.GameData.Health = 5;
+			Manager.Data.GameData.Coin = 0;
+		}
 	}
 
 	private void OnVideoClip1Ended(VideoPlayer vp)

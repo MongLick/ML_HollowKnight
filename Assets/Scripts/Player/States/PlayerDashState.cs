@@ -49,7 +49,11 @@ public class PlayerDashState : BaseState<PlayerStateType>
 
 		player.Rigid.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
 
-		player.Rigid.velocity = Vector2.zero;
+		if(!player.IsGround)
+		{
+			player.Rigid.velocity = new Vector2(0, -1f);
+		}
+		
 		player.Renderer.flipX = player.LastMoveDir.x > 0;
 
 		player.IsDash = false;

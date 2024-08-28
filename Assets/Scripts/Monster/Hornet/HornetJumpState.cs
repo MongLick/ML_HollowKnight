@@ -53,7 +53,7 @@ public class HornetJumpState : BaseState<HornetStateType>
 		int randomIndex = Random.Range(0, 2);
 		if (randomIndex == 0)
 		{
-			ChangeState(HornetStateType.Idle);
+			ChangeState(HornetStateType.DownwardAttack);
 		}
 		else
 		{

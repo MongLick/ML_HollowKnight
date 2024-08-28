@@ -56,12 +56,21 @@ public class SceneManager : Singleton<SceneManager>
 	{
 		isRespawn = true;
 		fade.gameObject.SetActive(true);
-		StartCoroutine(FadeOut());
+		if (fadeCoroutine != null)
+		{
+			StopCoroutine(fadeCoroutine);
+		}
+
+		fadeCoroutine = StartCoroutine(FadeOut());
 	}
 
 	public void LoadFadeIn()
 	{
-		StartCoroutine(FadeIn());
+		if (fadeCoroutine != null)
+		{
+			StopCoroutine(fadeCoroutine);
+		}
+		fadeCoroutine = StartCoroutine(FadeIn());
 		fade.gameObject.SetActive(false);
 		isRespawn = fade;
 	}
